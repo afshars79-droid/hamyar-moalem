@@ -1,0 +1,5287 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>همیار معلم | دستیار هوشمند معلمان ابتدایی</title>
+
+  <meta
+    name="description"
+    content="همیار معلم؛ دستیار هوشمند برای طراحی بسته کامل تدریس، طرح درس، کاربرگ، بازی آموزشی و ارزشیابی توصیفی."
+  >
+
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: #ffffff;
+      --surface-2: #f1f4fa;
+      --text: #182230;
+      --muted: #667085;
+      --primary: #5b5bd6;
+      --primary-dark: #4545b8;
+      --secondary: #14b8a6;
+      --border: #e4e7ec;
+      --danger: #e5484d;
+      --warning: #f59e0b;
+      --success: #16a34a;
+      --shadow: 0 12px 35px rgba(16, 24, 40, .08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       LANDING
+    ========================== */
+
+    #landing {
+      min-height: 100vh;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(91,91,214,.15), transparent 30%),
+        radial-gradient(circle at 85% 70%, rgba(20,184,166,.13), transparent 30%),
+        var(--bg);
+    }
+
+    .hero-container {
+      width: min(1180px, 92%);
+      margin: auto;
+      padding: 70px 0;
+    }
+
+    .hero-content {
+      max-width: 850px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(91,91,214,.1);
+      color: var(--primary);
+      border: 1px solid rgba(91,91,214,.18);
+      border-radius: 999px;
+      padding: 7px 14px;
+      margin-bottom: 22px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 7vw, 76px);
+      line-height: 1.15;
+      margin-bottom: 24px;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: clamp(17px, 2.5vw, 22px);
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 13px;
+      padding: 12px 20px;
+      transition: .2s ease;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 8px 20px rgba(91,91,214,.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-small {
+      padding: 8px 13px;
+      font-size: 13px;
+    }
+
+    /* =========================
+       LANDING FEATURES
+    ========================== */
+
+    .landing-section {
+      width: min(1180px, 92%);
+      margin: auto;
+      padding: 80px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 42px;
+    }
+
+    .section-title h2 {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .feature-icon {
+      font-size: 35px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* =========================
+       APP
+    ========================== */
+
+    #app {
+      min-height: 100vh;
+      display: none;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      padding: 22px 15px;
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 50;
+      overflow-y: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px 25px;
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: white;
+      font-size: 23px;
+    }
+
+    .teacher-mini {
+      background: var(--surface-2);
+      border-radius: 14px;
+      padding: 13px;
+      margin-bottom: 18px;
+    }
+
+    .teacher-mini strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .teacher-mini small {
+      color: var(--muted);
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .nav button {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: right;
+      padding: 11px 13px;
+      border-radius: 11px;
+      color: var(--muted);
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      background: rgba(91,91,214,.1);
+      color: var(--primary);
+    }
+
+    .sidebar-bottom {
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 15px;
+    }
+
+    .main {
+      flex: 1;
+      margin-right: 260px;
+      min-width: 0;
+    }
+
+    .topbar {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 0 28px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .topbar-title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .content {
+      padding: 28px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* =========================
+       DASHBOARD
+    ========================== */
+
+    .welcome {
+      background:
+        linear-gradient(
+          135deg,
+          rgba(91,91,214,.13),
+          rgba(20,184,166,.08)
+        );
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px;
+      margin-bottom: 22px;
+    }
+
+    .welcome h1 {
+      margin-bottom: 7px;
+    }
+
+    .welcome p {
+      color: var(--muted);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .stat-card .number {
+      font-size: 30px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .stat-card small {
+      color: var(--muted);
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .quick-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 20px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .quick-card h3 {
+      margin-bottom: 5px;
+    }
+
+    .quick-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* =========================
+       FORMS
+    ========================== */
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      margin-bottom: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 11px;
+      padding: 11px 13px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(91,91,214,.1);
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .check-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px;
+      cursor: pointer;
+    }
+
+    .check-item input {
+      width: auto;
+      margin-left: 7px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    /* =========================
+       OUTPUT
+    ========================== */
+
+    .output {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .output h2,
+    .output h3 {
+      margin: 15px 0 8px;
+    }
+
+    .output-section {
+      padding: 15px;
+      background: var(--surface-2);
+      border-radius: 13px;
+      margin: 10px 0;
+    }
+
+    .output ul {
+      padding-right: 22px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(91,91,214,.1);
+      color: var(--primary);
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      margin: 3px;
+    }
+
+    /* =========================
+       TABLE
+    ========================== */
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: right;
+    }
+
+    th {
+      background: var(--surface-2);
+    }
+
+    /* =========================
+       MODAL
+    ========================== */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--surface);
+      width: min(650px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 20px;
+      padding: 25px;
+    }
+
+    /* =========================
+       TOAST
+    ========================== */
+
+    #toast {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: #182230;
+      color: white;
+      padding: 12px 17px;
+      border-radius: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: .25s;
+      z-index: 200;
+      max-width: 350px;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       LOADING
+    ========================== */
+
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,.35);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       DARK MODE
+    ========================== */
+
+    body.dark {
+      --bg: #0f1117;
+      --surface: #171a22;
+      --surface-2: #20242e;
+      --text: #f3f4f6;
+      --muted: #a7adba;
+      --border: #303541;
+      --shadow: 0 12px 35px rgba(0,0,0,.25);
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    .mobile-menu {
+      display: none;
+    }
+
+    @media (max-width: 950px) {
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sidebar {
+        transform: translateX(100%);
+        transition: .25s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-right: 0;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .feature-grid,
+      .quick-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .checkbox-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .content {
+        padding: 16px;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .hero-container {
+        padding: 50px 0;
+      }
+
+      .landing-section {
+        padding: 55px 0;
+      }
+    }
+
+    /* =========================
+       PRINT
+    ========================== */
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+
+      #printArea,
+      #printArea * {
+        visibility: visible;
+      }
+
+      #printArea {
+        position: absolute;
+        inset: 0;
+        padding: 20px;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     LANDING PAGE
+===================================================== -->
+
+<section id="landing">
+
+  <div class="hero">
+    <div class="hero-container">
+
+      <div class="hero-content">
+
+        <div class="badge">
+          ✨ دستیار هوشمند معلمان ابتدایی
+        </div>
+
+        <h1>
+          تدریس بهتر،
+          <span>آماده‌سازی سریع‌تر</span>
+        </h1>
+
+        <p>
+          همیار معلم به معلم کمک می‌کند در چند دقیقه یک بسته کامل
+          تدریس شامل طرح درس، فعالیت، بازی آموزشی، کاربرگ،
+          تکلیف و ارزشیابی توصیفی آماده کند.
+        </p>
+
+        <div class="hero-actions">
+          <button
+            class="btn btn-primary"
+            onclick="enterTeacherEnvironment()"
+          >
+            🚀 ورود به محیط معلم
+          </button>
+
+          <button
+            class="btn btn-secondary"
+            onclick="document.getElementById('features').scrollIntoView()"
+          >
+            مشاهده قابلیت‌ها
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <section
+    id="features"
+    class="landing-section"
+  >
+
+    <div class="section-title">
+      <h2>همیار معلم چه کار می‌کند؟</h2>
+      <p>
+        از انتخاب درس تا آماده‌سازی بسته تدریس
+      </p>
+    </div>
+
+    <div class="feature-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <h3>طرح درس</h3>
+        <p>
+          طراحی طرح درس مرحله‌به‌مرحله متناسب با پایه،
+          موضوع، زمان و هدف آموزشی.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎮</div>
+        <h3>بازی آموزشی</h3>
+        <p>
+          تبدیل مفاهیم درسی به فعالیت‌ها و بازی‌های
+          قابل اجرا در کلاس.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3>کاربرگ</h3>
+        <p>
+          تولید تمرین‌های متنوع و قابل چاپ برای دانش‌آموزان.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>سطح‌بندی</h3>
+        <p>
+          فعالیت جداگانه برای دانش‌آموزان ضعیف،
+          متوسط و قوی.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>ارزشیابی توصیفی</h3>
+        <p>
+          پیشنهاد فعالیت و بازخورد متناسب با عملکرد دانش‌آموز.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌱</div>
+        <h3>مهارت‌های زندگی</h3>
+        <p>
+          ترکیب طبیعی مهارت‌های فردی، اجتماعی و تربیتی
+          با فعالیت‌های درسی.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>کلاس اضطراری</h3>
+        <p>
+          آماده‌سازی سریع یک فعالیت آموزشی برای زمانی
+          که فرصت آماده‌سازی کم است.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>برنامه هفتگی</h3>
+        <p>
+          مدیریت برنامه کلاس و آماده‌سازی فعالیت‌های روزانه.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🖨️</div>
+        <h3>چاپ</h3>
+        <p>
+          آماده‌سازی خروجی برای چاپ و استفاده مستقیم در کلاس.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="landing-section">
+
+    <div class="section-title">
+      <h2>چرخه همیار معلم</h2>
+      <p>
+        یک جریان کامل از نیاز آموزشی تا خروجی قابل استفاده
+      </p>
+    </div>
+
+    <div class="feature-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">1️⃣</div>
+        <h3>انتخاب</h3>
+        <p>پایه، درس و موضوع را مشخص کنید.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">2️⃣</div>
+        <h3>طراحی</h3>
+        <p>اهداف و نوع فعالیت را انتخاب کنید.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">3️⃣</div>
+        <h3>تولید</h3>
+        <p>بسته آموزشی تولید می‌شود.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">4️⃣</div>
+        <h3>بررسی</h3>
+        <p>خروجی از نظر آموزشی کنترل می‌شود.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">5️⃣</div>
+        <h3>شخصی‌سازی</h3>
+        <p>فعالیت‌ها برای سطوح مختلف تنظیم می‌شوند.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">6️⃣</div>
+        <h3>چاپ و اجرا</h3>
+        <p>محتوا آماده استفاده در کلاس خواهد بود.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <div
+    style="
+      text-align:center;
+      padding:70px 20px;
+      background:var(--surface);
+      border-top:1px solid var(--border);
+    "
+  >
+
+    <h2 style="margin-bottom:10px;">
+      آماده‌ایم کلاس بعدی را بسازیم؟
+    </h2>
+
+    <p
+      style="
+        color:var(--muted);
+        margin-bottom:20px;
+      "
+    >
+      محیط معلم را باز کنید و ساخت اولین بسته آموزشی را شروع کنید.
+    </p>
+
+    <button
+      class="btn btn-primary"
+      onclick="enterTeacherEnvironment()"
+    >
+      👨‍🏫 ورود به محیط معلم
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
+<section id="app">
+
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+
+    <aside
+      id="sidebar"
+      class="sidebar"
+    >
+
+      <div class="brand">
+
+        <div class="brand-logo">
+          🎓
+        </div>
+
+        <span>
+          همیار معلم
+        </span>
+
+      </div>
+
+      <div
+        id="teacherMini"
+        class="teacher-mini"
+      >
+        <strong>معلم</strong>
+        <small>پروفایل هنوز تکمیل نشده</small>
+      </div>
+
+      <nav class="nav">
+
+        <button
+          data-page="dashboard"
+          onclick="showPage('dashboard')"
+        >
+          🏠 داشبورد
+        </button>
+
+        <button
+          data-page="builder"
+          onclick="showPage('builder')"
+        >
+          🧠 ساخت بسته تدریس
+        </button>
+
+        <button
+          data-page="worksheet"
+          onclick="showPage('worksheet')"
+        >
+          📝 طراح کاربرگ
+        </button>
+
+        <button
+          data-page="students"
+          onclick="showPage('students')"
+        >
+          👨‍🎓 دانش‌آموزان
+        </button>
+
+        <button
+          data-page="schedule"
+          onclick="showPage('schedule')"
+        >
+          📅 برنامه هفتگی
+        </button>
+
+        <button
+          data-page="emergency"
+          onclick="showPage('emergency')"
+        >
+          ⚡ کلاس اضطراری
+        </button>
+
+        <button
+          data-page="history"
+          onclick="showPage('history')"
+        >
+          🕘 تاریخچه
+        </button>
+
+        <button
+          data-page="settings"
+          onclick="showPage('settings')"
+        >
+          ⚙️ تنظیمات
+        </button>
+
+      </nav>
+
+      <div class="sidebar-bottom">
+
+        <button
+          class="btn btn-secondary"
+          style="width:100%;"
+          onclick="returnLanding()"
+        >
+          ← صفحه اصلی
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+      <header class="topbar">
+
+        <div
+          class="topbar-title"
+          id="topbarTitle"
+        >
+          داشبورد
+        </div>
+
+        <div class="top-actions">
+
+          <button
+            class="icon-btn mobile-menu"
+            onclick="toggleSidebar()"
+          >
+            ☰
+          </button>
+
+          <button
+            class="icon-btn"
+            onclick="toggleDarkMode()"
+            title="حالت تاریک"
+          >
+            🌙
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <div class="content">
+
+
+        <!-- =============================================
+             DASHBOARD
+        ============================================== -->
+
+        <section
+          id="page-dashboard"
+          class="page active"
+        >
+
+          <div class="welcome">
+
+            <h1 id="welcomeTitle">
+              سلام 👋
+            </h1>
+
+            <p id="welcomeText">
+              به همیار معلم خوش آمدید.
+            </p>
+
+          </div>
+
+
+          <div class="stats-grid">
+
+            <div class="stat-card">
+              <div
+                id="statPackages"
+                class="number"
+              >
+                0
+              </div>
+              <small>بسته‌های آموزشی</small>
+            </div>
+
+            <div class="stat-card">
+              <div
+                id="statWorksheets"
+                class="number"
+              >
+                0
+              </div>
+              <small>کاربرگ‌ها</small>
+            </div>
+
+            <div class="stat-card">
+              <div
+                id="statGames"
+                class="number"
+              >
+                0
+              </div>
+              <small>بازی‌های آموزشی</small>
+            </div>
+
+            <div class="stat-card">
+              <div
+                id="statStudents"
+                class="number"
+              >
+                0
+              </div>
+              <small>دانش‌آموزان</small>
+            </div>
+
+          </div>
+
+
+          <div class="section-title" style="text-align:right;">
+            <h2>شروع سریع</h2>
+          </div>
+
+
+          <div class="quick-grid">
+
+            <div
+              class="quick-card"
+              onclick="showPage('builder')"
+            >
+              <div class="feature-icon">📚</div>
+              <h3>ساخت بسته کامل تدریس</h3>
+              <p>
+                طرح درس + فعالیت + بازی + کاربرگ +
+                ارزشیابی + تکلیف
+              </p>
+            </div>
+
+            <div
+              class="quick-card"
+              onclick="showPage('worksheet')"
+            >
+              <div class="feature-icon">📝</div>
+              <h3>ساخت کاربرگ</h3>
+              <p>
+                یک کاربرگ آموزشی متناسب با پایه و موضوع بسازید.
+              </p>
+            </div>
+
+            <div
+              class="quick-card"
+              onclick="showPage('emergency')"
+            >
+              <div class="feature-icon">⚡</div>
+              <h3>کلاس اضطراری</h3>
+              <p>
+                برای همین الان یک فعالیت آماده کنید.
+              </p>
+            </div>
+
+            <div
+              class="quick-card"
+              onclick="showPage('schedule')"
+            >
+              <div class="feature-icon">📅</div>
+              <h3>برنامه هفتگی</h3>
+              <p>
+                برنامه هفتگی کلاس را مدیریت کنید.
+              </p>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =============================================
+             BUILDER
+        ============================================== -->
+
+        <section
+          id="page-builder"
+          class="page"
+        >
+
+          <div class="card">
+
+            <div class="card-title">
+              <h2>🧠 ساخت بسته کامل تدریس</h2>
+              <p style="color:var(--muted);">
+                اطلاعات درس را وارد کنید تا بسته آموزشی تولید شود.
+              </p>
+            </div>
+
+
+            <div class="form-grid">
+
+              <div class="form-group">
+
+                <label>
+                  پایه
+                </label>
+
+                <select id="builderGrade">
+                  <option value="">انتخاب پایه</option>
+                  <option value="اول">اول</option>
+                  <option value="دوم">دوم</option>
+                  <option value="سوم">سوم</option>
+                  <option value="چهارم">چهارم</option>
+                  <option value="پنجم">پنجم</option>
+                  <option value="ششم">ششم</option>
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  درس
+                </label>
+
+                <select id="builderSubject">
+
+                  <option value="">انتخاب درس</option>
+
+                  <option>ریاضی</option>
+                  <option>علوم</option>
+                  <option>فارسی</option>
+                  <option>هدیه‌های آسمان</option>
+                  <option>مطالعات اجتماعی</option>
+                  <option>قرآن</option>
+                  <option>هنر</option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  عنوان / موضوع
+                </label>
+
+                <input
+                  id="builderTopic"
+                  placeholder="مثلاً ضرب"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  مدت کلاس
+                </label>
+
+                <select id="builderTime">
+
+                  <option value="45">
+                    ۴۵ دقیقه
+                  </option>
+
+                  <option value="60">
+                    ۶۰ دقیقه
+                  </option>
+
+                  <option value="90">
+                    ۹۰ دقیقه
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  سطح غالب کلاس
+                </label>
+
+                <select id="builderLevel">
+
+                  <option value="ضعیف">
+                    نیازمند حمایت
+                  </option>
+
+                  <option value="متوسط" selected>
+                    متوسط
+                  </option>
+
+                  <option value="قوی">
+                    پیشرفته
+                  </option>
+
+                  <option value="ترکیبی">
+                    ترکیبی
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  حالت طراحی
+                </label>
+
+                <select id="builderMode">
+
+                  <option value="quick">
+                    سریع
+                  </option>
+
+                  <option value="standard" selected>
+                    استاندارد
+                  </option>
+
+                  <option value="expert">
+                    👨‍🏫 معلم خبره
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group full">
+
+                <label>
+                  اهداف یا نکات موردنظر معلم
+                </label>
+
+                <textarea
+                  id="builderGoals"
+                  placeholder="مثلاً دانش‌آموز بتواند ضرب دو عدد یک‌رقمی را با مدل تصویری توضیح دهد."
+                ></textarea>
+
+              </div>
+
+
+              <div class="form-group full">
+
+                <label>
+                  امکانات و اصول طراحی
+                </label>
+
+                <div class="checkbox-grid">
+
+                  <label class="check-item">
+                    <input
+                      type="checkbox"
+                      id="optDifferentiation"
+                      checked
+                    >
+                    سطح‌بندی دانش‌آموزان
+                  </label>
+
+                  <label class="check-item">
+                    <input
+                      type="checkbox"
+                      id="optGame"
+                      checked
+                    >
+                    بازی آموزشی
+                  </label>
+
+                  <label class="check-item">
+                    <input
+                      type="checkbox"
+                      id="optLifeSkills"
+                      checked
+                    >
+                    مهارت زندگی
+                  </label>
+
+                  <label class="check-item">
+                    <input
+                      type="checkbox"
+                      id="optAssessment"
+                      checked
+                    >
+                    ارزشیابی توصیفی
+                  </label>
+
+                  <label class="check-item">
+                    <input
+                      type="checkbox"
+                      id="optHomework"
+                      checked
+                    >
+                    تکلیف
+                  </label>
+
+                  <label class="check-item">
+                    <input
+                      type="checkbox"
+                      id="optVisual"
+                      checked
+                    >
+                    طراحی بصری
+                  </label>
+
+                  <label class="check-item">
+                    <input
+                      type="checkbox"
+                      id="optNoRepeat"
+                      checked
+                    >
+                    جلوگیری از تکرار
+                  </label>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="actions">
+
+              <button
+                id="generatePackageBtn"
+                class="btn btn-primary"
+                onclick="generatePackage()"
+              >
+                🚀 ساخت بسته کامل تدریس
+              </button>
+
+              <button
+                class="btn btn-secondary"
+                onclick="fillDemoBuilder()"
+              >
+                🧪 اطلاعات نمونه
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="builderOutput"
+            class="output hidden"
+          ></div>
+
+        </section>
+
+
+        <!-- =============================================
+             WORKSHEET
+        ============================================== -->
+
+        <section
+          id="page-worksheet"
+          class="page"
+        >
+
+          <div class="card">
+
+            <div class="card-title">
+              <h2>📝 طراح کاربرگ</h2>
+              <p style="color:var(--muted);">
+                کاربرگ قابل چاپ و متناسب با سطح دانش‌آموز طراحی کنید.
+              </p>
+            </div>
+
+
+            <div class="form-grid">
+
+              <div class="form-group">
+
+                <label>
+                  پایه
+                </label>
+
+                <select id="worksheetGrade">
+                  <option>اول</option>
+                  <option>دوم</option>
+                  <option>سوم</option>
+                  <option>چهارم</option>
+                  <option>پنجم</option>
+                  <option>ششم</option>
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  درس
+                </label>
+
+                <select id="worksheetSubject">
+                  <option>ریاضی</option>
+                  <option>علوم</option>
+                  <option>فارسی</option>
+                  <option>مطالعات اجتماعی</option>
+                  <option>هدیه‌های آسمان</option>
+                  <option>قرآن</option>
+                  <option>هنر</option>
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  موضوع
+                </label>
+
+                <input
+                  id="worksheetTopic"
+                  placeholder="مثلاً جمع و تفریق"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  قالب
+                </label>
+
+                <select id="worksheetTemplate">
+
+                  <option value="auto">
+                    خودکار
+                  </option>
+
+                  <option value="جورچین">
+                    جورچین
+                  </option>
+
+                  <option value="پیدا کن">
+                    پیدا کن
+                  </option>
+
+                  <option value="مسیر‌یابی">
+                    مسیر‌یابی
+                  </option>
+
+                  <option value="کارآگاه">
+                    کارآگاه
+                  </option>
+
+                  <option value="ماموریت فضایی">
+                    مأموریت فضایی
+                  </option>
+
+                  <option value="فروشگاه">
+                    فروشگاه
+                  </option>
+
+                  <option value="ماجراجویی حیوانات">
+                    ماجراجویی حیوانات
+                  </option>
+
+                  <option value="قلعه یادگیری">
+                    قلعه یادگیری
+                  </option>
+
+                  <option value="معمای منطقی">
+                    معمای منطقی
+                  </option>
+
+                  <option value="وصل کن">
+                    وصل کن
+                  </option>
+
+                  <option value="خلاقیت">
+                    تولید و خلاقیت
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  سطح
+                </label>
+
+                <select id="worksheetLevel">
+
+                  <option>ضعیف</option>
+                  <option selected>متوسط</option>
+                  <option>قوی</option>
+
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  تعداد تمرین
+                </label>
+
+                <select id="worksheetCount">
+
+                  <option>5</option>
+                  <option selected>8</option>
+                  <option>10</option>
+                  <option>15</option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <div class="actions">
+
+              <button
+                class="btn btn-primary"
+                onclick="generateWorksheet()"
+              >
+                📝 ساخت کاربرگ
+              </button>
+
+              <button
+                class="btn btn-secondary"
+                onclick="printCurrentOutput()"
+              >
+                🖨️ چاپ
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="worksheetOutput"
+            class="output hidden"
+          ></div>
+
+        </section>
+
+
+        <!-- =============================================
+             STUDENTS
+        ============================================== -->
+
+        <section
+          id="page-students"
+          class="page"
+        >
+
+          <div class="card">
+
+            <div class="card-title">
+              <h2>👨‍🎓 دانش‌آموزان</h2>
+              <p style="color:var(--muted);">
+                اطلاعات ساده کلاس را برای شخصی‌سازی فعالیت‌ها ثبت کنید.
+              </p>
+            </div>
+
+
+            <div class="form-grid">
+
+              <div class="form-group">
+
+                <label>
+                  نام دانش‌آموز
+                </label>
+
+                <input
+                  id="studentName"
+                  placeholder="نام و نام خانوادگی"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  سطح
+                </label>
+
+                <select id="studentLevel">
+
+                  <option>ضعیف</option>
+                  <option selected>متوسط</option>
+                  <option>قوی</option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="btn btn-primary"
+              onclick="addStudent()"
+            >
+              + افزودن دانش‌آموز
+            </button>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="table-wrap">
+
+              <table>
+
+                <thead>
+                  <tr>
+                    <th>نام</th>
+                    <th>سطح</th>
+                    <th>عملیات</th>
+                  </tr>
+                </thead>
+
+                <tbody id="studentsTable"></tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =============================================
+             SCHEDULE
+        ============================================== -->
+
+        <section
+          id="page-schedule"
+          class="page"
+        >
+
+          <div class="card">
+
+            <div class="card-title">
+              <h2>📅 برنامه هفتگی</h2>
+              <p style="color:var(--muted);">
+                برنامه کلاس را ثبت کنید تا در نسخه‌های بعدی
+                مبنای تولید خودکار فعالیت‌های روزانه قرار گیرد.
+              </p>
+            </div>
+
+
+            <div class="form-grid">
+
+              <div class="form-group">
+
+                <label>روز</label>
+
+                <select id="scheduleDay">
+                  <option>شنبه</option>
+                  <option>یکشنبه</option>
+                  <option>دوشنبه</option>
+                  <option>سه‌شنبه</option>
+                  <option>چهارشنبه</option>
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>ساعت</label>
+
+                <input
+                  id="scheduleTime"
+                  type="time"
+                  value="08:00"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>پایه</label>
+
+                <select id="scheduleGrade">
+                  <option>اول</option>
+                  <option>دوم</option>
+                  <option>سوم</option>
+                  <option>چهارم</option>
+                  <option>پنجم</option>
+                  <option>ششم</option>
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>درس</label>
+
+                <select id="scheduleSubject">
+                  <option>ریاضی</option>
+                  <option>علوم</option>
+                  <option>فارسی</option>
+                  <option>مطالعات اجتماعی</option>
+                  <option>هدیه‌های آسمان</option>
+                  <option>قرآن</option>
+                  <option>هنر</option>
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="btn btn-primary"
+              onclick="addSchedule()"
+            >
+              + افزودن به برنامه
+            </button>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="table-wrap">
+
+              <table>
+
+                <thead>
+                  <tr>
+                    <th>روز</th>
+                    <th>ساعت</th>
+                    <th>پایه</th>
+                    <th>درس</th>
+                    <th>عملیات</th>
+                  </tr>
+                </thead>
+
+                <tbody id="scheduleTable"></tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =============================================
+             EMERGENCY
+        ============================================== -->
+
+        <section
+          id="page-emergency"
+          class="page"
+        >
+
+          <div class="card">
+
+            <div class="card-title">
+              <h2>⚡ کلاس اضطراری</h2>
+              <p style="color:var(--muted);">
+                اگر فقط چند دقیقه برای آماده‌سازی کلاس وقت دارید،
+                اطلاعات پایه را وارد کنید.
+              </p>
+            </div>
+
+
+            <div class="form-grid">
+
+              <div class="form-group">
+
+                <label>پایه</label>
+
+                <select id="emergencyGrade">
+                  <option>اول</option>
+                  <option>دوم</option>
+                  <option>سوم</option>
+                  <option>چهارم</option>
+                  <option>پنجم</option>
+                  <option>ششم</option>
+                </select>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>درس</label>
+
+                <select id="emergencySubject">
+                  <option>ریاضی</option>
+                  <option>علوم</option>
+                  <option>فارسی</option>
+                  <option>مطالعات اجتماعی</option>
+                </select>
+
+              </div>
+
+
+              <div class="form-group full">
+
+                <label>موضوع</label>
+
+                <input
+                  id="emergencyTopic"
+                  placeholder="موضوعی که همین امروز باید تدریس شود"
+                >
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="btn btn-primary"
+              onclick="generateEmergency()"
+            >
+              ⚡ آماده‌سازی سریع کلاس
+            </button>
+
+          </div>
+
+
+          <div
+            id="emergencyOutput"
+            class="output hidden"
+          ></div>
+
+        </section>
+
+
+        <!-- =============================================
+             HISTORY
+        ============================================== -->
+
+        <section
+          id="page-history"
+          class="page"
+        >
+
+          <div class="card">
+
+            <div class="card-title">
+
+              <h2>🕘 تاریخچه تولیدات</h2>
+
+              <p style="color:var(--muted);">
+                برای جلوگیری از تکرار سناریوها و فعالیت‌ها،
+                سابقه تولیدات ذخیره می‌شود.
+              </p>
+
+            </div>
+
+            <div id="historyList"></div>
+
+            <div class="actions">
+
+              <button
+                class="btn btn-danger btn-small"
+                onclick="clearHistory()"
+              >
+                حذف تاریخچه
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =============================================
+             SETTINGS
+        ============================================== -->
+
+        <section
+          id="page-settings"
+          class="page"
+        >
+
+          <div class="card">
+
+            <div class="card-title">
+              <h2>⚙️ تنظیمات معلم</h2>
+            </div>
+
+
+            <div class="form-grid">
+
+              <div class="form-group">
+
+                <label>نام</label>
+
+                <input id="settingFirstName">
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>نام خانوادگی</label>
+
+                <input id="settingLastName">
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>مدرسه</label>
+
+                <input id="settingSchool">
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>شهر / منطقه</label>
+
+                <input id="settingRegion">
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="btn btn-primary"
+              onclick="saveSettings()"
+            >
+              💾 ذخیره تغییرات
+            </button>
+
+          </div>
+
+
+          <div class="card">
+
+            <h3 style="margin-bottom:10px;">
+              ⚠️ مدیریت اطلاعات
+            </h3>
+
+            <p
+              style="
+                color:var(--muted);
+                margin-bottom:15px;
+              "
+            >
+              اطلاعات این نسخه در حافظه مرورگر ذخیره می‌شوند.
+            </p>
+
+            <div class="actions">
+
+              <button
+                class="btn btn-danger"
+                onclick="resetProfile()"
+              >
+                حذف پروفایل و بازگشت
+              </button>
+
+              <button
+                class="btn btn-secondary"
+                onclick="clearAllLocalData()"
+              >
+                پاک کردن اطلاعات محلی
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+      </div>
+
+    </main>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     ONBOARDING MODAL
+===================================================== -->
+
+<div
+  id="onboardingModal"
+  class="modal"
+>
+
+  <div class="modal-box">
+
+    <h2 style="margin-bottom:8px;">
+      👋 خوش آمدید به همیار معلم
+    </h2>
+
+    <p
+      style="
+        color:var(--muted);
+        margin-bottom:20px;
+      "
+    >
+      برای شخصی‌سازی محیط، اطلاعات اولیه خود را وارد کنید.
+    </p>
+
+
+    <div class="form-group">
+
+      <label>
+        نام
+      </label>
+
+      <input
+        id="onboardFirstName"
+        placeholder="نام"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        نام خانوادگی
+      </label>
+
+      <input
+        id="onboardLastName"
+        placeholder="نام خانوادگی"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        نام مدرسه
+      </label>
+
+      <input
+        id="onboardSchool"
+        placeholder="نام مدرسه"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        شهر / منطقه
+      </label>
+
+      <input
+        id="onboardRegion"
+        placeholder="مثلاً تهران، منطقه ۵"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        پایه‌هایی که تدریس می‌کنید
+      </label>
+
+      <div class="checkbox-grid">
+
+        <label class="check-item">
+          <input
+            type="checkbox"
+            value="اول"
+            class="gradeCheck"
+          >
+          اول
+        </label>
+
+        <label class="check-item">
+          <input
+            type="checkbox"
+            value="دوم"
+            class="gradeCheck"
+          >
+          دوم
+        </label>
+
+        <label class="check-item">
+          <input
+            type="checkbox"
+            value="سوم"
+            class="gradeCheck"
+          >
+          سوم
+        </label>
+
+        <label class="check-item">
+          <input
+            type="checkbox"
+            value="چهارم"
+            class="gradeCheck"
+          >
+          چهارم
+        </label>
+
+        <label class="check-item">
+          <input
+            type="checkbox"
+            value="پنجم"
+            class="gradeCheck"
+          >
+          پنجم
+        </label>
+
+        <label class="check-item">
+          <input
+            type="checkbox"
+            value="ششم"
+            class="gradeCheck"
+          >
+          ششم
+        </label>
+
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        class="btn btn-primary"
+        onclick="saveOnboarding()"
+      >
+        ادامه و ورود به محیط معلم
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div id="toast"></div>
+
+
+<!-- =====================================================
+     PRINT AREA
+===================================================== -->
+
+<div
+  id="printArea"
+  style="display:none;"
+></div>
+
+
+<script>
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+const STORAGE = {
+  profile: "hamyar_profile",
+  history: "hamyar_history",
+  students: "hamyar_students",
+  schedule: "hamyar_schedule",
+  settings: "hamyar_settings",
+  dark: "hamyar_dark"
+};
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function getJSON(key, fallback) {
+
+  try {
+
+    const value = localStorage.getItem(key);
+
+    return value
+      ? JSON.parse(value)
+      : fallback;
+
+  } catch {
+
+    return fallback;
+
+  }
+
+}
+
+
+function setJSON(key, value) {
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(value)
+  );
+
+}
+
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2800);
+
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function getProfile() {
+
+  return getJSON(
+    STORAGE.profile,
+    null
+  );
+
+}
+
+
+function enterTeacherEnvironment() {
+
+  document.getElementById("landing").style.display =
+    "none";
+
+  document.getElementById("app").style.display =
+    "block";
+
+  const profile = getProfile();
+
+  if (!profile) {
+
+    document
+      .getElementById("onboardingModal")
+      .classList.add("show");
+
+  }
+
+  updateTeacherUI();
+
+}
+
+
+function returnLanding() {
+
+  document.getElementById("app").style.display =
+    "none";
+
+  document.getElementById("landing").style.display =
+    "block";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+function saveOnboarding() {
+
+  const firstName =
+    document
+      .getElementById("onboardFirstName")
+      .value.trim();
+
+  const lastName =
+    document
+      .getElementById("onboardLastName")
+      .value.trim();
+
+  const school =
+    document
+      .getElementById("onboardSchool")
+      .value.trim();
+
+  const region =
+    document
+      .getElementById("onboardRegion")
+      .value.trim();
+
+  const grades =
+    [...document.querySelectorAll(".gradeCheck:checked")]
+      .map(item => item.value);
+
+
+  if (!firstName || !lastName) {
+
+    showToast(
+      "لطفاً نام و نام خانوادگی را وارد کنید."
+    );
+
+    return;
+
+  }
+
+
+  if (!grades.length) {
+
+    showToast(
+      "حداقل یک پایه را انتخاب کنید."
+    );
+
+    return;
+
+  }
+
+
+  const profile = {
+
+    firstName,
+    lastName,
+    school,
+    region,
+    grades,
+
+    createdAt:
+      new Date().toISOString(),
+
+    updatedAt:
+      new Date().toISOString()
+
+  };
+
+
+  setJSON(
+    STORAGE.profile,
+    profile
+  );
+
+
+  document
+    .getElementById("onboardingModal")
+    .classList.remove("show");
+
+
+  updateTeacherUI();
+
+  showToast(
+    "پروفایل شما با موفقیت ذخیره شد."
+  );
+
+}
+
+
+function updateTeacherUI() {
+
+  const profile = getProfile();
+
+  const mini =
+    document.getElementById("teacherMini");
+
+  const welcomeTitle =
+    document.getElementById("welcomeTitle");
+
+  const welcomeText =
+    document.getElementById("welcomeText");
+
+
+  if (!profile) {
+
+    mini.innerHTML = `
+      <strong>معلم</strong>
+      <small>پروفایل هنوز تکمیل نشده</small>
+    `;
+
+    welcomeTitle.textContent =
+      "سلام 👋";
+
+    welcomeText.textContent =
+      "برای شروع، پروفایل خود را تکمیل کنید.";
+
+    return;
+
+  }
+
+
+  mini.innerHTML = `
+    <strong>
+      ${escapeHTML(
+        profile.firstName + " " + profile.lastName
+      )}
+    </strong>
+
+    <small>
+      ${escapeHTML(profile.school || "مدرسه")}
+    </small>
+  `;
+
+
+  welcomeTitle.textContent =
+    `سلام ${profile.firstName} 👋`;
+
+  welcomeText.textContent =
+    `امروز چه چیزی برای کلاس آماده کنیم؟`;
+
+  fillSettings();
+
+  populateGradeSelects();
+
+  updateStats();
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+const pageTitles = {
+
+  dashboard: "داشبورد",
+  builder: "ساخت بسته کامل تدریس",
+  worksheet: "طراح کاربرگ",
+  students: "دانش‌آموزان",
+  schedule: "برنامه هفتگی",
+  emergency: "کلاس اضطراری",
+  history: "تاریخچه",
+  settings: "تنظیمات"
+
+};
+
+
+function showPage(pageName) {
+
+  document
+    .querySelectorAll(".page")
+    .forEach(page => {
+      page.classList.remove("active");
+    });
+
+
+  const target =
+    document.getElementById(
+      "page-" + pageName
+    );
+
+
+  if (target) {
+
+    target.classList.add("active");
+
+  }
+
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.page === pageName
+      );
+
+    });
+
+
+  document
+    .getElementById("topbarTitle")
+    .textContent =
+      pageTitles[pageName] || "همیار معلم";
+
+
+  document
+    .getElementById("sidebar")
+    .classList.remove("open");
+
+
+  if (pageName === "students") {
+    renderStudents();
+  }
+
+  if (pageName === "schedule") {
+    renderSchedule();
+  }
+
+  if (pageName === "history") {
+    renderHistory();
+  }
+
+}
+
+
+function toggleSidebar() {
+
+  document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+function toggleDarkMode() {
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    STORAGE.dark,
+    document.body.classList.contains("dark")
+      ? "1"
+      : "0"
+  );
+
+}
+
+
+function loadDarkMode() {
+
+  if (
+    localStorage.getItem(STORAGE.dark) === "1"
+  ) {
+
+    document.body.classList.add("dark");
+
+  }
+
+}
+
+
+/* =====================================================
+   GRADE SELECTS
+===================================================== */
+
+function populateGradeSelects() {
+
+  const profile = getProfile();
+
+  if (
+    !profile ||
+    !Array.isArray(profile.grades) ||
+    !profile.grades.length
+  ) {
+
+    return;
+
+  }
+
+
+  const ids = [
+
+    "builderGrade",
+    "worksheetGrade",
+    "scheduleGrade",
+    "emergencyGrade"
+
+  ];
+
+
+  ids.forEach(id => {
+
+    const select =
+      document.getElementById(id);
+
+    if (!select) return;
+
+
+    const current =
+      select.value;
+
+
+    select.innerHTML =
+      profile.grades
+        .map(
+          grade =>
+            `<option value="${escapeHTML(grade)}">
+              ${escapeHTML(grade)}
+            </option>`
+        )
+        .join("");
+
+
+    if (
+      profile.grades.includes(current)
+    ) {
+
+      select.value = current;
+
+    }
+
+  });
+
+}
+
+
+/* =====================================================
+   EDUCATIONAL ENGINE
+===================================================== */
+
+const EducationalEngine = {
+
+
+  chooseTemplate(topic) {
+
+    const templates = [
+
+      "جورچین",
+      "پیدا کن",
+      "کارآگاه",
+      "ماموریت فضایی",
+      "فروشگاه",
+      "ماجراجویی حیوانات",
+      "قلعه یادگیری",
+      "معمای منطقی",
+      "وصل کن",
+      "تولید و خلاقیت"
+
+    ];
+
+
+    const history =
+      getJSON(
+        STORAGE.history,
+        []
+      );
+
+
+    const used =
+      history
+        .map(item => item.template)
+        .filter(Boolean);
+
+
+    const available =
+      templates.filter(
+        item => !used.includes(item)
+      );
+
+
+    const pool =
+      available.length
+        ? available
+        : templates;
+
+
+    return pool[
+      Math.floor(
+        Math.random() * pool.length
+      )
+    ];
+
+  },
+
+
+  lesson(config) {
+
+    const {
+      grade,
+      subject,
+      topic,
+      time,
+      level,
+      goals
+    } = config;
+
+
+    return {
+
+      title:
+        `طرح درس ${subject} ـ ${topic}`,
+
+      metadata: {
+        grade,
+        subject,
+        topic,
+        time: `${time} دقیقه`,
+        level
+      },
+
+      objectives: [
+
+        goals ||
+          `دانش‌آموز بتواند مفهوم «${topic}» را توضیح دهد.`,
+
+        `دانش‌آموز بتواند یک نمونه از «${topic}» را حل یا اجرا کند.`,
+
+        `دانش‌آموز بتواند آموخته خود را در یک موقعیت جدید به کار ببرد.`
+
+      ],
+
+      opening:
+        `شروع کلاس با یک پرسش یا موقعیت واقعی مرتبط با «${topic}».`,
+
+      discovery:
+        `دانش‌آموزان ابتدا در گروه‌های کوچک درباره «${topic}» حدس می‌زنند و راه‌حل خود را مطرح می‌کنند.`,
+
+      instruction:
+        `معلم مفهوم اصلی «${topic}» را با مثال ساده، پرسش و مشارکت دانش‌آموزان آموزش می‌دهد.`,
+
+      practice:
+        `دانش‌آموزان چند فعالیت از ساده به دشوار انجام می‌دهند و معلم بازخورد فوری ارائه می‌کند.`,
+
+      assessment:
+        `در پایان، معلم با یک سؤال کوتاه و مشاهده عملکرد دانش‌آموز میزان یادگیری را بررسی می‌کند.`,
+
+      summary:
+        `دانش‌آموزان در یک یا دو جمله مهم‌ترین چیزی را که یاد گرفته‌اند بیان می‌کنند.`,
+
+      homework:
+        `یک فعالیت کوتاه و کاربردی درباره «${topic}» در خانه انجام شود.`
+
+    };
+
+  },
+
+
+  worksheet(config) {
+
+    const {
+      grade,
+      subject,
+      topic,
+      level,
+      count,
+      template
+    } = config;
+
+
+    const selectedTemplate =
+      template === "auto"
+        ? this.chooseTemplate(topic)
+        : template;
+
+
+    const questions = [];
+
+
+    for (
+      let i = 1;
+      i <= Number(count);
+      i++
+    ) {
+
+      if (level === "ضعیف") {
+
+        questions.push(
+          `تمرین ${i}: یک نمونه ساده از «${topic}» را با کمک مثال یا راهنمای تصویری حل کن.`
+        );
+
+      } else if (level === "قوی") {
+
+        questions.push(
+          `تمرین ${i}: درباره «${topic}» یک مسئله چندمرحله‌ای طراحی و راه‌حل خود را توضیح بده.`
+        );
+
+      } else {
+
+        questions.push(
+          `تمرین ${i}: یک مسئله استاندارد درباره «${topic}» حل کن و روش خود را توضیح بده.`
+        );
+
+      }
+
+    }
+
+
+    return {
+
+      title:
+        `کاربرگ ${subject} ـ ${topic}`,
+
+      grade,
+      subject,
+      topic,
+      level,
+
+      template:
+        selectedTemplate,
+
+      visualPlan: [
+
+        "عنوان بزرگ و خوانا",
+
+        "بخش نام و تاریخ",
+
+        "تصویر یا نماد آموزشی مرتبط با موضوع",
+
+        "فضای کافی برای پاسخ",
+
+        "تقسیم تمرین‌ها از ساده به دشوار"
+
+      ],
+
+      instructions:
+        `دانش‌آموز عزیز، فعالیت‌های زیر را با دقت انجام بده.`,
+
+      questions,
+
+      creative:
+        `در پایان یک سؤال خلاقانه طراحی کن که پاسخ آن فقط یک جواب مشخص نداشته باشد.`
+
+    };
+
+  },
+
+
+  game(config) {
+
+    const {
+      grade,
+      subject,
+      topic
+    } = config;
+
+
+    const template =
+      this.chooseTemplate(topic);
+
+
+    return {
+
+      title:
+        `بازی آموزشی «${topic}»`,
+
+      scenario:
+        `دانش‌آموزان در قالب یک مأموریت مرتبط با «${topic}» وارد بازی می‌شوند.`,
+
+      objective:
+        `تقویت یادگیری «${topic}» از طریق مشارکت و حل مسئله.`,
+
+      players:
+        "گروهی یا دو نفره",
+
+      duration:
+        "10 تا 15 دقیقه",
+
+      rules: [
+
+        "معلم دانش‌آموزان را گروه‌بندی می‌کند.",
+
+        `هر گروه باید فعالیت‌های مربوط به «${topic}» را انجام دهد.`,
+
+        "هر پاسخ درست یک امتیاز دارد.",
+
+        "گروه برنده باید روش خود را برای کلاس توضیح دهد."
+
+      ],
+
+      materials: [
+
+        "کاغذ",
+
+        "مداد",
+
+        "کارت‌های سؤال",
+
+        "تخته کلاس"
+
+      ],
+
+      template
+
+    };
+
+  },
+
+
+  assessment(config) {
+
+    const {
+      topic
+    } = config;
+
+
+    return {
+
+      diagnostic: [
+        `قبل از تدریس بپرس: درباره «${topic}» چه می‌دانید؟`,
+        `یک سؤال کوتاه برای بررسی پیش‌دانسته‌ها مطرح کن.`
+      ],
+
+      formative: [
+        `در حین فعالیت، از دانش‌آموز بخواه روش خود را توضیح دهد.`,
+        `یک سؤال مشابه با سطح دشواری متفاوت ارائه کن.`
+      ],
+
+      descriptive: [
+
+        "درک مفهوم را با مثال توضیح می‌دهد.",
+
+        "در حل مسئله نیاز به راهنمایی دارد.",
+
+        "توانایی انتقال آموخته به موقعیت جدید را نشان می‌دهد."
+
+      ]
+
+    };
+
+  },
+
+
+  homework(config) {
+
+    const {
+      topic
+    } = config;
+
+
+    return {
+
+      standard:
+        `۵ تمرین کوتاه درباره «${topic}».`,
+
+      applied:
+        `یک نمونه از کاربرد «${topic}» را در زندگی روزمره پیدا کن.`,
+
+      creative:
+        `یک سؤال یا بازی کوچک درباره «${topic}» برای یکی از اعضای خانواده طراحی کن.`,
+
+      choice:
+        "دانش‌آموز یکی از سه فعالیت را انتخاب کند."
+
+    };
+
+  },
+
+
+  quality(packageData) {
+
+    const checks = [
+
+      {
+        title: "هدف قابل اندازه‌گیری",
+        pass:
+          packageData.lesson.objectives.length > 0
+      },
+
+      {
+        title: "فعالیت کلاسی",
+        pass:
+          Boolean(packageData.lesson.practice)
+      },
+
+      {
+        title: "ارزشیابی",
+        pass:
+          Boolean(packageData.assessment)
+      },
+
+      {
+        title: "تفاوت‌های فردی",
+        pass:
+          Boolean(packageData.differentiation)
+      },
+
+      {
+        title: "مهارت زندگی",
+        pass:
+          Boolean(packageData.lifeSkill)
+      },
+
+      {
+        title: "کاربرگ",
+        pass:
+          Boolean(packageData.worksheet)
+      },
+
+      {
+        title: "تکلیف",
+        pass:
+          Boolean(packageData.homework)
+      }
+
+    ];
+
+
+    return checks;
+
+  },
+
+
+  generate(config) {
+
+    const lesson =
+      this.lesson(config);
+
+
+    const worksheet =
+      this.worksheet({
+        ...config,
+        template:
+          config.template || "auto"
+      });
+
+
+    const game =
+      config.includeGame
+        ? this.game(config)
+        : null;
+
+
+    const assessment =
+      config.includeAssessment
+        ? this.assessment(config)
+        : null;
+
+
+    const homework =
+      config.includeHomework
+        ? this.homework(config)
+        : null;
+
+
+    const differentiation =
+      config.differentiation
+        ? {
+
+            weak:
+              "فعالیت‌های کوتاه‌تر، مثال بیشتر، راهنمای تصویری و مرحله‌بندی‌شده.",
+
+            medium:
+              "فعالیت استاندارد همراه با یک مرحله چالش.",
+
+            strong:
+              "مسائل چندمرحله‌ای، توضیح روش، کشف الگو و تولید مسئله."
+
+          }
+        : null;
+
+
+    const lifeSkill =
+      config.lifeSkills
+        ? {
+
+            title:
+              "مهارت زندگی پیشنهادی",
+
+            activity:
+              `دانش‌آموزان یک موقعیت واقعی مرتبط با «${config.topic}» را بررسی و راه‌حل خود را با گروه به اشتراک می‌گذارند.`
+
+          }
+        : null;
+
+
+    const result = {
+
+      type: "full_package",
+
+      createdAt:
+        new Date().toISOString(),
+
+      config,
+
+      lesson,
+
+      worksheet,
+
+      game,
+
+      assessment,
+
+      homework,
+
+      differentiation,
+
+      lifeSkill
+
+    };
+
+
+    result.quality =
+      this.quality(result);
+
+
+    return result;
+
+  }
+
+};
+
+
+/* =====================================================
+   API CONNECTION
+===================================================== */
+
+/*
+  مهم:
+
+  کلید OpenAI نباید در این فایل قرار گیرد.
+
+  این تابع زمانی فعال می‌شود که server.js
+  در backend ساخته و مسیر /api/generate
+  آماده شده باشد.
+
+  معماری:
+
+  Browser
+      ↓
+  /api/generate
+      ↓
+  server.js
+      ↓
+  OpenAI API
+*/
+
+async function generateWithAPI(config) {
+
+  const response =
+    await fetch(
+      "/api/generate",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify(config)
+      }
+    );
+
+
+  if (!response.ok) {
+
+    let message =
+      "خطا در ارتباط با سرور.";
+
+    try {
+
+      const data =
+        await response.json();
+
+      message =
+        data.error ||
+        message;
+
+    } catch {}
+
+    throw new Error(message);
+
+  }
+
+
+  return await response.json();
+
+}
+
+
+/* =====================================================
+   BUILD PACKAGE
+===================================================== */
+
+async function generatePackage() {
+
+  const grade =
+    document
+      .getElementById("builderGrade")
+      .value;
+
+  const subject =
+    document
+      .getElementById("builderSubject")
+      .value;
+
+  const topic =
+    document
+      .getElementById("builderTopic")
+      .value
+      .trim();
+
+  const time =
+    document
+      .getElementById("builderTime")
+      .value;
+
+  const level =
+    document
+      .getElementById("builderLevel")
+      .value;
+
+  const mode =
+    document
+      .getElementById("builderMode")
+      .value;
+
+  const goals =
+    document
+      .getElementById("builderGoals")
+      .value
+      .trim();
+
+
+  if (!grade || !subject || !topic) {
+
+    showToast(
+      "لطفاً پایه، درس و موضوع را وارد کنید."
+    );
+
+    return;
+
+  }
+
+
+  const config = {
+
+    grade,
+
+    subject,
+
+    topic,
+
+    time,
+
+    level,
+
+    mode,
+
+    goals,
+
+    differentiation:
+      document
+        .getElementById("optDifferentiation")
+        .checked,
+
+    includeGame:
+      document
+        .getElementById("optGame")
+        .checked,
+
+    lifeSkills:
+      document
+        .getElementById("optLifeSkills")
+        .checked,
+
+    includeAssessment:
+      document
+        .getElementById("optAssessment")
+        .checked,
+
+    includeHomework:
+      document
+        .getElementById("optHomework")
+        .checked,
+
+    visualDesign:
+      document
+        .getElementById("optVisual")
+        .checked,
+
+    avoidRepetition:
+      document
+        .getElementById("optNoRepeat")
+        .checked
+
+  };
+
+
+  const button =
+    document
+      .getElementById(
+        "generatePackageBtn"
+      );
+
+
+  button.disabled = true;
+
+  button.innerHTML = `
+    <span class="loading">
+      <span class="spinner"></span>
+      در حال ساخت بسته...
+    </span>
+  `;
+
+
+  try {
+
+    /*
+      در صورت آماده بودن backend،
+      ابتدا API واقعی را امتحان می‌کنیم.
+
+      اگر backend وجود نداشته باشد،
+      موتور محلی برای نسخه نمایشی کار می‌کند.
+    */
+
+    let result;
+
+
+    try {
+
+      result =
+        await generateWithAPI(config);
+
+
+    } catch {
+
+      result =
+        EducationalEngine.generate(config);
+
+    }
+
+
+    renderPackage(
+      result
+    );
+
+
+    saveHistory({
+
+      type: "بسته کامل",
+
+      topic,
+
+      template:
+        result.worksheet?.template,
+
+      createdAt:
+        new Date().toISOString()
+
+    });
+
+
+    updateStats();
+
+    showToast(
+      "بسته آموزشی آماده شد."
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    showToast(
+      "ساخت بسته با خطا مواجه شد."
+    );
+
+  } finally {
+
+    button.disabled = false;
+
+    button.innerHTML =
+      "🚀 ساخت بسته کامل تدریس";
+
+  }
+
+}
+
+
+/* =====================================================
+   RENDER PACKAGE
+===================================================== */
+
+function renderPackage(data) {
+
+  const output =
+    document.getElementById(
+      "builderOutput"
+    );
+
+
+  const lesson =
+    data.lesson || {};
+
+  const worksheet =
+    data.worksheet || {};
+
+  const game =
+    data.game;
+
+  const assessment =
+    data.assessment;
+
+  const homework =
+    data.homework;
+
+  const differentiation =
+    data.differentiation;
+
+  const lifeSkill =
+    data.lifeSkill;
+
+
+  let html = `
+
+    <h2>
+      📚 ${escapeHTML(
+        lesson.title || "بسته کامل تدریس"
+      )}
+    </h2>
+
+    <div>
+      <span class="tag">
+        پایه: ${escapeHTML(
+          data.config?.grade || lesson.metadata?.grade || ""
+        )}
+      </span>
+
+      <span class="tag">
+        درس: ${escapeHTML(
+          data.config?.subject || lesson.metadata?.subject || ""
+        )}
+      </span>
+
+      <span class="tag">
+        موضوع: ${escapeHTML(
+          data.config?.topic || lesson.metadata?.topic || ""
+        )}
+      </span>
+
+    </div>
+
+
+    <div class="output-section">
+
+      <h3>🎯 اهداف آموزشی</h3>
+
+      <ul>
+
+        ${(lesson.objectives || [])
+          .map(
+            item =>
+              `<li>${escapeHTML(item)}</li>`
+          )
+          .join("")}
+
+      </ul>
+
+    </div>
+
+
+    <div class="output-section">
+
+      <h3>🚀 شروع کلاس</h3>
+
+      <p>
+        ${escapeHTML(
+          lesson.opening || ""
+        )}
+      </p>
+
+    </div>
+
+
+    <div class="output-section">
+
+      <h3>🔍 کشف و فعالیت اولیه</h3>
+
+      <p>
+        ${escapeHTML(
+          lesson.discovery || ""
+        )}
+      </p>
+
+    </div>
+
+
+    <div class="output-section">
+
+      <h3>👨‍🏫 آموزش مفهوم</h3>
+
+      <p>
+        ${escapeHTML(
+          lesson.instruction || ""
+        )}
+      </p>
+
+    </div>
+
+
+    <div class="output-section">
+
+      <h3>✍️ تمرین و فعالیت</h3>
+
+      <p>
+        ${escapeHTML(
+          lesson.practice || ""
+        )}
+      </p>
+
+    </div>
+
+  `;
+
+
+  if (game) {
+
+    html += `
+
+      <div class="output-section">
+
+        <h3>
+          🎮 بازی آموزشی
+        </h3>
+
+        <p>
+          ${escapeHTML(game.scenario || "")}
+        </p>
+
+        <strong>
+          قوانین:
+        </strong>
+
+        <ul>
+
+          ${(game.rules || [])
+            .map(
+              item =>
+                `<li>${escapeHTML(item)}</li>`
+            )
+            .join("")}
+
+        </ul>
+
+      </div>
+
+    `;
+
+  }
+
+
+  html += `
+
+    <div class="output-section">
+
+      <h3>
+        📝 کاربرگ
+      </h3>
+
+      <p>
+        قالب پیشنهادی:
+        <strong>
+          ${escapeHTML(
+            worksheet.template || ""
+          )}
+        </strong>
+      </p>
+
+      <ol>
+
+        ${(worksheet.questions || [])
+          .map(
+            item =>
+              `<li>${escapeHTML(item)}</li>`
+          )
+          .join("")}
+
+      </ol>
+
+    </div>
+
+  `;
+
+
+  if (differentiation) {
+
+    html += `
+
+      <div class="output-section">
+
+        <h3>
+          🎯 سطح‌بندی
+        </h3>
+
+        <p>
+          <strong>دانش‌آموز نیازمند حمایت:</strong>
+          ${escapeHTML(
+            differentiation.weak
+          )}
+        </p>
+
+        <p>
+          <strong>سطح متوسط:</strong>
+          ${escapeHTML(
+            differentiation.medium
+          )}
+        </p>
+
+        <p>
+          <strong>سطح پیشرفته:</strong>
+          ${escapeHTML(
+            differentiation.strong
+          )}
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+
+  if (lifeSkill) {
+
+    html += `
+
+      <div class="output-section">
+
+        <h3>
+          🌱 مهارت زندگی
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            lifeSkill.activity
+          )}
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+
+  if (assessment) {
+
+    html += `
+
+      <div class="output-section">
+
+        <h3>
+          📊 ارزشیابی
+        </h3>
+
+        <strong>
+          تشخیصی:
+        </strong>
+
+        <ul>
+          ${(assessment.diagnostic || [])
+            .map(
+              x =>
+                `<li>${escapeHTML(x)}</li>`
+            )
+            .join("")}
+        </ul>
+
+        <strong>
+          تکوینی:
+        </strong>
+
+        <ul>
+          ${(assessment.formative || [])
+            .map(
+              x =>
+                `<li>${escapeHTML(x)}</li>`
+            )
+            .join("")}
+        </ul>
+
+        <strong>
+          بازخورد توصیفی:
+        </strong>
+
+        <ul>
+          ${(assessment.descriptive || [])
+            .map(
+              x =>
+                `<li>${escapeHTML(x)}</li>`
+            )
+            .join("")}
+        </ul>
+
+      </div>
+
+    `;
+
+  }
+
+
+  if (homework) {
+
+    html += `
+
+      <div class="output-section">
+
+        <h3>
+          🏠 تکلیف
+        </h3>
+
+        <p>
+          <strong>استاندارد:</strong>
+          ${escapeHTML(
+            homework.standard
+          )}
+        </p>
+
+        <p>
+          <strong>کاربردی:</strong>
+          ${escapeHTML(
+            homework.applied
+          )}
+        </p>
+
+        <p>
+          <strong>خلاقانه:</strong>
+          ${escapeHTML(
+            homework.creative
+          )}
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+
+  if (Array.isArray(data.quality)) {
+
+    html += `
+
+      <div class="output-section">
+
+        <h3>
+          🔎 کنترل کیفیت
+        </h3>
+
+        <ul>
+
+          ${data.quality
+            .map(
+              check =>
+                `<li>
+                  ${check.pass ? "✅" : "⚠️"}
+                  ${escapeHTML(check.title)}
+                </li>`
+            )
+            .join("")}
+
+        </ul>
+
+      </div>
+
+    `;
+
+  }
+
+
+  html += `
+
+    <div class="actions no-print">
+
+      <button
+        class="btn btn-primary"
+        onclick="printCurrentOutput()"
+      >
+        🖨️ چاپ بسته
+      </button>
+
+    </div>
+
+  `;
+
+
+  output.innerHTML =
+    html;
+
+  output.classList.remove(
+    "hidden"
+  );
+
+
+  output.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+
+
+/* =====================================================
+   WORKSHEET
+===================================================== */
+
+async function generateWorksheet() {
+
+  const config = {
+
+    grade:
+      document
+        .getElementById("worksheetGrade")
+        .value,
+
+    subject:
+      document
+        .getElementById("worksheetSubject")
+        .value,
+
+    topic:
+      document
+        .getElementById("worksheetTopic")
+        .value
+        .trim(),
+
+    template:
+      document
+        .getElementById("worksheetTemplate")
+        .value,
+
+    level:
+      document
+        .getElementById("worksheetLevel")
+        .value,
+
+    count:
+      document
+        .getElementById("worksheetCount")
+        .value
+
+  };
+
+
+  if (!config.topic) {
+
+    showToast(
+      "موضوع کاربرگ را وارد کنید."
+    );
+
+    return;
+
+  }
+
+
+  let result;
+
+
+  try {
+
+    try {
+
+      result =
+        await generateWithAPI({
+          ...config,
+          contentType: "worksheet"
+        });
+
+    } catch {
+
+      result =
+        EducationalEngine.worksheet(
+          config
+        );
+
+    }
+
+
+    renderWorksheet(
+      result
+    );
+
+
+    saveHistory({
+
+      type: "کاربرگ",
+
+      topic: config.topic,
+
+      template:
+        result.template,
+
+      createdAt:
+        new Date().toISOString()
+
+    });
+
+
+    updateStats();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    showToast(
+      "ساخت کاربرگ با خطا مواجه شد."
+    );
+
+  }
+
+}
+
+
+function renderWorksheet(data) {
+
+  const output =
+    document.getElementById(
+      "worksheetOutput"
+    );
+
+
+  output.innerHTML = `
+
+    <div id="worksheetPrintContent">
+
+      <h2>
+        📝 ${escapeHTML(
+          data.title || "کاربرگ آموزشی"
+        )}
+      </h2>
+
+      <p>
+        <strong>نام دانش‌آموز:</strong>
+        ........................................
+      </p>
+
+      <p>
+        <strong>تاریخ:</strong>
+        ........................................
+      </p>
+
+      <div class="output-section">
+
+        <p>
+          ${escapeHTML(
+            data.instructions || ""
+          )}
+        </p>
+
+      </div>
+
+      <div class="output-section">
+
+        <strong>
+          قالب:
+        </strong>
+
+        ${escapeHTML(
+          data.template || ""
+        )}
+
+      </div>
+
+      <ol>
+
+        ${(data.questions || [])
+          .map(
+            q =>
+              `<li style="margin:20px 0;">
+                ${escapeHTML(q)}
+                <div style="height:45px;"></div>
+              </li>`
+          )
+          .join("")}
+
+      </ol>
+
+
+      <div class="output-section">
+
+        <h3>
+          🌟 فعالیت خلاقانه
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            data.creative || ""
+          )}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="actions no-print">
+
+      <button
+        class="btn btn-primary"
+        onclick="printCurrentOutput()"
+      >
+        🖨️ چاپ کاربرگ
+      </button>
+
+    </div>
+
+  `;
+
+
+  output.classList.remove(
+    "hidden"
+  );
+
+
+  output.scrollIntoView({
+    behavior: "smooth"
+  });
+
+}
+
+
+/* =====================================================
+   EMERGENCY
+===================================================== */
+
+async function generateEmergency() {
+
+  const grade =
+    document
+      .getElementById("emergencyGrade")
+      .value;
+
+  const subject =
+    document
+      .getElementById("emergencySubject")
+      .value;
+
+  const topic =
+    document
+      .getElementById("emergencyTopic")
+      .value
+      .trim();
+
+
+  if (!topic) {
+
+    showToast(
+      "موضوع کلاس را وارد کنید."
+    );
+
+    return;
+
+  }
+
+
+  const config = {
+
+    grade,
+
+    subject,
+
+    topic,
+
+    time: 30,
+
+    level: "متوسط",
+
+    mode: "quick",
+
+    differentiation: true,
+
+    includeGame: true,
+
+    lifeSkills: true,
+
+    includeAssessment: true,
+
+    includeHomework: false
+
+  };
+
+
+  let result;
+
+
+  try {
+
+    try {
+
+      result =
+        await generateWithAPI({
+          ...config,
+          contentType:
+            "emergency"
+        });
+
+    } catch {
+
+      result =
+        EducationalEngine.generate(
+          config
+        );
+
+    }
+
+
+    const output =
+      document.getElementById(
+        "emergencyOutput"
+      );
+
+
+    output.innerHTML = `
+
+      <h2>
+        ⚡ کلاس اضطراری: ${escapeHTML(topic)}
+      </h2>
+
+      <div class="output-section">
+
+        <h3>
+          🎯 هدف
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            result.lesson?.objectives?.[0] || ""
+          )}
+        </p>
+
+      </div>
+
+      <div class="output-section">
+
+        <h3>
+          🚀 شروع سریع
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            result.lesson?.opening || ""
+          )}
+        </p>
+
+      </div>
+
+      <div class="output-section">
+
+        <h3>
+          👨‍🏫 آموزش
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            result.lesson?.instruction || ""
+          )}
+        </p>
+
+      </div>
+
+      <div class="output-section">
+
+        <h3>
+          🎮 فعالیت
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            result.game?.scenario || ""
+          )}
+        </p>
+
+      </div>
+
+      <div class="output-section">
+
+        <h3>
+          📊 ارزشیابی سریع
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            result.lesson?.assessment || ""
+          )}
+        </p>
+
+      </div>
+
+    `;
+
+
+    output.classList.remove(
+      "hidden"
+    );
+
+
+    saveHistory({
+
+      type: "کلاس اضطراری",
+
+      topic,
+
+      createdAt:
+        new Date().toISOString()
+
+    });
+
+
+    updateStats();
+
+  } catch (error) {
+
+    console.error(error);
+
+    showToast(
+      "خطا در آماده‌سازی کلاس."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+function saveHistory(item) {
+
+  const history =
+    getJSON(
+      STORAGE.history,
+      []
+    );
+
+
+  history.unshift(item);
+
+
+  const limited =
+    history.slice(0, 100);
+
+
+  setJSON(
+    STORAGE.history,
+    limited
+  );
+
+}
+
+
+function renderHistory() {
+
+  const container =
+    document.getElementById(
+      "historyList"
+    );
+
+
+  const history =
+    getJSON(
+      STORAGE.history,
+      []
+    );
+
+
+  if (!history.length) {
+
+    container.innerHTML = `
+      <p style="color:var(--muted);">
+        هنوز محتوایی تولید نشده است.
+      </p>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    history
+      .map(
+        (item, index) => `
+
+          <div
+            class="output-section"
+          >
+
+            <strong>
+              ${escapeHTML(
+                item.type || "محتوا"
+              )}
+            </strong>
+
+            <p>
+              موضوع:
+              ${escapeHTML(
+                item.topic || "-"
+              )}
+            </p>
+
+            ${
+              item.template
+                ? `
+                  <span class="tag">
+                    ${escapeHTML(
+                      item.template
+                    )}
+                  </span>
+                `
+                : ""
+            }
+
+            <small
+              style="color:var(--muted);"
+            >
+              ${new Date(
+                item.createdAt
+              ).toLocaleString("fa-IR")}
+            </small>
+
+          </div>
+
+        `
+      )
+      .join("");
+
+}
+
+
+function clearHistory() {
+
+  if (
+    !confirm(
+      "آیا از حذف تاریخچه مطمئن هستید؟"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  localStorage.removeItem(
+    STORAGE.history
+  );
+
+
+  renderHistory();
+
+  updateStats();
+
+  showToast(
+    "تاریخچه حذف شد."
+  );
+
+}
+
+
+/* =====================================================
+   STUDENTS
+===================================================== */
+
+function addStudent() {
+
+  const name =
+    document
+      .getElementById("studentName")
+      .value
+      .trim();
+
+  const level =
+    document
+      .getElementById("studentLevel")
+      .value;
+
+
+  if (!name) {
+
+    showToast(
+      "نام دانش‌آموز را وارد کنید."
+    );
+
+    return;
+
+  }
+
+
+  const students =
+    getJSON(
+      STORAGE.students,
+      []
+    );
+
+
+  students.push({
+
+    id:
+      Date.now(),
+
+    name,
+
+    level
+
+  });
+
+
+  setJSON(
+    STORAGE.students,
+    students
+  );
+
+
+  document
+    .getElementById("studentName")
+    .value = "";
+
+
+  renderStudents();
+
+  updateStats();
+
+  showToast(
+    "دانش‌آموز اضافه شد."
+  );
+
+}
+
+
+function renderStudents() {
+
+  const tbody =
+    document.getElementById(
+      "studentsTable"
+    );
+
+
+  const students =
+    getJSON(
+      STORAGE.students,
+      []
+    );
+
+
+  if (!students.length) {
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="3">
+          هنوز دانش‌آموزی ثبت نشده است.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    students
+      .map(
+        student => `
+
+          <tr>
+
+            <td>
+              ${escapeHTML(
+                student.name
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                student.level
+              )}
+            </td>
+
+            <td>
+
+              <button
+                class="btn btn-danger btn-small"
+                onclick="deleteStudent(${student.id})"
+              >
+                حذف
+              </button>
+
+            </td>
+
+          </tr>
+
+        `
+      )
+      .join("");
+
+}
+
+
+function deleteStudent(id) {
+
+  const students =
+    getJSON(
+      STORAGE.students,
+      []
+    );
+
+
+  setJSON(
+
+    STORAGE.students,
+
+    students.filter(
+      student =>
+        student.id !== id
+    )
+
+  );
+
+
+  renderStudents();
+
+  updateStats();
+
+}
+
+
+/* =====================================================
+   SCHEDULE
+===================================================== */
+
+function addSchedule() {
+
+  const item = {
+
+    id:
+      Date.now(),
+
+    day:
+      document
+        .getElementById("scheduleDay")
+        .value,
+
+    time:
+      document
+        .getElementById("scheduleTime")
+        .value,
+
+    grade:
+      document
+        .getElementById("scheduleGrade")
+        .value,
+
+    subject:
+      document
+        .getElementById("scheduleSubject")
+        .value
+
+  };
+
+
+  const schedule =
+    getJSON(
+      STORAGE.schedule,
+      []
+    );
+
+
+  schedule.push(item);
+
+
+  schedule.sort(
+    (a, b) =>
+      a.time.localeCompare(
+        b.time
+      )
+  );
+
+
+  setJSON(
+    STORAGE.schedule,
+    schedule
+  );
+
+
+  renderSchedule();
+
+  showToast(
+    "به برنامه هفتگی اضافه شد."
+  );
+
+}
+
+
+function renderSchedule() {
+
+  const tbody =
+    document.getElementById(
+      "scheduleTable"
+    );
+
+
+  const schedule =
+    getJSON(
+      STORAGE.schedule,
+      []
+    );
+
+
+  if (!schedule.length) {
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5">
+          هنوز برنامه‌ای ثبت نشده است.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    schedule
+      .map(
+        item => `
+
+          <tr>
+
+            <td>
+              ${escapeHTML(item.day)}
+            </td>
+
+            <td>
+              ${escapeHTML(item.time)}
+            </td>
+
+            <td>
+              ${escapeHTML(item.grade)}
+            </td>
+
+            <td>
+              ${escapeHTML(item.subject)}
+            </td>
+
+            <td>
+
+              <button
+                class="btn btn-danger btn-small"
+                onclick="deleteSchedule(${item.id})"
+              >
+                حذف
+              </button>
+
+            </td>
+
+          </tr>
+
+        `
+      )
+      .join("");
+
+}
+
+
+function deleteSchedule(id) {
+
+  const schedule =
+    getJSON(
+      STORAGE.schedule,
+      []
+    );
+
+
+  setJSON(
+
+    STORAGE.schedule,
+
+    schedule.filter(
+      item =>
+        item.id !== id
+    )
+
+  );
+
+
+  renderSchedule();
+
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+function fillSettings() {
+
+  const profile =
+    getProfile();
+
+
+  if (!profile) return;
+
+
+  document
+    .getElementById("settingFirstName")
+    .value =
+      profile.firstName || "";
+
+
+  document
+    .getElementById("settingLastName")
+    .value =
+      profile.lastName || "";
+
+
+  document
+    .getElementById("settingSchool")
+    .value =
+      profile.school || "";
+
+
+  document
+    .getElementById("settingRegion")
+    .value =
+      profile.region || "";
+
+}
+
+
+function saveSettings() {
+
+  const profile =
+    getProfile();
+
+
+  if (!profile) {
+
+    showToast(
+      "ابتدا پروفایل خود را تکمیل کنید."
+    );
+
+    return;
+
+  }
+
+
+  profile.firstName =
+    document
+      .getElementById("settingFirstName")
+      .value
+      .trim();
+
+
+  profile.lastName =
+    document
+      .getElementById("settingLastName")
+      .value
+      .trim();
+
+
+  profile.school =
+    document
+      .getElementById("settingSchool")
+      .value
+      .trim();
+
+
+  profile.region =
+    document
+      .getElementById("settingRegion")
+      .value
+      .trim();
+
+
+  profile.updatedAt =
+    new Date().toISOString();
+
+
+  setJSON(
+    STORAGE.profile,
+    profile
+  );
+
+
+  updateTeacherUI();
+
+  showToast(
+    "تغییرات ذخیره شد."
+  );
+
+}
+
+
+function resetProfile() {
+
+  if (
+    !confirm(
+      "پروفایل حذف شود و به صفحه اصلی برگردیم؟"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  localStorage.removeItem(
+    STORAGE.profile
+  );
+
+
+  returnLanding();
+
+  showToast(
+    "پروفایل حذف شد."
+  );
+
+}
+
+
+function clearAllLocalData() {
+
+  if (
+    !confirm(
+      "تمام اطلاعات محلی همیار معلم پاک شود؟"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  Object.values(
+    STORAGE
+  ).forEach(
+    key =>
+      localStorage.removeItem(key)
+  );
+
+
+  location.reload();
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+function updateStats() {
+
+  const history =
+    getJSON(
+      STORAGE.history,
+      []
+    );
+
+
+  const students =
+    getJSON(
+      STORAGE.students,
+      []
+    );
+
+
+  const packages =
+    history.filter(
+      item =>
+        item.type === "بسته کامل"
+    ).length;
+
+
+  const worksheets =
+    history.filter(
+      item =>
+        item.type === "کاربرگ"
+    ).length;
+
+
+  const games =
+    history.filter(
+      item =>
+        item.type === "بازی"
+    ).length;
+
+
+  document
+    .getElementById("statPackages")
+    .textContent =
+      packages;
+
+
+  document
+    .getElementById("statWorksheets")
+    .textContent =
+      worksheets;
+
+
+  document
+    .getElementById("statGames")
+    .textContent =
+      games;
+
+
+  document
+    .getElementById("statStudents")
+    .textContent =
+      students.length;
+
+}
+
+
+/* =====================================================
+   DEMO
+===================================================== */
+
+function fillDemoBuilder() {
+
+  document
+    .getElementById("builderGrade")
+    .value =
+      "سوم";
+
+
+  document
+    .getElementById("builderSubject")
+    .value =
+      "ریاضی";
+
+
+  document
+    .getElementById("builderTopic")
+    .value =
+      "ضرب";
+
+
+  document
+    .getElementById("builderTime")
+    .value =
+      "45";
+
+
+  document
+    .getElementById("builderLevel")
+    .value =
+      "متوسط";
+
+
+  document
+    .getElementById("builderMode")
+    .value =
+      "expert";
+
+
+  document
+    .getElementById("builderGoals")
+    .value =
+      "دانش‌آموز بتواند مفهوم ضرب را با استفاده از مدل تصویری توضیح دهد و در مسئله‌های ساده به کار ببرد.";
+
+
+  showToast(
+    "اطلاعات نمونه وارد شد."
+  );
+
+}
+
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+function printCurrentOutput() {
+
+  const activePage =
+    document.querySelector(
+      ".page.active"
+    );
+
+
+  if (!activePage) return;
+
+
+  const output =
+    activePage.querySelector(
+      ".output:not(.hidden)"
+    );
+
+
+  if (!output) {
+
+    showToast(
+      "ابتدا یک محتوا تولید کنید."
+    );
+
+    return;
+
+  }
+
+
+  const printArea =
+    document.getElementById(
+      "printArea"
+    );
+
+
+  printArea.innerHTML =
+    output.innerHTML;
+
+
+  printArea.style.display =
+    "block";
+
+
+  window.print();
+
+
+  setTimeout(() => {
+
+    printArea.style.display =
+      "none";
+
+    printArea.innerHTML =
+      "";
+
+  }, 500);
+
+}
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    loadDarkMode();
+
+    updateTeacherUI();
+
+    renderStudents();
+
+    renderSchedule();
+
+    renderHistory();
+
+    updateStats();
+
+  }
+);
+
+</script>
+
+</body>
+        </html>
