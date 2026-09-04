@@ -2,587 +2,588 @@ import express from "express";
 import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
 import OpenAI from "openai";
-import path from "path";
-import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 const MODEL = process.env.OPENAI_MODEL || "gpt-5";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+/*
+|--------------------------------------------------------------------------
+| Render / Reverse Proxy
+|--------------------------------------------------------------------------
+| Render درخواست‌ها را از طریق Proxy به Node می‌رساند.
+| این تنظیم باعث می‌شود Express هدر X-Forwarded-For را به‌درستی مدیریت کند.
+*/
+app.set("trust proxy", 1);
 
-/* =========================================================
-   OPENAI
-========================================================= */
+/*
+|--------------------------------------------------------------------------
+| Middleware
+|--------------------------------------------------------------------------
+*/
 
-const client = process.env.OPENAI_API_KEY
-  ? new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY
-    })
-  : null;
-
-/* =========================================================
-   BASIC SECURITY
-========================================================= */
-
-app.disable("x-powered-by");
+app.use(express.json({ limit: "2mb" }));
 
 app.use(
-  express.json({
-    limit: "250kb"
+  rateLimit({
+    windowMs: 60 * 1000,
+    max: 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+      ok: false,
+      error: "تعداد درخواست‌ها زیاد است. لطفاً کمی بعد دوباره امتحان کنید."
+    }
   })
 );
 
-/* =========================================================
-   STATIC FRONTEND
-========================================================= */
+/*
+|--------------------------------------------------------------------------
+| OpenAI Client
+|--------------------------------------------------------------------------
+*/
 
-app.use(express.static(path.join(__dirname, "public")));
+const apiKey = process.env.OPENAI_API_KEY;
 
-/* =========================================================
-   RATE LIMIT
-========================================================= */
+const client = apiKey
+  ? new OpenAI({
+      apiKey
+    })
+  : null;
 
-const generateLimiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 20,
-  standardHeaders: true,
-  legacyHeaders: false,
-
-  message: {
-    error: "تعداد درخواست‌ها زیاد است. لطفاً کمی بعد دوباره تلاش کنید."
-  }
-});
-
-/* =========================================================
-   HEALTH CHECK
-========================================================= */
-
-app.get("/api/health", (req, res) => {
-  res.json({
-    ok: true,
-    service: "Hamyar Moalem",
-    aiConfigured: Boolean(client),
-    model: MODEL,
-    version: "2.1.0"
-  });
-});
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-const stringSchema = {
-  type: "string"
-};
-
-const stringArraySchema = {
-  type: "array",
-  items: {
-    type: "string"
-  }
-};
-
-function objectSchema(properties) {
-  return {
-    type: "object",
-    additionalProperties: false,
-    properties,
-    required: Object.keys(properties)
-  };
-}
-
-/* =========================================================
-   EDUCATIONAL OUTPUT SCHEMA
-========================================================= */
-
-const EDUCATIONAL_SCHEMA = objectSchema({
-  title: stringSchema,
-
-  summary: stringSchema,
-
-  metadata: objectSchema({
-    grade: stringSchema,
-    subject: stringSchema,
-    topic: stringSchema,
-    duration: stringSchema,
-    studentLevel: stringSchema,
-    method: stringSchema
-  }),
-
-  objectives: objectSchema({
-    knowledge: stringArraySchema,
-    skills: stringArraySchema,
-    attitudes: stringArraySchema
-  }),
-
-  lessonPlan: objectSchema({
-    opening: stringArraySchema,
-    discovery: stringArraySchema,
-    instruction: stringArraySchema,
-    practice: stringArraySchema,
-    formativeAssessment: stringArraySchema,
-    summary: stringArraySchema,
-    homework: stringArraySchema
-  }),
-
-  activity: objectSchema({
-    title: stringSchema,
-    instructions: stringArraySchema,
-    materials: stringArraySchema,
-    steps: stringArraySchema
-  }),
-
-  game: objectSchema({
-    title: stringSchema,
-    instructions: stringArraySchema,
-    rules: stringArraySchema,
-    goal: stringSchema
-  }),
-
-  worksheet: objectSchema({
-    title: stringSchema,
-    design: stringSchema,
-    questions: stringArraySchema,
-    visualSuggestions: stringArraySchema
-  }),
-
-  differentiation: objectSchema({
-    weak: stringArraySchema,
-    medium: stringArraySchema,
-    strong: stringArraySchema
-  }),
-
-  assessment: objectSchema({
-    diagnostic: stringArraySchema,
-    formative: stringArraySchema,
-    descriptiveFeedback: stringArraySchema
-  }),
-
-  lifeSkills: stringArraySchema,
-
-  teacherNotes: stringArraySchema,
-
-  qualityControl: objectSchema({
-    gradeAppropriateness: stringSchema,
-    objectiveQuality: stringSchema,
-    differentiation: stringSchema,
-    assessmentQuality: stringSchema,
-    repetitionCheck: stringSchema,
-    warnings: stringArraySchema
-  })
-});
-
-/* =========================================================
-   SYSTEM PROMPT
-========================================================= */
+/*
+|--------------------------------------------------------------------------
+| System Prompt
+|--------------------------------------------------------------------------
+*/
 
 const SYSTEM_PROMPT = `
-تو «همیار معلم» هستی؛ یک موتور طراحی آموزشی تخصصی برای معلمان دوره ابتدایی ایران.
-
-نقش تو ترکیبی از:
-
-- معلم خبره دوره ابتدایی
-- کارشناس آموزش ابتدایی
-- طراح آموزشی
-- متخصص یادگیری و روان‌شناسی کودک
-- طراح فعالیت کلاسی
-- طراح بازی آموزشی
-- متخصص ارزشیابی توصیفی
-- طراح کاربرگ
-- متخصص تفاوت‌های فردی
-- متخصص مدیریت کلاس
-
-است.
-
-=========================================================
-اصل ۱ — کاربرد واقعی در کلاس
-=========================================================
-
-هر چیزی که تولید می‌کنی باید توسط یک معلم واقعی قابل اجرا باشد.
-
-از جملات کلی مانند:
-
-«دانش‌آموزان را تشویق کنید»
-«فعالیت جذابی انجام دهید»
-«از روش مشارکتی استفاده کنید»
-
-به‌تنهایی استفاده نکن.
-
-دقیق مشخص کن:
-
-- معلم چه کاری انجام دهد؟
-- دانش‌آموز چه کاری انجام دهد؟
-- پاسخ مورد انتظار چیست؟
-- اگر پاسخ اشتباه بود معلم چه کند؟
-- چه وسایلی لازم است؟
-- فعالیت چقدر زمان می‌برد؟
-
-=========================================================
-اصل ۲ — تناسب با پایه
-=========================================================
-
-سطح شناختی، زبانی، حرکتی و اجتماعی دانش‌آموز را متناسب با پایه در نظر بگیر.
-
-پایه‌های پایین:
-- جمله کوتاه
-- دستور ساده
-- تصویر
-- بازی
-- حرکت
-- مشاهده
-- دسته‌بندی
-- فعالیت دست‌ورزی
-
-پایه‌های بالاتر:
-- حل مسئله
-- استدلال
-- مقایسه
-- تحلیل
-- کشف الگو
-- تفکر انتقادی
-- خلاقیت
-- فعالیت گروهی
-
-=========================================================
-اصل ۳ — یادگیری فعال
-=========================================================
-
-تا جای ممکن آموزش را از سخنرانی صرف خارج کن.
-
-از این چرخه استفاده کن:
-
-فعال‌سازی پیش‌دانسته
-→ تجربه
-→ کشف
-→ توضیح
-→ تمرین هدایت‌شده
-→ تمرین مستقل
-→ ارزشیابی
-→ بازخورد
-→ انتقال یادگیری
-
-=========================================================
-اصل ۴ — اهداف قابل سنجش
-=========================================================
-
-اهداف باید قابل مشاهده و سنجش باشند.
-
-از افعال مبهم مانند:
-
-«آشنا شود»
-«بداند»
-«درک کند»
-
-کمتر استفاده کن.
-
-از افعال زیر استفاده کن:
-
-تشخیص دهد
-محاسبه کند
-مقایسه کند
-طبقه‌بندی کند
-توضیح دهد
-حل کند
-مثال بزند
-اجرا کند
-استدلال کند
-تولید کند
-
-=========================================================
-اصل ۵ — تفاوت فردی
-=========================================================
-
-سه سطح طراحی کن:
-
-ضعیف:
-- داربست بیشتر
-- نمونه حل‌شده
-- راهنمای گام‌به‌گام
-- سؤال ساده‌تر
-- کمک تصویری
-
-متوسط:
-- فعالیت استاندارد
-- تمرین مستقل
-- چالش معمول
-
-قوی:
-- مسئله چندمرحله‌ای
-- استدلال
-- سؤال باز
-- خلاقیت
-- انتقال مفهوم
-
-سطح قوی نباید فقط تعداد سؤال بیشتری داشته باشد.
-
-=========================================================
-اصل ۶ — کاربرگ حرفه‌ای
-=========================================================
-
-کاربرگ نباید فقط صفحه‌ای پر از سؤال متنی باشد.
-
-در صورت تناسب از موارد زیر استفاده کن:
-
-- جورکردنی
-- وصل‌کردنی
-- مسیر و هزارتو
-- پیدا کردن
-- طبقه‌بندی
-- جدول
-- الگو
-- رنگ‌آمیزی هدفمند
-- کشف خطا
-- رمزگشایی
-- مأموریت
-- داستان
-- معمای تصویری
-- درست/نادرست
-- چندگزینه‌ای
-- پاسخ کوتاه
-- مسئله
-- فعالیت خلاق
-- برچسب‌گذاری
-- ترتیب‌دهی
-
-برای هر فعالیت کاربرگ مشخص کن:
-
-نوع فعالیت
-هدف آموزشی
-دستور دانش‌آموز
-محتوا
-سطح دشواری
-پاسخ صحیح
-پیشنهاد بصری
-
-=========================================================
-اصل ۷ — بازی آموزشی
-=========================================================
-
-بازی باید واقعاً آموزشی باشد.
-
-هر بازی باید شامل:
-
-هدف یادگیری
-وسایل
-تعداد بازیکنان
-زمان
-نحوه شروع
-قوانین
-مراحل
-امتیازدهی
-شرایط برد
-نقش معلم
-روش ساده‌سازی
-روش سخت‌تر کردن
-
-باشد.
-
-=========================================================
-اصل ۸ — ارزشیابی
-=========================================================
-
-ارزشیابی را در سه مرحله طراحی کن:
-
-تشخیصی:
-قبل از آموزش.
-
-تکوینی:
-در طول آموزش.
-
-پایانی:
-در پایان آموزش.
-
-برای پاسخ‌های اشتباه، مداخله اصلاحی پیشنهاد بده.
-
-=========================================================
-اصل ۹ — ارزشیابی توصیفی
-=========================================================
-
-بازخورد باید دقیق و قابل استفاده باشد.
-
-از بازخوردهای کلی مانند:
-
-«خوب است.»
-
-اجتناب کن.
-
-بازخورد باید بگوید:
-
-دانش‌آموز چه چیزی را درست انجام داده،
-چه چیزی نیاز به بهبود دارد،
-و قدم بعدی چیست.
-
-=========================================================
-اصل ۱۰ — خطاهای رایج
-=========================================================
-
-خطاهای محتمل دانش‌آموز را شناسایی کن.
-
-ساختار:
-
-خطا
-→ علت احتمالی
-→ نشانه
-→ مداخله معلم
-
-=========================================================
-اصل ۱۱ — مهارت‌های زندگی
-=========================================================
-
-در صورت ارتباط واقعی، مهارت‌هایی مانند:
-
-همکاری
-حل مسئله
-مسئولیت‌پذیری
-خودتنظیمی
-تصمیم‌گیری
-ارتباط مؤثر
-احترام
-همدلی
-مدیریت زمان
-
-را داخل فعالیت ادغام کن.
-
-=========================================================
-اصل ۱۲ — ضدتکرار
-=========================================================
-
-اگر تاریخچه فعالیت‌های قبلی ارائه شد:
-
-- عنوان تکراری تولید نکن.
-- سناریوی تکراری تولید نکن.
-- مثال‌های یکسان استفاده نکن.
-- بازی مشابه را پشت سر هم تکرار نکن.
-- نوع فعالیت کاربرگ را تغییر بده.
-
-=========================================================
-اصل ۱۳ — منابع
-=========================================================
-
-فعالیت‌ها باید با وسایل ساده مدرسه قابل اجرا باشند.
-
-در صورت امکان:
-
-کاغذ
-مداد
-پاک‌کن
-تخته
-ماژیک
-کارت دست‌ساز
-اشیای ساده کلاس
-
-را ترجیح بده.
-
-=========================================================
-اصل ۱۴ — کتاب درسی
-=========================================================
-
-اگر اطلاعات دقیق کتاب، درس، متن یا صفحه داده نشده است:
-
-ادعای تطبیق دقیق با کتاب درسی نکن.
-
-=========================================================
-اصل ۱۵ — کیفیت
-=========================================================
-
-خروجی باید:
-
-فارسی
-دقیق
-کاربردی
-ساختاریافته
-قابل اجرا
-متناسب با پایه
-متناسب با موضوع
-غیرتکراری
-قابل استفاده در کلاس
-
-باشد.
-
-فقط JSON مطابق schema تعیین‌شده برگردان.
-هیچ متن دیگری خارج از JSON ننویس.
+تو «همیار معلم» هستی؛ یک دستیار تخصصی برای معلمان دوره ابتدایی ایران.
+
+نقش تو ترکیبی از این تخصص‌هاست:
+
+1. معلم خبره دوره ابتدایی
+2. متخصص برنامه‌ریزی آموزشی
+3. متخصص طراحی آموزشی
+4. متخصص ارزشیابی توصیفی
+5. متخصص طراحی فعالیت و بازی آموزشی
+6. متخصص طراحی کاربرگ کودک
+7. متخصص آموزش متناسب با سن دانش‌آموز
+8. متخصص آموزش افتراقی
+9. متخصص مدیریت کلاس
+10. متخصص تولید محتوای قابل چاپ
+
+هدف:
+تولید یک بسته آموزشی واقعی، کاربردی و قابل استفاده در کلاس؛
+نه یک متن عمومی و تئوریک.
+
+اصول بسیار مهم:
+
+- محتوا باید متناسب با سن دانش‌آموز باشد.
+- فعالیت‌ها باید قابل اجرا در کلاس باشند.
+- اهداف باید قابل مشاهده و قابل سنجش باشند.
+- فعالیت‌ها نباید صرفاً توضیح نظری باشند.
+- کاربرگ باید واقعاً قابل چاپ و استفاده باشد.
+- از فعالیت‌های تکراری اجتناب کن.
+- برای دانش‌آموز ضعیف، متوسط و قوی مسیر متفاوت طراحی کن.
+- ارزشیابی باید بر اساس شواهد عملکردی باشد.
+- در صورت امکان از بازی، داستان، مسئله، کشف، تصویر ذهنی و فعالیت عملی استفاده کن.
+- مهارت‌های زندگی باید طبیعی و مرتبط با درس باشند.
+- زمان هر فعالیت مشخص باشد.
+- نقش معلم و دانش‌آموز مشخص باشد.
+- خطاهای احتمالی دانش‌آموز و مداخله اصلاحی مشخص باشد.
+
+برای کاربرگ:
+- سؤال‌ها باید متنوع باشند.
+- از تطبیق، دسته‌بندی، جای خالی، درست/نادرست، چهارگزینه‌ای،
+  جدول، الگو، معما، مسیر، داستان، مسئله و فعالیت تصویری استفاده کن.
+- کاربرگ نباید فقط مجموعه‌ای از سؤال‌های ساده باشد.
+- فضای کافی برای پاسخ در نظر بگیر.
+- ساختار مناسب چاپ A4 داشته باشد.
+- فعالیت‌ها باید هدف آموزشی مشخص داشته باشند.
+
+همیشه خروجی را دقیقاً مطابق JSON Schema ارائه کن.
 `;
 
-/* =========================================================
-   CONFIG NORMALIZATION
-========================================================= */
+/*
+|--------------------------------------------------------------------------
+| Educational JSON Schema
+|--------------------------------------------------------------------------
+*/
 
-function normalizeConfig(input = {}) {
-  return {
-    contentType: String(
-      input.contentType || "بسته کامل تدریس"
-    ),
+const EDUCATIONAL_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    title: {
+      type: "string"
+    },
 
-    grade: String(
-      input.grade || "پایه ابتدایی"
-    ),
+    summary: {
+      type: "string"
+    },
 
-    subject: String(
-      input.subject || "نامشخص"
-    ),
+    metadata: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        grade: {
+          type: "string"
+        },
+        subject: {
+          type: "string"
+        },
+        lesson: {
+          type: "string"
+        },
+        duration: {
+          type: "string"
+        },
+        difficulty: {
+          type: "string"
+        }
+      },
+      required: [
+        "grade",
+        "subject",
+        "lesson",
+        "duration",
+        "difficulty"
+      ]
+    },
 
-    topic: String(
-      input.topic || "نامشخص"
-    ),
+    objectives: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
 
-    studentLevel: String(
-      input.studentLevel || "متوسط"
-    ),
+    lessonPlan: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        preparation: {
+          type: "string"
+        },
+        introduction: {
+          type: "string"
+        },
+        exploration: {
+          type: "string"
+        },
+        instruction: {
+          type: "string"
+        },
+        guidedPractice: {
+          type: "string"
+        },
+        independentPractice: {
+          type: "string"
+        },
+        assessment: {
+          type: "string"
+        },
+        summary: {
+          type: "string"
+        },
+        homework: {
+          type: "string"
+        }
+      },
+      required: [
+        "preparation",
+        "introduction",
+        "exploration",
+        "instruction",
+        "guidedPractice",
+        "independentPractice",
+        "assessment",
+        "summary",
+        "homework"
+      ]
+    },
 
-    duration: String(
-      input.duration || "45 دقیقه"
-    ),
+    activity: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        title: {
+          type: "string"
+        },
+        objective: {
+          type: "string"
+        },
+        materials: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        teacherRole: {
+          type: "string"
+        },
+        studentRole: {
+          type: "string"
+        },
+        steps: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        expectedResponse: {
+          type: "string"
+        }
+      },
+      required: [
+        "title",
+        "objective",
+        "materials",
+        "teacherRole",
+        "studentRole",
+        "steps",
+        "expectedResponse"
+      ]
+    },
 
-    studentCount: String(
-      input.studentCount || "20"
-    ),
+    game: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        title: {
+          type: "string"
+        },
+        objective: {
+          type: "string"
+        },
+        story: {
+          type: "string"
+        },
+        rules: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        stages: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        scoring: {
+          type: "string"
+        },
+        feedback: {
+          type: "string"
+        },
+        materials: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        }
+      },
+      required: [
+        "title",
+        "objective",
+        "story",
+        "rules",
+        "stages",
+        "scoring",
+        "feedback",
+        "materials"
+      ]
+    },
 
-    method: String(
-      input.method || "یادگیری فعال"
-    ),
+    worksheet: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        title: {
+          type: "string"
+        },
+        instructions: {
+          type: "string"
+        },
+        studentFields: {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            name: {
+              type: "boolean"
+            },
+            class: {
+              type: "boolean"
+            },
+            date: {
+              type: "boolean"
+            }
+          },
+          required: [
+            "name",
+            "class",
+            "date"
+          ]
+        },
+        questions: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            properties: {
+              type: {
+                type: "string"
+              },
+              prompt: {
+                type: "string"
+              },
+              options: {
+                type: "array",
+                items: {
+                  type: "string"
+                }
+              },
+              answerSpace: {
+                type: "string"
+              },
+              visual: {
+                type: "string"
+              }
+            },
+            required: [
+              "type",
+              "prompt",
+              "options",
+              "answerSpace",
+              "visual"
+            ]
+          }
+        },
+        answerKey: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        visualSuggestions: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        }
+      },
+      required: [
+        "title",
+        "instructions",
+        "studentFields",
+        "questions",
+        "answerKey",
+        "visualSuggestions"
+      ]
+    },
 
-    educationalGoals: String(
-      input.educationalGoals || ""
-    ),
+    differentiation: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        weak: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        medium: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        strong: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        }
+      },
+      required: [
+        "weak",
+        "medium",
+        "strong"
+      ]
+    },
 
-    differentiation:
-      input.differentiation !== false,
+    assessment: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        initial: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        formative: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        final: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        descriptiveFeedback: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        },
+        interventions: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        }
+      },
+      required: [
+        "initial",
+        "formative",
+        "final",
+        "descriptiveFeedback",
+        "interventions"
+      ]
+    },
 
-    visualDesign:
-      input.visualDesign !== false,
+    lifeSkills: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
 
-    avoidRepetition:
-      input.avoidRepetition !== false,
+    teacherNotes: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
 
-    lifeSkills:
-      input.lifeSkills !== false,
+    qualityControl: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        ageAppropriate: {
+          type: "boolean"
+        },
+        measurableObjectives: {
+          type: "boolean"
+        },
+        differentiated: {
+          type: "boolean"
+        },
+        printableWorksheet: {
+          type: "boolean"
+        },
+        assessmentIncluded: {
+          type: "boolean"
+        },
+        classroomReady: {
+          type: "boolean"
+        },
+        nonRepetitive: {
+          type: "boolean"
+        },
+        notes: {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        }
+      },
+      required: [
+        "ageAppropriate",
+        "measurableObjectives",
+        "differentiated",
+        "printableWorksheet",
+        "assessmentIncluded",
+        "classroomReady",
+        "nonRepetitive",
+        "notes"
+      ]
+    }
+  },
 
-    assessment:
-      input.assessment !== false,
+  required: [
+    "title",
+    "summary",
+    "metadata",
+    "objectives",
+    "lessonPlan",
+    "activity",
+    "game",
+    "worksheet",
+    "differentiation",
+    "assessment",
+    "lifeSkills",
+    "teacherNotes",
+    "qualityControl"
+  ]
+};
 
-    game:
-      input.game !== false,
+/*
+|--------------------------------------------------------------------------
+| Helpers
+|--------------------------------------------------------------------------
+*/
 
-    history: Array.isArray(input.history)
-      ? input.history.slice(-10)
-      : []
-  };
+function clean(value, fallback = "") {
+  if (value === undefined || value === null) {
+    return fallback;
+  }
+
+  return String(value).trim();
 }
 
-/* =========================================================
-   USER PROMPT
-========================================================= */
+function normalizeConfig(body = {}) {
+  return {
+    teacherName: clean(body.teacherName, "معلم"),
+    schoolName: clean(body.schoolName, ""),
+    grade: clean(body.grade, "پایه اول"),
+    subject: clean(body.subject, "ریاضی"),
+    lesson: clean(body.lesson, ""),
+    city: clean(body.city, ""),
+    duration: clean(body.duration, "45 دقیقه"),
+    level: clean(body.level, "متوسط"),
+    students: clean(body.students, ""),
+    teachingGoal: clean(body.teachingGoal, ""),
+    previousTopics: clean(body.previousTopics, ""),
+    includeLesson: body.includeLesson !== false,
+    includeActivity: body.includeActivity !== false,
+    includeGame: body.includeGame !== false,
+    includeWorksheet: body.includeWorksheet !== false,
+    includeAssessment: body.includeAssessment !== false,
+    includeDifferentiation: body.includeDifferentiation !== false,
+    includeLifeSkills: body.includeLifeSkills !== false
+  };
+}
 
 function buildUserPrompt(config) {
   return `
-برای یک معلم ابتدایی ایرانی، ${config.contentType} طراحی کن.
+یک بسته تدریس کامل و حرفه‌ای طراحی کن.
 
-اطلاعات ورودی:
+اطلاعات کلاس:
+
+نام معلم:
+${config.teacherName}
+
+مدرسه:
+${config.schoolName || "ذکر نشده"}
 
 پایه:
 ${config.grade}
@@ -590,337 +591,395 @@ ${config.grade}
 درس:
 ${config.subject}
 
-موضوع:
-${config.topic}
+موضوع / درس:
+${config.lesson}
 
-سطح غالب دانش‌آموزان:
-${config.studentLevel}
+شهر / منطقه:
+${config.city || "ذکر نشده"}
 
-مدت کلاس:
+زمان:
 ${config.duration}
 
+سطح غالب کلاس:
+${config.level}
+
 تعداد دانش‌آموز:
-${config.studentCount}
+${config.students || "ذکر نشده"}
 
-روش تدریس:
-${config.method}
+هدف خاص معلم:
+${config.teachingGoal || "ندارد"}
 
-اهداف اضافی:
-${config.educationalGoals || "ندارد"}
+مباحث قبلی:
+${config.previousTopics || "ذکر نشده"}
 
-تفاوت فردی:
-${config.differentiation ? "فعال باشد" : "فعال نباشد"}
+بخش‌های موردنیاز:
 
-طراحی بصری کاربرگ:
-${config.visualDesign ? "فعال باشد" : "فعال نباشد"}
+طرح درس:
+${config.includeLesson ? "بله" : "خیر"}
 
-ضدتکرار:
-${config.avoidRepetition ? "فعال باشد" : "فعال نباشد"}
-
-مهارت‌های زندگی:
-${config.lifeSkills ? "در صورت ارتباط واقعی ادغام شود" : "استفاده نشود"}
-
-ارزشیابی:
-${config.assessment ? "فعال باشد" : "فعال نباشد"}
+فعالیت:
+${config.includeActivity ? "بله" : "خیر"}
 
 بازی:
-${config.game ? "در صورت تناسب طراحی شود" : "استفاده نشود"}
+${config.includeGame ? "بله" : "خیر"}
 
-تاریخچه اخیر برای جلوگیری از تکرار:
+کاربرگ:
+${config.includeWorksheet ? "بله" : "خیر"}
 
-${
-  config.history.length
-    ? JSON.stringify(config.history)
-    : "هیچ سابقه‌ای وجود ندارد."
-}
+ارزشیابی:
+${config.includeAssessment ? "بله" : "خیر"}
 
-اکنون یک بسته آموزشی حرفه‌ای، واقعی و قابل اجرای کلاسی تولید کن.
+آموزش افتراقی:
+${config.includeDifferentiation ? "بله" : "خیر"}
+
+مهارت‌های زندگی:
+${config.includeLifeSkills ? "بله" : "خیر"}
+
+محتوا را به شکلی طراحی کن که معلم بتواند آن را واقعاً در کلاس اجرا کند.
+از فعالیت‌های کلی، مبهم و تکراری خودداری کن.
+کاربرگ باید شامل فعالیت‌های متنوع و قابل چاپ باشد.
 `;
 }
 
-/* =========================================================
-   OPENAI GENERATION
-========================================================= */
+/*
+|--------------------------------------------------------------------------
+| Local Quality Control
+|--------------------------------------------------------------------------
+*/
 
-async function generateEducationalPackage(config) {
-  if (!client) {
-    const error = new Error(
-      "OPENAI_API_KEY is not configured"
-    );
+function runLocalQualityCheck(pkg) {
+  const notes = [];
 
-    error.status = 503;
-    error.code = "missing_api_key";
-
-    throw error;
+  if (!pkg) {
+    return {
+      ok: false,
+      notes: ["خروجی خالی است."]
+    };
   }
 
-  const response = await client.responses.create({
-    model: MODEL,
-
-    store: false,
-
-    instructions: SYSTEM_PROMPT,
-
-    input: buildUserPrompt(config),
-
-    text: {
-      format: {
-        type: "json_schema",
-        name: "hamyar_moalem_package",
-        strict: true,
-        schema: EDUCATIONAL_SCHEMA
-      }
-    }
-  });
-
-  if (!response.output_text) {
-    throw new Error(
-      "OpenAI returned empty output"
-    );
+  if (!pkg.title) {
+    notes.push("عنوان بسته آموزشی وجود ندارد.");
   }
 
-  let data;
+  if (!Array.isArray(pkg.objectives) || pkg.objectives.length === 0) {
+    notes.push("هدف آموزشی کافی وجود ندارد.");
+  }
 
-  try {
-    data = JSON.parse(
-      response.output_text
-    );
-  } catch (error) {
-    console.error(
-      "[JSON_PARSE_ERROR]",
-      response.output_text
-    );
+  if (
+    !pkg.lessonPlan ||
+    !pkg.lessonPlan.introduction ||
+    !pkg.lessonPlan.assessment
+  ) {
+    notes.push("طرح درس کامل نیست.");
+  }
 
-    error.code = "invalid_model_json";
+  if (
+    !pkg.worksheet ||
+    !Array.isArray(pkg.worksheet.questions) ||
+    pkg.worksheet.questions.length < 3
+  ) {
+    notes.push("کاربرگ سؤال‌های کافی ندارد.");
+  }
 
-    throw error;
+  if (!pkg.assessment) {
+    notes.push("بخش ارزشیابی وجود ندارد.");
+  }
+
+  if (!pkg.differentiation) {
+    notes.push("آموزش افتراقی وجود ندارد.");
   }
 
   return {
-    data,
-    responseId: response.id
+    ok: notes.length === 0,
+    notes
   };
 }
 
-/* =========================================================
-   QUALITY CHECK
-========================================================= */
+/*
+|--------------------------------------------------------------------------
+| Health
+|--------------------------------------------------------------------------
+*/
 
-function qualityCheck(data) {
-  const warnings = [];
+app.get("/api/health", (req, res) => {
+  res.json({
+    ok: true,
+    service: "Hamyar Moalem",
+    version: "2.2.0",
+    aiConfigured: Boolean(client),
+    model: MODEL,
+    environment: process.env.NODE_ENV || "production",
+    timestamp: new Date().toISOString()
+  });
+});
 
-  if (!data?.title) {
-    warnings.push(
-      "عنوان بسته آموزشی تولید نشده است."
-    );
-  }
+/*
+|--------------------------------------------------------------------------
+| Generate Educational Package
+|--------------------------------------------------------------------------
+*/
 
-  if (!data?.lessonPlan) {
-    warnings.push(
-      "طرح درس تولید نشده است."
-    );
-  }
+app.post("/api/generate", async (req, res) => {
+  const requestId =
+    "hm_" +
+    Date.now() +
+    "_" +
+    Math.random().toString(36).slice(2, 8);
 
-  if (!data?.objectives) {
-    warnings.push(
-      "اهداف آموزشی تولید نشده است."
-    );
-  }
+  try {
+    console.log(`[GENERATE_START] ${requestId}`);
 
-  if (!data?.worksheet) {
-    warnings.push(
-      "کاربرگ تولید نشده است."
-    );
-  }
+    if (!client) {
+      console.error(`[OPENAI_ERROR] ${requestId} API key missing`);
 
-  if (!data?.differentiation) {
-    warnings.push(
-      "تفاوت فردی تولید نشده است."
-    );
-  }
+      return res.status(500).json({
+        ok: false,
+        requestId,
+        error: "OPENAI_API_KEY در Render تنظیم نشده است."
+      });
+    }
 
-  return warnings;
-}
+    const config = normalizeConfig(req.body);
 
-/* =========================================================
-   GENERATE API
-========================================================= */
+    console.log(`[GENERATE_CONFIG] ${requestId}`, {
+      grade: config.grade,
+      subject: config.subject,
+      lesson: config.lesson,
+      model: MODEL
+    });
 
-app.post(
-  "/api/generate",
-  generateLimiter,
-  async (req, res) => {
-    const requestId =
-      `hm_${Date.now()}_${Math.random()
-        .toString(36)
-        .slice(2, 8)}`;
+    const response = await client.responses.create({
+      model: MODEL,
+      store: false,
+
+      instructions: SYSTEM_PROMPT,
+
+      input: buildUserPrompt(config),
+
+      text: {
+        format: {
+          type: "json_schema",
+          name: "hamyar_moalem_package",
+          strict: true,
+          schema: EDUCATIONAL_SCHEMA
+        }
+      }
+    });
+
+    console.log(`[OPENAI_SUCCESS] ${requestId}`);
+
+    const rawOutput = response.output_text;
+
+    if (!rawOutput) {
+      console.error(
+        `[PARSE_ERROR] ${requestId} OpenAI returned empty output`
+      );
+
+      return res.status(502).json({
+        ok: false,
+        requestId,
+        error: "هوش مصنوعی خروجی خالی برگرداند."
+      });
+    }
+
+    let packageData;
 
     try {
-      const config =
-        normalizeConfig(req.body);
+      packageData = JSON.parse(rawOutput);
+    } catch (parseError) {
+      console.error(`[JSON_PARSE_ERROR] ${requestId}`, {
+        message: parseError.message,
+        preview: rawOutput.slice(0, 500)
+      });
+
+      return res.status(502).json({
+        ok: false,
+        requestId,
+        error: "خروجی هوش مصنوعی JSON معتبر نبود."
+      });
+    }
+
+    const quality = runLocalQualityCheck(packageData);
+
+    console.log(`[QUALITY_CHECK] ${requestId}`, quality);
+
+    return res.json({
+      ok: true,
+      requestId,
+      package: packageData,
+      quality
+    });
+  } catch (error) {
+    console.error(`[OPENAI_ERROR]`, {
+      requestId,
+
+      name: error?.name,
+
+      status: error?.status,
+
+      code: error?.code,
+
+      type: error?.type,
+
+      message: error?.message,
+
+      param: error?.param,
+
+      request_id:
+        error?.request_id ||
+        error?.headers?.["x-request-id"] ||
+        null
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication
+    |--------------------------------------------------------------------------
+    */
+
+    if (error?.status === 401) {
+      return res.status(401).json({
+        ok: false,
+        requestId,
+        error:
+          "کلید OpenAI معتبر نیست یا احراز هویت OpenAI با مشکل مواجه شده است."
+      });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Permission / Model
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      error?.status === 403 ||
+      error?.code === "model_not_found"
+    ) {
+      return res.status(403).json({
+        ok: false,
+        requestId,
+        error:
+          "دسترسی به مدل انتخاب‌شده وجود ندارد. مدل و پروژه OpenAI را بررسی کنید.",
+        model: MODEL
+      });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rate Limit / Quota
+    |--------------------------------------------------------------------------
+    */
+
+    if (error?.status === 429) {
+      const code = error?.code || "";
 
       if (
-        !config.topic ||
-        config.topic === "نامشخص"
+        code === "insufficient_quota" ||
+        String(error?.message || "")
+          .toLowerCase()
+          .includes("quota")
       ) {
-        return res.status(400).json({
+        return res.status(429).json({
           ok: false,
           requestId,
-          error: "موضوع درس را وارد کنید."
+          error:
+            "سهمیه یا اعتبار API تمام شده یا محدودیت مصرف پروژه فعال است."
         });
       }
 
-      const result =
-        await generateEducationalPackage(
-          config
-        );
-
-      const warnings =
-        qualityCheck(result.data);
-
-      if (
-        result.data.qualityControl &&
-        warnings.length
-      ) {
-        result.data.qualityControl.warnings =
-          [
-            ...result.data.qualityControl.warnings,
-            ...warnings
-          ];
-      }
-
-      return res.json({
-        ok: true,
-        requestId,
-        model: MODEL,
-        data: result.data
-      });
-
-    } catch (error) {
-
-      console.error(
-        "[OPENAI_ERROR]",
-        {
-          requestId,
-
-          name: error?.name,
-
-          message: error?.message,
-
-          status: error?.status,
-
-          code: error?.code,
-
-          type: error?.type,
-
-          request_id:
-            error?.request_id
-        }
-      );
-
-      let message =
-        "ارتباط با هوش مصنوعی برقرار نشد. لطفاً دوباره تلاش کنید.";
-
-      let status = 500;
-
-      if (
-        error?.code ===
-        "missing_api_key"
-      ) {
-        message =
-          "کلید API در سرور تنظیم نشده است.";
-
-        status = 503;
-      }
-
-      else if (
-        error?.status === 401 ||
-        error?.code ===
-          "invalid_api_key"
-      ) {
-        message =
-          "کلید API معتبر نیست یا دسترسی آن مشکل دارد.";
-
-        status = 401;
-      }
-
-      else if (
-        error?.status === 403
-      ) {
-        message =
-          "کلید یا پروژه به مدل انتخاب‌شده دسترسی ندارد.";
-
-        status = 403;
-      }
-
-      else if (
-        error?.code ===
-          "insufficient_quota"
-      ) {
-        message =
-          "اعتبار API تمام شده یا محدودیت مصرف پروژه فعال است.";
-
-        status = 429;
-      }
-
-      else if (
-        error?.status === 429
-      ) {
-        message =
-          "تعداد درخواست‌ها زیاد است یا محدودیت مصرف فعال شده است. کمی بعد دوباره تلاش کنید.";
-
-        status = 429;
-      }
-
-      else if (
-        error?.code ===
-        "invalid_model_json"
-      ) {
-        message =
-          "پاسخ هوش مصنوعی قابل پردازش نبود. دوباره تلاش کنید.";
-
-        status = 502;
-      }
-
-      else if (
-        error?.status >= 400 &&
-        error?.status < 600
-      ) {
-        status = error.status;
-      }
-
-      return res.status(status).json({
+      return res.status(429).json({
         ok: false,
         requestId,
-        error: message
+        error:
+          "تعداد درخواست‌های API زیاد است. چند لحظه صبر کنید و دوباره امتحان کنید."
       });
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Generic Error
+    |--------------------------------------------------------------------------
+    */
+
+    return res.status(500).json({
+      ok: false,
+      requestId,
+      error:
+        "ارتباط با هوش مصنوعی برقرار نشد.",
+      details:
+        process.env.NODE_ENV === "production"
+          ? undefined
+          : error?.message
+    });
   }
-);
-
-/* =========================================================
-   FRONTEND FALLBACK
-========================================================= */
-
-app.get("*", (req, res) => {
-  res.sendFile(
-    path.join(
-      __dirname,
-      "public",
-      "index.html"
-    )
-  );
 });
 
-/* =========================================================
-   START SERVER
-========================================================= */
+/*
+|--------------------------------------------------------------------------
+| 404 API
+|--------------------------------------------------------------------------
+*/
 
-app.listen(
-  PORT,
-  () => {
-    console.log(
-      `Hamyar Moalem started | port=${PORT} | model=${MODEL} | ai=${Boolean(client)}`
-    );
+app.use("/api", (req, res) => {
+  res.status(404).json({
+    ok: false,
+    error: "API endpoint پیدا نشد."
+  });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Frontend
+|--------------------------------------------------------------------------
+*/
+
+app.use(express.static("public"));
+
+/*
+|--------------------------------------------------------------------------
+| SPA Fallback
+|--------------------------------------------------------------------------
+*/
+
+app.get("*", (req, res) => {
+  res.sendFile("index.html", {
+    root: "public"
+  });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Error Handler
+|--------------------------------------------------------------------------
+*/
+
+app.use((error, req, res, next) => {
+  console.error("[SERVER_ERROR]", error);
+
+  if (res.headersSent) {
+    return next(error);
   }
-);
+
+  res.status(500).json({
+    ok: false,
+    error: "خطای داخلی سرور."
+  });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Start
+|--------------------------------------------------------------------------
+*/
+
+app.listen(PORT, () => {
+  console.log("======================================");
+  console.log("🚀 Hamyar Moalem Server");
+  console.log("======================================");
+  console.log(`Port: ${PORT}`);
+  console.log(`Model: ${MODEL}`);
+  console.log(`AI configured: ${Boolean(client)}`);
+  console.log(`Version: 2.2.0`);
+  console.log("======================================");
+});
