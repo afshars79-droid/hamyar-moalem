@@ -4,33 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>همیار معلم | دستیار تخصصی آموزش ابتدایی</title>
-
-<meta name="description"
-content="همیار معلم؛ دستیار هوشمند طراحی درس، کاربرگ، بازی آموزشی و ارزشیابی برای معلمان ابتدایی">
+<title>همیار معلم | دستیار هوشمند معلمان ابتدایی</title>
 
 <style>
-:root{
-  --primary:#5b5bd6;
-  --primary-dark:#4444b8;
-  --secondary:#14b8a6;
-  --accent:#f59e0b;
-  --success:#16a34a;
-  --danger:#dc2626;
-  --bg:#f5f7fb;
-  --surface:#ffffff;
-  --surface2:#f0f2f7;
-  --text:#172033;
-  --muted:#667085;
-  --border:#e4e7ec;
-  --shadow:0 10px 30px rgba(16,24,40,.08);
-  --radius:18px;
-}
+/* =========================================================
+   HAMYAR MOALEM
+   Designed & Developed by Afshar Soufi
+   ========================================================= */
 
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
+}
+
+:root{
+  --primary:#5b5ce2;
+  --primary-dark:#4243b8;
+  --secondary:#8b5cf6;
+  --accent:#06b6d4;
+
+  --bg:#f5f7fb;
+  --surface:#ffffff;
+  --surface2:#f8fafc;
+
+  --text:#172033;
+  --text2:#475569;
+  --muted:#94a3b8;
+
+  --border:#e2e8f0;
+
+  --success:#16a34a;
+  --danger:#dc2626;
+  --warning:#d97706;
+
+  --sidebar:#17182d;
+
+  --radius:18px;
+  --shadow:0 10px 35px rgba(15,23,42,.07);
+  --shadow2:0 20px 50px rgba(15,23,42,.12);
+
+  --transition:.2s ease;
+}
+
+body.dark{
+  --bg:#0f172a;
+  --surface:#172033;
+  --surface2:#1e293b;
+  --text:#f8fafc;
+  --text2:#cbd5e1;
+  --muted:#94a3b8;
+  --border:#334155;
+  --sidebar:#090d18;
 }
 
 html{
@@ -41,10 +66,15 @@ body{
   font-family:
     Tahoma,
     Arial,
+    "Vazirmatn",
     sans-serif;
+
   background:var(--bg);
   color:var(--text);
+
   line-height:1.8;
+
+  min-height:100vh;
 }
 
 button,
@@ -55,1246 +85,3638 @@ textarea{
 }
 
 button{
+  border:0;
   cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-.header{
-  height:72px;
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 28px;
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:900;
-  font-size:21px;
-}
-
-.logo{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-size:23px;
-}
-
-.version{
-  font-size:11px;
-  color:var(--primary);
-  background:#5b5bd615;
-  border:1px solid #5b5bd630;
-  padding:3px 8px;
-  border-radius:20px;
-}
-
-/* =========================
-   LAYOUT
-========================= */
-
-.container{
-  width:min(1250px,94%);
-  margin:auto;
-}
-
-main{
-  padding:28px 0 50px;
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-  background:
-    radial-gradient(circle at 90% 20%,#14b8a620,transparent 28%),
-    radial-gradient(circle at 10% 80%,#5b5bd625,transparent 30%),
-    linear-gradient(135deg,#fff,#f6f7ff);
-
-  border:1px solid var(--border);
-  border-radius:26px;
-  padding:35px;
-  margin-bottom:24px;
-  box-shadow:var(--shadow);
-}
-
-.hero-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 12px;
-  border-radius:30px;
-  background:#5b5bd615;
-  color:var(--primary);
-  font-size:13px;
-  font-weight:bold;
-  margin-bottom:12px;
-}
-
-.hero h1{
-  font-size:clamp(28px,5vw,44px);
-  line-height:1.3;
-  margin-bottom:10px;
-}
-
-.hero h1 span{
-  color:var(--primary);
-}
-
-.hero p{
-  color:var(--muted);
-  max-width:800px;
-}
-
-/* =========================
-   GRID
-========================= */
-
-.workspace{
-  display:grid;
-  grid-template-columns:380px 1fr;
-  gap:20px;
-  align-items:start;
-}
-
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:22px;
-  box-shadow:var(--shadow);
-  margin-bottom:20px;
-}
-
-.card-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.card-title h2{
-  font-size:19px;
-}
-
-/* =========================
-   FORM
-========================= */
-
-.form-group{
-  margin-bottom:14px;
-}
-
-label{
-  display:block;
-  font-size:13px;
-  font-weight:bold;
-  margin-bottom:5px;
 }
 
 input,
 select,
 textarea{
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:10px 12px;
-  background:#fff;
-  color:var(--text);
   outline:none;
 }
 
-textarea{
-  min-height:100px;
-  resize:vertical;
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+#loginScreen{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:
+    radial-gradient(circle at 20% 20%,rgba(139,92,246,.35),transparent 35%),
+    radial-gradient(circle at 80% 80%,rgba(6,182,212,.25),transparent 35%),
+    linear-gradient(135deg,#17182d,#312e81,#4f46e5);
+
+  padding:20px;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 3px #5b5bd615;
+.login-box{
+  width:min(460px,100%);
+  background:rgba(255,255,255,.97);
+  border-radius:28px;
+  padding:35px;
+  box-shadow:0 30px 90px rgba(0,0,0,.25);
 }
 
-.two{
+.login-logo{
+  width:75px;
+  height:75px;
+  margin:auto auto 15px;
+
   display:grid;
-  grid-template-columns:1fr 1fr;
+  place-items:center;
+
+  border-radius:22px;
+
+  font-size:38px;
+
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:white;
+
+  box-shadow:0 15px 35px rgba(79,70,229,.3);
+}
+
+.login-box h1{
+  text-align:center;
+  color:#172033;
+  font-size:28px;
+}
+
+.login-box .subtitle{
+  text-align:center;
+  color:#64748b;
+  font-size:13px;
+  margin:5px 0 25px;
+}
+
+.login-label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  color:#334155;
+  margin-bottom:7px;
+}
+
+.login-input{
+  width:100%;
+  border:1px solid #dbe2ea;
+  border-radius:13px;
+  padding:13px;
+  margin-bottom:14px;
+  color:#172033;
+}
+
+.login-input:focus{
+  border-color:#6366f1;
+  box-shadow:0 0 0 4px rgba(99,102,241,.1);
+}
+
+.login-button{
+  width:100%;
+  padding:14px;
+  border-radius:13px;
+  color:white;
+  font-weight:bold;
+  background:linear-gradient(135deg,#4f46e5,#7c3aed);
+  box-shadow:0 10px 25px rgba(79,70,229,.25);
+}
+
+.login-credit{
+  text-align:center;
+  color:#94a3b8;
+  font-size:11px;
+  margin-top:20px;
+}
+
+/* =========================================================
+   APP
+   ========================================================= */
+
+#app{
+  display:none;
+  min-height:100vh;
+}
+
+#app.visible{
+  display:flex;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar{
+  width:260px;
+  min-height:100vh;
+
+  background:var(--sidebar);
+  color:white;
+
+  position:fixed;
+  right:0;
+  top:0;
+  bottom:0;
+
+  z-index:100;
+
+  display:flex;
+  flex-direction:column;
+
+  transition:var(--transition);
+}
+
+.sidebar-logo{
+  padding:22px 20px;
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.sidebar-logo-icon{
+  width:43px;
+  height:43px;
+
+  border-radius:13px;
+
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+
+  display:grid;
+  place-items:center;
+
+  font-size:22px;
+}
+
+.sidebar-logo strong{
+  display:block;
+  font-size:17px;
+}
+
+.sidebar-logo span{
+  display:block;
+  font-size:10px;
+  opacity:.55;
+}
+
+.teacher-mini{
+  margin:15px;
+  padding:13px;
+
+  border-radius:15px;
+
+  background:rgba(255,255,255,.06);
+
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.teacher-avatar{
+  width:40px;
+  height:40px;
+
+  border-radius:50%;
+
+  background:linear-gradient(135deg,#06b6d4,#6366f1);
+
+  display:grid;
+  place-items:center;
+
+  font-weight:bold;
+}
+
+.teacher-mini-name{
+  font-size:12px;
+  font-weight:bold;
+}
+
+.teacher-mini-role{
+  font-size:9px;
+  opacity:.55;
+}
+
+.nav{
+  padding:5px 12px;
+  overflow:auto;
+}
+
+.nav-section{
+  font-size:9px;
+  color:#64748b;
+  padding:14px 10px 7px;
+}
+
+.nav-btn{
+  width:100%;
+
+  background:transparent;
+  color:#cbd5e1;
+
+  padding:11px 12px;
+
+  border-radius:11px;
+
+  display:flex;
+  align-items:center;
+  gap:11px;
+
+  text-align:right;
+
+  font-size:12px;
+
+  margin-bottom:3px;
+
+  transition:var(--transition);
+}
+
+.nav-btn:hover{
+  background:rgba(255,255,255,.06);
+  color:white;
+}
+
+.nav-btn.active{
+  background:linear-gradient(135deg,rgba(99,102,241,.95),rgba(124,58,237,.9));
+  color:white;
+
+  box-shadow:0 7px 20px rgba(79,70,229,.2);
+}
+
+.nav-icon{
+  width:24px;
+  text-align:center;
+  font-size:16px;
+}
+
+.sidebar-bottom{
+  margin-top:auto;
+  padding:15px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+.credit{
+  text-align:center;
+  font-size:9px;
+  color:#64748b;
+  line-height:1.7;
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main{
+  margin-right:260px;
+  width:calc(100% - 260px);
+  min-height:100vh;
+}
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar{
+  height:72px;
+
+  background:var(--surface);
+
+  border-bottom:1px solid var(--border);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 25px;
+
+  position:sticky;
+  top:0;
+
+  z-index:80;
+}
+
+.mobile-menu{
+  display:none;
+}
+
+.page-title{
+  font-size:17px;
+  font-weight:bold;
+}
+
+.page-subtitle{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.icon-btn{
+  width:38px;
+  height:38px;
+
+  border-radius:11px;
+
+  background:var(--surface2);
+  color:var(--text2);
+
+  border:1px solid var(--border);
+
+  display:grid;
+  place-items:center;
+
+  font-size:16px;
+}
+
+.status-pill{
+  display:flex;
+  align-items:center;
+  gap:7px;
+
+  padding:7px 11px;
+
+  border-radius:999px;
+
+  background:var(--surface2);
+
+  border:1px solid var(--border);
+
+  font-size:10px;
+}
+
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#f59e0b;
+}
+
+.status-dot.online{
+  background:#22c55e;
+  box-shadow:0 0 8px rgba(34,197,94,.7);
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.page{
+  padding:26px;
+  max-width:1600px;
+  margin:auto;
+}
+
+.view{
+  display:none;
+}
+
+.view.active{
+  display:block;
+}
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+.welcome{
+  border-radius:22px;
+  padding:27px;
+
+  background:
+    radial-gradient(circle at 90% 0%,rgba(255,255,255,.2),transparent 30%),
+    linear-gradient(135deg,#4338ca,#6366f1,#7c3aed);
+
+  color:white;
+
+  margin-bottom:20px;
+
+  position:relative;
+  overflow:hidden;
+}
+
+.welcome:after{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  border:35px solid rgba(255,255,255,.07);
+  left:-60px;
+  bottom:-130px;
+}
+
+.welcome h1{
+  font-size:25px;
+  margin-bottom:4px;
+}
+
+.welcome p{
+  opacity:.85;
+  font-size:12px;
+}
+
+.welcome-actions{
+  margin-top:18px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.white-btn{
+  background:white;
+  color:#4338ca;
+
+  padding:9px 14px;
+
+  border-radius:10px;
+
+  font-size:11px;
+  font-weight:bold;
+}
+
+.ghost-white{
+  background:rgba(255,255,255,.12);
+  color:white;
+
+  padding:9px 14px;
+
+  border-radius:10px;
+
+  font-size:11px;
+  font-weight:bold;
+
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+
+  margin-bottom:20px;
+}
+
+.stat-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.stat-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+
+  display:grid;
+  place-items:center;
+
+  background:#eef2ff;
+  font-size:18px;
+}
+
+body.dark .stat-icon{
+  background:#252b4a;
+}
+
+.stat-label{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.stat-number{
+  font-size:25px;
+  font-weight:900;
+  margin-top:5px;
+}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:18px;
+}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+}
+
+.card-header{
+  padding:17px 19px;
+  border-bottom:1px solid var(--border);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.card-header h3{
+  font-size:14px;
+}
+
+.card-header span{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.card-body{
+  padding:18px;
+}
+
+/* =========================================================
+   TODAY
+   ========================================================= */
+
+.schedule-item{
+  display:grid;
+  grid-template-columns:70px 1fr auto;
+  gap:12px;
+  align-items:center;
+
+  padding:11px 0;
+
+  border-bottom:1px solid var(--border);
+}
+
+.schedule-item:last-child{
+  border-bottom:0;
+}
+
+.schedule-time{
+  color:var(--primary);
+  font-size:11px;
+  font-weight:bold;
+}
+
+.schedule-subject{
+  font-size:12px;
+  font-weight:bold;
+}
+
+.schedule-topic{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.schedule-action{
+  padding:6px 9px;
+  border-radius:8px;
+  background:#eef2ff;
+  color:#4338ca;
+  font-size:9px;
+  font-weight:bold;
+}
+
+body.dark .schedule-action{
+  background:#252b4a;
+  color:#a5b4fc;
+}
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
   gap:10px;
 }
 
-.checks{
+.quick-card{
+  border:1px solid var(--border);
+  border-radius:13px;
+
+  padding:15px;
+
+  background:var(--surface2);
+
+  transition:var(--transition);
+}
+
+.quick-card:hover{
+  transform:translateY(-2px);
+  border-color:#a5b4fc;
+}
+
+.quick-card-icon{
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.quick-card strong{
+  display:block;
+  font-size:11px;
+}
+
+.quick-card span{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  margin-top:3px;
+}
+
+/* =========================================================
+   GENERATOR
+   ========================================================= */
+
+.generator-layout{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
+  grid-template-columns:350px 1fr;
+  gap:18px;
+}
+
+.generator-card{
+  padding:20px;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-label{
+  display:block;
+  font-size:11px;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.form-control{
+  width:100%;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+
+  border-radius:11px;
+  padding:10px 11px;
+
+  font-size:11px;
+}
+
+.form-control:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(91,92,226,.1);
+}
+
+textarea.form-control{
+  min-height:90px;
+  resize:vertical;
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:6px;
+}
+
+.chip{
+  background:#eef2ff;
+  color:#4338ca;
+
+  border:1px solid #ddd6fe;
+
+  padding:4px 7px;
+
+  border-radius:999px;
+
+  font-size:9px;
+}
+
+body.dark .chip{
+  background:#252b4a;
+  color:#c4b5fd;
+  border-color:#373a62;
+}
+
+.checks{
+  padding-top:10px;
+  margin-top:10px;
+  border-top:1px solid var(--border);
 }
 
 .check{
-  border:1px solid var(--border);
-  padding:8px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:normal;
+  display:flex;
+  gap:7px;
+  align-items:center;
+
+  font-size:10px;
+  margin:7px 0;
 }
 
 .check input{
-  width:auto;
-  margin-left:5px;
+  accent-color:var(--primary);
 }
 
-/* =========================
-   BUTTONS
-========================= */
-
-.btn{
-  border:0;
-  border-radius:12px;
-  padding:11px 15px;
-  font-weight:bold;
-  transition:.2s;
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-}
-
-.primary{
-  background:var(--primary);
-  color:white;
-}
-
-.primary:hover{
-  background:var(--primary-dark);
-}
-
-.secondary{
-  background:white;
-  border:1px solid var(--border);
-  color:var(--text);
-}
-
-.teal{
-  background:var(--secondary);
-  color:white;
-}
-
-.orange{
-  background:var(--accent);
-  color:white;
-}
-
-.full-btn{
+.primary-btn{
   width:100%;
-}
+  padding:13px;
 
-.actions{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:8px;
-  margin-top:15px;
-}
+  border-radius:12px;
 
-.small-actions{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-}
+  color:white;
 
-/* =========================
-   STATUS
-========================= */
-
-.status{
-  margin-top:10px;
+  font-weight:bold;
   font-size:12px;
-  color:var(--muted);
-  min-height:24px;
+
+  background:linear-gradient(135deg,#4f46e5,#7c3aed);
+
+  box-shadow:0 8px 22px rgba(79,70,229,.22);
+
+  margin-top:5px;
 }
 
-.loading{
-  padding:60px 20px;
+.primary-btn:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+
+.generator-preview{
+  min-height:650px;
+}
+
+/* =========================================================
+   EMPTY / LOADING
+   ========================================================= */
+
+.empty-state{
+  min-height:600px;
+
+  display:grid;
+  place-items:center;
+
   text-align:center;
-  color:var(--primary);
+
+  padding:30px;
+}
+
+.empty-icon{
+  font-size:70px;
+  margin-bottom:10px;
+}
+
+.empty-state h2{
+  font-size:20px;
+  margin-bottom:5px;
+}
+
+.empty-state p{
+  max-width:500px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.loading-state{
+  min-height:600px;
+
+  display:none;
+
+  place-items:center;
+
+  text-align:center;
+}
+
+.loading-state.active{
+  display:grid;
 }
 
 .spinner{
-  width:40px;
-  height:40px;
-  border:4px solid #5b5bd620;
-  border-top-color:var(--primary);
+  width:55px;
+  height:55px;
+
+  border:5px solid #e0e7ff;
+  border-top-color:#5b5ce2;
+
   border-radius:50%;
+
   animation:spin .8s linear infinite;
-  margin:0 auto 15px;
+
+  margin:auto;
 }
 
 @keyframes spin{
   to{transform:rotate(360deg)}
 }
 
-/* =========================
-   TABS
-========================= */
-
-.tabs{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
+.loading-state h3{
+  margin-top:14px;
+  font-size:16px;
 }
 
-.tab{
-  border:1px solid var(--border);
-  background:#fff;
-  padding:9px 13px;
-  border-radius:11px;
-  font-weight:bold;
-  font-size:13px;
-}
-
-.tab.active{
-  background:#5b5bd615;
-  color:var(--primary);
-  border-color:#5b5bd640;
-}
-
-/* =========================
-   OUTPUT
-========================= */
-
-.output{
-  min-height:500px;
-}
-
-.empty{
-  min-height:450px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+.loading-state p{
   color:var(--muted);
+  font-size:10px;
 }
 
-.output-header{
-  border-bottom:1px solid var(--border);
-  padding-bottom:15px;
-  margin-bottom:15px;
-}
+/* =========================================================
+   ERROR
+   ========================================================= */
 
-.output-header h2{
-  font-size:24px;
-}
+.error-box{
+  display:none;
 
-.meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-top:8px;
-}
+  background:#fef2f2;
+  color:#991b1b;
 
-.meta span{
-  background:var(--surface2);
-  border-radius:20px;
-  padding:4px 9px;
-  font-size:11px;
-}
+  border:1px solid #fecaca;
 
-.section{
-  border:1px solid var(--border);
-  background:#fafbfe;
-  border-radius:14px;
-  padding:15px;
+  padding:14px;
+
+  border-radius:12px;
+
   margin-bottom:12px;
 }
 
-.section h3{
-  font-size:16px;
-  margin-bottom:8px;
+.error-box.active{
+  display:block;
 }
 
-.section p{
-  margin:5px 0;
-}
-
-.list{
-  padding-right:20px;
-}
-
-.list li{
+.error-title{
+  font-size:12px;
+  font-weight:bold;
   margin-bottom:5px;
 }
 
-.sub-title{
-  font-weight:bold;
-  color:var(--primary);
-  margin-top:10px;
+.error-detail{
+  font-size:10px;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
 
-/* =========================
-   DIFFERENTIATION
-========================= */
+/* =========================================================
+   PACKAGE RESULT
+   ========================================================= */
 
-.diff-grid{
+.package-result{
+  display:none;
+}
+
+.package-result.active{
+  display:block;
+}
+
+.package-cover{
+  padding:25px;
+
+  background:
+    linear-gradient(135deg,#eef2ff,#faf5ff);
+
+  border-bottom:1px solid var(--border);
+
+  border-radius:18px 18px 0 0;
+}
+
+body.dark .package-cover{
+  background:linear-gradient(135deg,#1e2440,#251e3e);
+}
+
+.package-cover h2{
+  font-size:23px;
+}
+
+.package-cover p{
+  color:var(--text2);
+  font-size:11px;
+  margin-top:4px;
+}
+
+.package-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:12px;
+}
+
+.meta{
+  padding:5px 9px;
+
+  background:var(--surface);
+
+  border:1px solid var(--border);
+
+  border-radius:999px;
+
+  font-size:9px;
+  color:var(--text2);
+}
+
+.package-body{
+  padding:20px;
+}
+
+.package-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:15px;
+}
+
+.small-btn{
+  padding:8px 11px;
+  border-radius:9px;
+
+  background:var(--surface);
+  border:1px solid var(--border);
+
+  color:var(--text2);
+
+  font-size:10px;
+  font-weight:bold;
+}
+
+.small-btn:hover{
+  border-color:var(--primary);
+  color:var(--primary);
+}
+
+/* =========================================================
+   RESULT TABS
+   ========================================================= */
+
+.result-tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+
+  border-bottom:1px solid var(--border);
+
+  padding-bottom:11px;
+  margin-bottom:18px;
+}
+
+.result-tab{
+  padding:7px 10px;
+
+  border:1px solid var(--border);
+
+  border-radius:9px;
+
+  background:var(--surface);
+
+  color:var(--text2);
+
+  font-size:9px;
+  font-weight:bold;
+}
+
+.result-tab.active{
+  background:var(--primary);
+  color:white;
+  border-color:var(--primary);
+}
+
+.result-section{
+  display:none;
+}
+
+.result-section.active{
+  display:block;
+}
+
+/* =========================================================
+   RESULT CONTENT
+   ========================================================= */
+
+.section-heading{
+  font-size:16px;
+  margin-bottom:13px;
+
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.objective-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:8px;
+  gap:10px;
 }
 
-.diff{
+.info-card{
+  padding:14px;
+
+  border:1px solid var(--border);
+
   border-radius:13px;
-  padding:12px;
+
+  background:var(--surface2);
 }
 
-.diff.weak{
-  background:#fff1f2;
-  border:1px solid #fecdd3;
+.info-card h4{
+  font-size:12px;
+  margin-bottom:7px;
 }
 
-.diff.medium{
-  background:#fffbeb;
-  border:1px solid #fde68a;
+.info-card p,
+.info-card li{
+  color:var(--text2);
+  font-size:10px;
 }
 
-.diff.strong{
-  background:#ecfdf5;
-  border:1px solid #a7f3d0;
+.info-card ul{
+  padding-right:17px;
 }
 
-.diff h4{
+.timeline-item{
+  display:grid;
+  grid-template-columns:85px 1fr;
+  gap:13px;
+
+  padding:14px 0;
+
+  border-bottom:1px solid var(--border);
+}
+
+.timeline-item:last-child{
+  border-bottom:0;
+}
+
+.timeline-time{
+  color:var(--primary);
+  font-weight:bold;
+  font-size:10px;
+}
+
+.timeline-title{
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:4px;
+}
+
+.timeline-text{
+  color:var(--text2);
+  font-size:10px;
+}
+
+.content-card{
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:15px;
+  margin-bottom:10px;
+}
+
+.content-card h4{
+  font-size:12px;
+  margin-bottom:6px;
+}
+
+.content-card p{
+  font-size:10px;
+  color:var(--text2);
+}
+
+.content-card ul{
+  padding-right:17px;
+}
+
+.content-card li{
+  font-size:10px;
+  color:var(--text2);
   margin-bottom:5px;
 }
 
-/* =========================
+/* =========================================================
    WORKSHEET
-========================= */
+   ========================================================= */
 
-.worksheet-wrap{
-  background:#e9edf5;
-  padding:25px;
-  border-radius:15px;
-  overflow:auto;
-}
-
-.a4{
-  width:794px;
-  min-height:1123px;
-  background:white;
+.worksheet{
+  max-width:850px;
   margin:auto;
-  padding:35px;
-  box-shadow:0 8px 30px rgba(0,0,0,.15);
-  color:#182230;
+
+  background:white;
+  color:#111827;
+
+  border:1px solid #cbd5e1;
+
+  padding:28px;
+
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
-.sheet-header{
-  border:4px solid var(--primary);
-  border-radius:20px;
-  padding:17px;
+.worksheet-header{
   text-align:center;
-  background:
-    linear-gradient(135deg,#5b5bd615,#14b8a610);
+
+  border-bottom:2px solid #111827;
+
+  padding-bottom:15px;
+  margin-bottom:18px;
 }
 
-.sheet-header h2{
-  margin:3px 0;
-  font-size:27px;
+.worksheet-header h2{
+  font-size:22px;
 }
 
-.sheet-header p{
-  font-size:13px;
+.worksheet-header p{
+  font-size:11px;
+  margin-top:4px;
 }
 
 .student-info{
   display:grid;
   grid-template-columns:2fr 1fr 1fr;
-  gap:8px;
-  margin:13px 0;
+  gap:15px;
+
+  margin-top:12px;
 }
 
-.info-box{
-  border:1px solid #ddd;
-  border-radius:9px;
-  padding:7px;
-  font-size:12px;
-}
-
-.mission{
-  border:2px dashed var(--secondary);
-  border-radius:17px;
-  padding:13px;
-  background:#14b8a608;
-  margin-bottom:15px;
-}
-
-.mission-title{
-  font-weight:bold;
-  color:#087f73;
-}
-
-.question-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+.student-line{
+  border-bottom:1px dashed #64748b;
+  padding-bottom:4px;
+  font-size:10px;
 }
 
 .question{
-  min-height:145px;
-  border:2px solid #e5e7eb;
-  border-radius:16px;
-  padding:17px 14px 12px;
-  position:relative;
-  background:#fff;
+  border:1px solid #dbe2ea;
+  border-radius:11px;
+
+  padding:14px;
+
+  margin-bottom:11px;
+
+  page-break-inside:avoid;
 }
 
 .question-number{
-  position:absolute;
-  right:10px;
-  top:-13px;
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  background:var(--primary);
-  color:white;
-  display:grid;
-  place-items:center;
   font-weight:bold;
+  font-size:11px;
+  margin-bottom:8px;
 }
 
-.question-text{
-  padding-top:8px;
-  font-weight:bold;
-  font-size:14px;
-}
-
-.answer-line{
+.answer-space{
   height:30px;
-  border-bottom:2px dotted #aaa;
-  margin-top:8px;
+  border-bottom:1px dashed #94a3b8;
+  margin-top:6px;
 }
 
-.visual-box{
-  border:2px dashed #cbd5e1;
+.visual-task{
+  border:2px dashed #94a3b8;
   border-radius:12px;
-  min-height:55px;
-  margin-top:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-}
 
-.challenge{
-  margin-top:15px;
-  border-radius:16px;
   padding:15px;
-  background:#fff7ed;
-  border:2px solid #fed7aa;
+
+  text-align:center;
+
+  margin-top:10px;
+
+  background:#f8fafc;
 }
 
-.stars{
-  margin-top:15px;
+.visual-task svg{
+  max-width:100%;
+  height:auto;
+}
+
+.worksheet-footer{
+  margin-top:25px;
+  padding-top:10px;
+
+  border-top:1px solid #cbd5e1;
+
   display:flex;
   justify-content:space-between;
-  border-top:1px solid #ddd;
-  padding-top:10px;
-  font-size:13px;
+
+  font-size:8px;
+  color:#64748b;
 }
 
-/* =========================
-   QUALITY
-========================= */
+/* =========================================================
+   DIFFERENTIATION
+   ========================================================= */
 
-.quality{
+.diff-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+  grid-template-columns:repeat(3,1fr);
+  gap:11px;
 }
 
-.quality-item{
+.diff-card{
   border:1px solid var(--border);
-  border-radius:12px;
-  padding:10px;
-  background:#fafafa;
+  border-radius:13px;
+  padding:15px;
 }
 
-.quality-good{
-  color:var(--success);
-  font-weight:bold;
-}
-
-.quality-warning{
-  color:var(--danger);
-  font-weight:bold;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer{
-  text-align:center;
-  color:var(--muted);
+.diff-card h4{
   font-size:12px;
-  padding:30px 0 10px;
+  margin-bottom:9px;
 }
 
-.designer{
+.diff-card ul{
+  padding-right:17px;
+}
+
+.diff-card li{
+  font-size:10px;
+  color:var(--text2);
+  margin-bottom:6px;
+}
+
+/* =========================================================
+   QC
+   ========================================================= */
+
+.qc-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+}
+
+.qc-item{
+  border:1px solid var(--border);
+  background:var(--surface2);
+  border-radius:10px;
+  padding:10px;
+  font-size:10px;
+}
+
+.qc-item.ok{
+  border-color:#bbf7d0;
+  background:#f0fdf4;
+  color:#166534;
+}
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+.history-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
+
+.history-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:15px;
+  box-shadow:var(--shadow);
+}
+
+.history-card h3{
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.history-card p{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.history-card-actions{
+  display:flex;
+  gap:6px;
+  margin-top:12px;
+}
+
+.history-card-actions button{
+  padding:6px 8px;
+  border-radius:7px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  font-size:9px;
+  color:var(--text2);
+}
+
+/* =========================================================
+   WEEKLY SCHEDULE
+   ========================================================= */
+
+.week-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:9px;
+}
+
+.day-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  min-height:250px;
+  padding:10px;
+}
+
+.day-title{
+  font-size:11px;
   font-weight:bold;
-  color:var(--primary);
+  padding-bottom:8px;
+  margin-bottom:7px;
+  border-bottom:1px solid var(--border);
 }
 
-/* =========================
-   MOBILE
-========================= */
+.class-block{
+  background:var(--surface2);
+  border-radius:9px;
+  padding:8px;
+  margin-bottom:6px;
+}
+
+.class-time{
+  font-size:8px;
+  color:var(--primary);
+  font-weight:bold;
+}
+
+.class-subject{
+  font-size:9px;
+  font-weight:bold;
+}
+
+.class-topic{
+  font-size:8px;
+  color:var(--muted);
+}
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+
+.settings-grid{
+  max-width:750px;
+}
+
+.setting-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:12px;
+}
+
+.setting-card h3{
+  font-size:14px;
+  margin-bottom:14px;
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast{
+  position:fixed;
+
+  bottom:22px;
+  left:22px;
+
+  z-index:99999;
+
+  background:#111827;
+  color:white;
+
+  padding:11px 15px;
+
+  border-radius:11px;
+
+  font-size:11px;
+
+  box-shadow:0 15px 35px rgba(0,0,0,.2);
+
+  transform:translateY(100px);
+  opacity:0;
+
+  transition:.3s;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:1200px){
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+  .week-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+}
 
 @media(max-width:1000px){
-  .workspace{
-    grid-template-columns:1fr;
-  }
-}
 
-@media(max-width:650px){
-
-  .header{
-    height:64px;
-    padding:0 12px;
-  }
-
-  .brand{
-    font-size:16px;
-  }
-
-  .logo{
-    width:37px;
-    height:37px;
-  }
-
-  .version{
-    display:none;
-  }
-
-  .container{
-    width:94%;
-  }
-
-  .hero{
-    padding:22px;
-    border-radius:19px;
-  }
-
-  .hero h1{
-    font-size:27px;
-  }
-
-  .card{
-    padding:16px;
-    border-radius:15px;
-  }
-
-  .two{
+  .generator-layout{
     grid-template-columns:1fr;
   }
 
+  .objective-grid,
   .diff-grid{
     grid-template-columns:1fr;
   }
 
-  .quality{
-    grid-template-columns:1fr;
-  }
-
-  .worksheet-wrap{
-    padding:10px;
+  .history-grid{
+    grid-template-columns:repeat(2,1fr);
   }
 
 }
 
-/* =========================
+@media(max-width:800px){
+
+  .sidebar{
+    transform:translateX(100%);
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-right:0;
+    width:100%;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .page{
+    padding:15px;
+  }
+
+  .topbar{
+    padding:0 14px;
+  }
+
+  .status-pill{
+    display:none;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .week-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:550px){
+
+  .welcome h1{
+    font-size:20px;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .history-grid{
+    grid-template-columns:1fr;
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr;
+  }
+
+  .student-info{
+    grid-template-columns:1fr;
+  }
+
+  .package-cover h2{
+    font-size:19px;
+  }
+
+}
+
+/* =========================================================
    PRINT
-========================= */
+   ========================================================= */
 
 @media print{
 
   body{
-    background:white;
+    background:white !important;
   }
 
-  body *{
-    visibility:hidden;
+  .sidebar,
+  .topbar,
+  .package-actions,
+  .result-tabs,
+  .page-title,
+  .generator-layout,
+  .error-box,
+  .toast{
+    display:none !important;
   }
 
-  .print-area,
-  .print-area *{
-    visibility:visible;
+  .main{
+    margin:0 !important;
+    width:100% !important;
   }
 
-  .print-area{
-    position:absolute;
-    right:0;
-    top:0;
-    width:100%;
+  .page{
+    padding:0 !important;
   }
 
-  .worksheet-wrap{
-    background:white;
-    padding:0;
+  .view{
+    display:none !important;
   }
 
-  .a4{
+  #generatorView{
+    display:block !important;
+  }
+
+  .package-result{
+    display:block !important;
+  }
+
+  .result-section{
+    display:block !important;
+    page-break-inside:avoid;
+    margin-bottom:25px;
+  }
+
+  .card,
+  .package-result{
+    border:0 !important;
+    box-shadow:none !important;
+  }
+
+  .worksheet{
     box-shadow:none;
-    margin:0;
+    border:1px solid #111;
   }
 }
-
 </style>
 </head>
 
+
 <body>
 
-<header class="header">
+<!-- =========================================================
+     LOGIN
+     ========================================================= -->
 
-  <div class="brand">
-    <div class="logo">👨‍🏫</div>
-    <span>همیار معلم</span>
-    <span class="version">نسخه ۲.۰</span>
+<div id="loginScreen">
+
+  <div class="login-box">
+
+    <div class="login-logo">
+      👨‍🏫
+    </div>
+
+    <h1>همیار معلم</h1>
+
+    <p class="subtitle">
+      دستیار هوشمند معلمان ابتدایی
+    </p>
+
+    <label class="login-label">
+      نام و نام خانوادگی معلم
+    </label>
+
+    <input
+      id="loginName"
+      class="login-input"
+      placeholder="مثلاً: علی احمدی"
+      autocomplete="name"
+    >
+
+    <label class="login-label">
+      نام مدرسه
+    </label>
+
+    <input
+      id="loginSchool"
+      class="login-input"
+      placeholder="نام مدرسه"
+    >
+
+    <label class="login-label">
+      پایه تدریس
+    </label>
+
+    <select id="loginGrade" class="login-input">
+      <option value="اول ابتدایی">اول ابتدایی</option>
+      <option value="دوم ابتدایی" selected>دوم ابتدایی</option>
+      <option value="سوم ابتدایی">سوم ابتدایی</option>
+      <option value="چهارم ابتدایی">چهارم ابتدایی</option>
+      <option value="پنجم ابتدایی">پنجم ابتدایی</option>
+      <option value="ششم ابتدایی">ششم ابتدایی</option>
+    </select>
+
+    <button
+      id="loginButton"
+      class="login-button"
+    >
+      ورود به همیار معلم
+    </button>
+
+    <div class="login-credit">
+      طراحی و توسعه: افشار صوفی
+    </div>
+
   </div>
 
-  <button class="btn secondary" onclick="printWorksheet()">
-    🖨 چاپ کاربرگ
-  </button>
-
-</header>
-
-
-<main>
-
-<div class="container">
-
-<section class="hero">
-
-  <div class="hero-badge">
-    🎓 استودیو تخصصی آموزش ابتدایی
-  </div>
-
-  <h1>
-    از یک موضوع ساده،
-    <span>یک بسته کامل تدریس</span> بساز.
-  </h1>
-
-  <p>
-    همیار معلم برای طراحی طرح درس، فعالیت کلاسی، بازی آموزشی،
-    ارزشیابی، تمایز آموزشی و کاربرگ چاپی A4 طراحی شده است.
-  </p>
-
-</section>
-
-
-<div class="workspace">
-
-<!-- =========================
-     CONTROL PANEL
-========================= -->
-
-<section>
-
-<div class="card">
-
-<div class="card-title">
-  <h2>🎯 طراحی بسته آموزشی</h2>
 </div>
 
 
-<div class="two">
+<!-- =========================================================
+     APP
+     ========================================================= -->
 
-<div class="form-group">
+<div id="app">
 
-<label>پایه تحصیلی</label>
+  <!-- SIDEBAR -->
 
-<select id="grade">
+  <aside id="sidebar" class="sidebar">
 
-<option>اول ابتدایی</option>
-<option>دوم ابتدایی</option>
-<option selected>سوم ابتدایی</option>
-<option>چهارم ابتدایی</option>
-<option>پنجم ابتدایی</option>
-<option>ششم ابتدایی</option>
+    <div class="sidebar-logo">
 
-</select>
+      <div class="sidebar-logo-icon">
+        👨‍🏫
+      </div>
+
+      <div>
+        <strong>همیار معلم</strong>
+        <span>دستیار هوشمند ابتدایی</span>
+      </div>
+
+    </div>
+
+
+    <div class="teacher-mini">
+
+      <div
+        id="miniAvatar"
+        class="teacher-avatar"
+      >
+        ا
+      </div>
+
+      <div>
+        <div
+          id="miniTeacherName"
+          class="teacher-mini-name"
+        >
+          معلم
+        </div>
+
+        <div
+          id="miniTeacherRole"
+          class="teacher-mini-role"
+        >
+          معلم ابتدایی
+        </div>
+      </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+      <div class="nav-section">
+        اصلی
+      </div>
+
+      <button
+        class="nav-btn active"
+        data-view="dashboardView"
+      >
+        <span class="nav-icon">🏠</span>
+        داشبورد
+      </button>
+
+      <button
+        class="nav-btn"
+        data-view="generatorView"
+      >
+        <span class="nav-icon">✨</span>
+        ساخت بسته تدریس
+      </button>
+
+
+      <div class="nav-section">
+        برنامه‌ریزی
+      </div>
+
+      <button
+        class="nav-btn"
+        data-view="scheduleView"
+      >
+        <span class="nav-icon">📅</span>
+        برنامه هفتگی
+      </button>
+
+      <button
+        class="nav-btn"
+        data-view="historyView"
+      >
+        <span class="nav-icon">🗂️</span>
+        تاریخچه بسته‌ها
+      </button>
+
+
+      <div class="nav-section">
+        ابزار آموزشی
+      </div>
+
+      <button
+        class="nav-btn"
+        data-view="generatorView"
+        data-preset="worksheet"
+      >
+        <span class="nav-icon">📝</span>
+        کاربرگ ساز
+      </button>
+
+      <button
+        class="nav-btn"
+        data-view="generatorView"
+        data-preset="game"
+      >
+        <span class="nav-icon">🎮</span>
+        بازی آموزشی
+      </button>
+
+      <button
+        class="nav-btn"
+        data-view="generatorView"
+        data-preset="lesson"
+      >
+        <span class="nav-icon">📋</span>
+        طرح درس
+      </button>
+
+
+      <div class="nav-section">
+        حساب کاربری
+      </div>
+
+      <button
+        class="nav-btn"
+        data-view="settingsView"
+      >
+        <span class="nav-icon">⚙️</span>
+        تنظیمات
+      </button>
+
+      <button
+        id="logoutButton"
+        class="nav-btn"
+      >
+        <span class="nav-icon">🚪</span>
+        خروج
+      </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="credit">
+        طراحی و توسعه<br>
+        <strong>افشار صوفی</strong><br>
+        همیار معلم
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <div style="display:flex;align-items:center;gap:10px">
+
+        <button
+          id="mobileMenu"
+          class="icon-btn mobile-menu"
+        >
+          ☰
+        </button>
+
+        <div>
+          <div
+            id="pageTitle"
+            class="page-title"
+          >
+            داشبورد
+          </div>
+
+          <div class="page-subtitle">
+            طراحی هوشمند آموزش ابتدایی
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="top-actions">
+
+        <div class="status-pill">
+
+          <span
+            id="statusDot"
+            class="status-dot"
+          ></span>
+
+          <span id="statusText">
+            در حال بررسی اتصال...
+          </span>
+
+        </div>
+
+        <button
+          id="themeButton"
+          class="icon-btn"
+          title="حالت نمایش"
+        >
+          🌙
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <div class="page">
+
+
+      <!-- ===================================================
+           DASHBOARD
+           =================================================== -->
+
+      <section
+        id="dashboardView"
+        class="view active"
+      >
+
+        <div class="welcome">
+
+          <h1>
+            سلام <span id="welcomeName">معلم</span> 👋
+          </h1>
+
+          <p>
+            امروز چه چیزی را برای کلاس آماده کنیم؟
+            همیار معلم آماده طراحی یک بسته آموزشی کامل است.
+          </p>
+
+          <div class="welcome-actions">
+
+            <button
+              class="white-btn"
+              onclick="openGenerator()"
+            >
+              ✨ ساخت بسته تدریس
+            </button>
+
+            <button
+              class="ghost-white"
+              onclick="switchView('scheduleView')"
+            >
+              📅 برنامه هفتگی
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="stats">
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+                <div class="stat-label">
+                  بسته‌های ساخته‌شده
+                </div>
+
+                <div
+                  id="statPackages"
+                  class="stat-number"
+                >
+                  0
+                </div>
+              </div>
+
+              <div class="stat-icon">
+                📚
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+                <div class="stat-label">
+                  کاربرگ‌ها
+                </div>
+
+                <div
+                  id="statWorksheets"
+                  class="stat-number"
+                >
+                  0
+                </div>
+              </div>
+
+              <div class="stat-icon">
+                📝
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+                <div class="stat-label">
+                  بازی‌های آموزشی
+                </div>
+
+                <div
+                  id="statGames"
+                  class="stat-number"
+                >
+                  0
+                </div>
+              </div>
+
+              <div class="stat-icon">
+                🎮
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+                <div class="stat-label">
+                  برنامه هفتگی
+                </div>
+
+                <div
+                  id="statSchedule"
+                  class="stat-number"
+                >
+                  0
+                </div>
+              </div>
+
+              <div class="stat-icon">
+                📅
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+
+          <!-- TODAY -->
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <h3>
+                📚 برنامه امروز
+              </h3>
+
+              <span id="todayName">
+                امروز
+              </span>
+
+            </div>
+
+            <div
+              id="todaySchedule"
+              class="card-body"
+            >
+
+              <div style="text-align:center;color:var(--muted);font-size:11px;padding:25px">
+                هنوز برنامه‌ای ثبت نشده است.
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- QUICK -->
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <h3>
+                ⚡ دسترسی سریع
+              </h3>
+
+            </div>
+
+            <div class="card-body">
+
+              <div class="quick-grid">
+
+                <button
+                  class="quick-card"
+                  onclick="openGenerator()"
+                >
+
+                  <div class="quick-card-icon">
+                    ✨
+                  </div>
+
+                  <strong>
+                    بسته کامل
+                  </strong>
+
+                  <span>
+                    طرح درس + فعالیت + کاربرگ
+                  </span>
+
+                </button>
+
+
+                <button
+                  class="quick-card"
+                  onclick="openGenerator('worksheet')"
+                >
+
+                  <div class="quick-card-icon">
+                    📝
+                  </div>
+
+                  <strong>
+                    کاربرگ
+                  </strong>
+
+                  <span>
+                    تمرین متنوع و قابل چاپ
+                  </span>
+
+                </button>
+
+
+                <button
+                  class="quick-card"
+                  onclick="openGenerator('game')"
+                >
+
+                  <div class="quick-card-icon">
+                    🎮
+                  </div>
+
+                  <strong>
+                    بازی آموزشی
+                  </strong>
+
+                  <span>
+                    بازی متناسب با پایه
+                  </span>
+
+                </button>
+
+
+                <button
+                  class="quick-card"
+                  onclick="switchView('historyView')"
+                >
+
+                  <div class="quick-card-icon">
+                    🗂️
+                  </div>
+
+                  <strong>
+                    تاریخچه
+                  </strong>
+
+                  <span>
+                    بسته‌های قبلی
+                  </span>
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================================
+           GENERATOR
+           =================================================== -->
+
+      <section
+        id="generatorView"
+        class="view"
+      >
+
+        <div class="generator-layout">
+
+
+          <!-- FORM -->
+
+          <div class="card generator-card">
+
+            <div class="card-header" style="padding:0 0 15px;margin-bottom:15px">
+
+              <h3>
+                🧠 طراحی بسته آموزشی
+              </h3>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label class="form-label">
+                پایه تحصیلی
+              </label>
+
+              <select
+                id="grade"
+                class="form-control"
+              >
+
+                <option value="اول ابتدایی">
+                  اول ابتدایی
+                </option>
+
+                <option value="دوم ابتدایی" selected>
+                  دوم ابتدایی
+                </option>
+
+                <option value="سوم ابتدایی">
+                  سوم ابتدایی
+                </option>
+
+                <option value="چهارم ابتدایی">
+                  چهارم ابتدایی
+                </option>
+
+                <option value="پنجم ابتدایی">
+                  پنجم ابتدایی
+                </option>
+
+                <option value="ششم ابتدایی">
+                  ششم ابتدایی
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label class="form-label">
+                درس
+              </label>
+
+              <select
+                id="subject"
+                class="form-control"
+              >
+
+                <option value="ریاضی">
+                  ریاضی
+                </option>
+
+                <option value="فارسی">
+                  فارسی
+                </option>
+
+                <option value="علوم">
+                  علوم
+                </option>
+
+                <option value="مطالعات اجتماعی">
+                  مطالعات اجتماعی
+                </option>
+
+                <option value="هدیه‌های آسمان">
+                  هدیه‌های آسمان
+                </option>
+
+                <option value="قرآن">
+                  قرآن
+                </option>
+
+                <option value="هنر">
+                  هنر
+                </option>
+
+                <option value="تربیت بدنی">
+                  تربیت بدنی
+                </option>
+
+                <option value="مهارت‌های زندگی">
+                  مهارت‌های زندگی
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label class="form-label">
+                موضوع / عنوان درس
+              </label>
+
+              <textarea
+                id="topic"
+                class="form-control"
+                placeholder="مثلاً: جمع دو رقمی با انتقال"
+              ></textarea>
+
+
+              <div class="chips">
+
+                <button
+                  class="chip"
+                  data-topic="جمع دو رقمی با انتقال"
+                >
+                  جمع دو رقمی
+                </button>
+
+                <button
+                  class="chip"
+                  data-topic="درک مطلب"
+                >
+                  درک مطلب
+                </button>
+
+                <button
+                  class="chip"
+                  data-topic="چرخه آب"
+                >
+                  چرخه آب
+                </button>
+
+                <button
+                  class="chip"
+                  data-topic="کسرها"
+                >
+                  کسرها
+                </button>
+
+                <button
+                  class="chip"
+                  data-topic="حل مسئله"
+                >
+                  حل مسئله
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label class="form-label">
+                زمان تدریس
+              </label>
+
+              <select
+                id="duration"
+                class="form-control"
+              >
+
+                <option value="30 دقیقه">
+                  ۳۰ دقیقه
+                </option>
+
+                <option value="45 دقیقه" selected>
+                  ۴۵ دقیقه
+                </option>
+
+                <option value="60 دقیقه">
+                  ۶۰ دقیقه
+                </option>
+
+                <option value="90 دقیقه">
+                  ۹۰ دقیقه
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label class="form-label">
+                تعداد دانش‌آموزان
+              </label>
+
+              <input
+                id="students"
+                class="form-control"
+                type="number"
+                value="25"
+                min="1"
+                max="60"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label class="form-label">
+                شهر / منطقه
+              </label>
+
+              <input
+                id="city"
+                class="form-control"
+                placeholder="اختیاری"
+              >
+
+            </div>
+
+
+            <div class="checks">
+
+              <label class="check">
+                <input
+                  id="includeLesson"
+                  type="checkbox"
+                  checked
+                >
+                طرح درس کامل
+              </label>
+
+              <label class="check">
+                <input
+                  id="includeActivity"
+                  type="checkbox"
+                  checked
+                >
+                فعالیت کلاسی
+              </label>
+
+              <label class="check">
+                <input
+                  id="includeGame"
+                  type="checkbox"
+                  checked
+                >
+                بازی آموزشی
+              </label>
+
+              <label class="check">
+                <input
+                  id="includeWorksheet"
+                  type="checkbox"
+                  checked
+                >
+                کاربرگ حرفه‌ای
+              </label>
+
+              <label class="check">
+                <input
+                  id="includeAssessment"
+                  type="checkbox"
+                  checked
+                >
+                ارزشیابی توصیفی
+              </label>
+
+              <label class="check">
+                <input
+                  id="includeDifferentiation"
+                  type="checkbox"
+                  checked
+                >
+                آموزش تفکیک‌شده
+              </label>
+
+              <label class="check">
+                <input
+                  id="includeLifeSkills"
+                  type="checkbox"
+                  checked
+                >
+                مهارت‌های زندگی
+              </label>
+
+            </div>
+
+
+            <button
+              id="generateButton"
+              class="primary-btn"
+            >
+              ✨ ساخت بسته کامل تدریس
+            </button>
+
+          </div>
+
+
+          <!-- PREVIEW -->
+
+          <div class="generator-preview">
+
+            <div
+              id="errorBox"
+              class="error-box"
+            >
+
+              <div class="error-title">
+                ⚠️ خطا
+              </div>
+
+              <div
+                id="errorDetail"
+                class="error-detail"
+              ></div>
+
+            </div>
+
+
+            <div
+              id="emptyGenerator"
+              class="card empty-state"
+            >
+
+              <div>
+
+                <div class="empty-icon">
+                  🧑‍🏫📚
+                </div>
+
+                <h2>
+                  بسته آموزشی خود را بسازید
+                </h2>
+
+                <p>
+                  موضوع را مشخص کنید تا همیار معلم
+                  یک طراحی آموزشی متناسب با سن دانش‌آموز،
+                  اهداف یادگیری، فعالیت، بازی،
+                  کاربرگ، ارزشیابی و تفاوت‌های فردی آماده کند.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div
+              id="loadingGenerator"
+              class="card loading-state"
+            >
+
+              <div>
+
+                <div class="spinner"></div>
+
+                <h3>
+                  در حال طراحی بسته آموزشی...
+                </h3>
+
+                <p id="loadingMessage">
+                  در حال تحلیل اهداف یادگیری
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div
+              id="packageResult"
+              class="card package-result"
+            >
+
+              <div class="package-cover">
+
+                <h2 id="packageTitle">
+                  بسته آموزشی
+                </h2>
+
+                <p id="packageSummary"></p>
+
+                <div
+                  id="packageMeta"
+                  class="package-meta"
+                ></div>
+
+              </div>
+
+
+              <div class="package-body">
+
+                <div class="package-actions">
+
+                  <button
+                    id="printButton"
+                    class="small-btn"
+                  >
+                    🖨️ چاپ / PDF
+                  </button>
+
+                  <button
+                    id="saveButton"
+                    class="small-btn"
+                  >
+                    💾 ذخیره
+                  </button>
+
+                  <button
+                    id="copyButton"
+                    class="small-btn"
+                  >
+                    📋 کپی
+                  </button>
+
+                  <button
+                    id="newPackageButton"
+                    class="small-btn"
+                  >
+                    🔄 بسته جدید
+                  </button>
+
+                </div>
+
+
+                <div class="result-tabs">
+
+                  <button
+                    class="result-tab active"
+                    data-section="objectives"
+                  >
+                    🎯 اهداف
+                  </button>
+
+                  <button
+                    class="result-tab"
+                    data-section="lesson"
+                  >
+                    📋 طرح درس
+                  </button>
+
+                  <button
+                    class="result-tab"
+                    data-section="activity"
+                  >
+                    🧩 فعالیت
+                  </button>
+
+                  <button
+                    class="result-tab"
+                    data-section="game"
+                  >
+                    🎮 بازی
+                  </button>
+
+                  <button
+                    class="result-tab"
+                    data-section="worksheet"
+                  >
+                    📝 کاربرگ
+                  </button>
+
+                  <button
+                    class="result-tab"
+                    data-section="differentiation"
+                  >
+                    👥 تفاوت‌ها
+                  </button>
+
+                  <button
+                    class="result-tab"
+                    data-section="assessment"
+                  >
+                    📊 ارزشیابی
+                  </button>
+
+                  <button
+                    class="result-tab"
+                    data-section="life"
+                  >
+                    🌱 تربیتی
+                  </button>
+
+                  <button
+                    class="result-tab"
+                    data-section="notes"
+                  >
+                    👨‍🏫 نکات معلم
+                  </button>
+
+                  <button
+                    class="result-tab"
+                    data-section="quality"
+                  >
+                    ✅ کنترل کیفیت
+                  </button>
+
+                </div>
+
+
+                <!-- OBJECTIVES -->
+
+                <div
+                  id="result-objectives"
+                  class="result-section active"
+                >
+
+                  <h3 class="section-heading">
+                    🎯 اهداف یادگیری
+                  </h3>
+
+                  <div
+                    id="objectivesContent"
+                    class="objective-grid"
+                  ></div>
+
+                </div>
+
+
+                <!-- LESSON -->
+
+                <div
+                  id="result-lesson"
+                  class="result-section"
+                >
+
+                  <h3 class="section-heading">
+                    📋 طرح درس اجرایی
+                  </h3>
+
+                  <div
+                    id="lessonContent"
+                  ></div>
+
+                </div>
+
+
+                <!-- ACTIVITY -->
+
+                <div
+                  id="result-activity"
+                  class="result-section"
+                >
+
+                  <h3 class="section-heading">
+                    🧩 فعالیت‌های کلاسی
+                  </h3>
+
+                  <div
+                    id="activityContent"
+                  ></div>
+
+                </div>
+
+
+                <!-- GAME -->
+
+                <div
+                  id="result-game"
+                  class="result-section"
+                >
+
+                  <h3 class="section-heading">
+                    🎮 بازی آموزشی
+                  </h3>
+
+                  <div
+                    id="gameContent"
+                  ></div>
+
+                </div>
+
+
+                <!-- WORKSHEET -->
+
+                <div
+                  id="result-worksheet"
+                  class="result-section"
+                >
+
+                  <h3 class="section-heading">
+                    📝 کاربرگ حرفه‌ای
+                  </h3>
+
+                  <div
+                    id="worksheetContent"
+                  ></div>
+
+                </div>
+
+
+                <!-- DIFFERENTIATION -->
+
+                <div
+                  id="result-differentiation"
+                  class="result-section"
+                >
+
+                  <h3 class="section-heading">
+                    👥 آموزش تفکیک‌شده
+                  </h3>
+
+                  <div
+                    id="differentiationContent"
+                    class="diff-grid"
+                  ></div>
+
+                </div>
+
+
+                <!-- ASSESSMENT -->
+
+                <div
+                  id="result-assessment"
+                  class="result-section"
+                >
+
+                  <h3 class="section-heading">
+                    📊 ارزشیابی توصیفی
+                  </h3>
+
+                  <div
+                    id="assessmentContent"
+                  ></div>
+
+                </div>
+
+
+                <!-- LIFE -->
+
+                <div
+                  id="result-life"
+                  class="result-section"
+                >
+
+                  <h3 class="section-heading">
+                    🌱 مهارت‌های زندگی و تربیتی
+                  </h3>
+
+                  <div
+                    id="lifeContent"
+                  ></div>
+
+                </div>
+
+
+                <!-- NOTES -->
+
+                <div
+                  id="result-notes"
+                  class="result-section"
+                >
+
+                  <h3 class="section-heading">
+                    👨‍🏫 نکات مخصوص معلم
+                  </h3>
+
+                  <div
+                    id="notesContent"
+                  ></div>
+
+                </div>
+
+
+                <!-- QUALITY -->
+
+                <div
+                  id="result-quality"
+                  class="result-section"
+                >
+
+                  <h3 class="section-heading">
+                    ✅ کنترل کیفیت
+                  </h3>
+
+                  <div
+                    id="qualityContent"
+                    class="qc-grid"
+                  ></div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================================
+           WEEKLY SCHEDULE
+           =================================================== -->
+
+      <section
+        id="scheduleView"
+        class="view"
+      >
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <h3>
+              📅 برنامه هفتگی مدرسه
+            </h3>
+
+            <button
+              class="small-btn"
+              onclick="addScheduleItem()"
+            >
+              + افزودن کلاس
+            </button>
+
+          </div>
+
+          <div class="card-body">
+
+            <div
+              id="weekGrid"
+              class="week-grid"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================================
+           HISTORY
+           =================================================== -->
+
+      <section
+        id="historyView"
+        class="view"
+      >
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <h3>
+              🗂️ تاریخچه بسته‌های آموزشی
+            </h3>
+
+            <span>
+              بسته‌های ذخیره‌شده روی این دستگاه
+            </span>
+
+          </div>
+
+          <div class="card-body">
+
+            <div
+              id="historyGrid"
+              class="history-grid"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================================
+           SETTINGS
+           =================================================== -->
+
+      <section
+        id="settingsView"
+        class="view"
+      >
+
+        <div class="settings-grid">
+
+
+          <div class="setting-card">
+
+            <h3>
+              👨‍🏫 اطلاعات معلم
+            </h3>
+
+            <div class="form-group">
+
+              <label class="form-label">
+                نام و نام خانوادگی
+              </label>
+
+              <input
+                id="settingTeacherName"
+                class="form-control"
+              >
+
+            </div>
+
+            <div class="form-group">
+
+              <label class="form-label">
+                نام مدرسه
+              </label>
+
+              <input
+                id="settingSchool"
+                class="form-control"
+              >
+
+            </div>
+
+            <div class="form-group">
+
+              <label class="form-label">
+                پایه
+              </label>
+
+              <select
+                id="settingGrade"
+                class="form-control"
+              >
+
+                <option>اول ابتدایی</option>
+                <option>دوم ابتدایی</option>
+                <option>سوم ابتدایی</option>
+                <option>چهارم ابتدایی</option>
+                <option>پنجم ابتدایی</option>
+                <option>ششم ابتدایی</option>
+
+              </select>
+
+            </div>
+
+            <button
+              class="primary-btn"
+              onclick="saveTeacherSettings()"
+            >
+              💾 ذخیره اطلاعات
+            </button>
+
+          </div>
+
+
+          <div class="setting-card">
+
+            <h3>
+              🎨 ظاهر
+            </h3>
+
+            <button
+              class="small-btn"
+              onclick="toggleTheme()"
+            >
+              🌙 تغییر حالت روشن / تاریک
+            </button>
+
+          </div>
+
+
+          <div class="setting-card">
+
+            <h3>
+              ℹ️ درباره همیار معلم
+            </h3>
+
+            <p style="font-size:11px;color:var(--text2)">
+              همیار معلم یک دستیار هوشمند برای طراحی
+              آموزش، فعالیت، بازی، کاربرگ، ارزشیابی
+              و برنامه‌ریزی معلمان دوره ابتدایی است.
+            </p>
+
+            <p style="font-size:10px;color:var(--muted);margin-top:10px">
+              طراحی و توسعه: <strong>افشار صوفی</strong>
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+    </div>
+
+  </main>
 
 </div>
 
 
-<div class="form-group">
-
-<label>درس</label>
-
-<select id="subject">
-
-<option>ریاضی</option>
-<option>علوم تجربی</option>
-<option>فارسی</option>
-<option>نگارش</option>
-<option>مطالعات اجتماعی</option>
-<option>هدیه‌های آسمان</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="form-group">
-
-<label>موضوع دقیق درس</label>
-
-<input
-id="topic"
-value="ضرب و مفهوم گروه‌های مساوی"
-placeholder="مثلاً ضرب، چرخه آب، جمله‌سازی..."
->
-
-</div>
-
-
-<div class="two">
-
-<div class="form-group">
-
-<label>زمان کلاس</label>
-
-<select id="duration">
-
-<option>۳۰ دقیقه</option>
-<option selected>۴۵ دقیقه</option>
-<option>۶۰ دقیقه</option>
-<option>۹۰ دقیقه</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>تعداد دانش‌آموز</label>
-
-<input id="studentCount" value="۲۵">
-
-</div>
-
-</div>
-
-
-<div class="two">
-
-<div class="form-group">
-
-<label>سطح کلاس</label>
-
-<select id="level">
-
-<option>ترکیبی</option>
-<option>نیازمند حمایت</option>
-<option selected>متوسط</option>
-<option>پیشرفته</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>روش تدریس</label>
-
-<select id="method">
-
-<option>انتخاب توسط متخصص</option>
-<option>اکتشافی</option>
-<option>مشارکتی</option>
-<option>حل مسئله</option>
-<option>بازی‌محور</option>
-<option>قصه‌محور</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="form-group">
-
-<label>هدف یا مشکل آموزشی خاص</label>
-
-<textarea
-id="teacherGoal"
-placeholder="مثلاً دانش‌آموزان مفهوم ضرب را با جمع تکراری اشتباه می‌گیرند."
-></textarea>
-
-</div>
-
-
-<div class="form-group">
-
-<label>اجزای بسته</label>
-
-<div class="checks">
-
-<label class="check">
-<input type="checkbox" id="diff" checked>
-تمایز سه سطح
-</label>
-
-<label class="check">
-<input type="checkbox" id="game" checked>
-بازی آموزشی
-</label>
-
-<label class="check">
-<input type="checkbox" id="assessment" checked>
-ارزشیابی
-</label>
-
-<label class="check">
-<input type="checkbox" id="lifeSkills" checked>
-مهارت زندگی
-</label>
-
-<label class="check">
-<input type="checkbox" id="visual" checked>
-طراحی بصری
-</label>
-
-<label class="check">
-<input type="checkbox" id="antiRepeat" checked>
-ضدتکرار
-</label>
-
-</div>
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="btn primary full-btn"
-onclick="generatePackage()"
->
-✨ ساخت بسته کامل تخصصی
-</button>
-
-
-<button
-class="btn teal full-btn"
-onclick="generateWorksheetOnly()"
->
-🎨 طراحی کاربرگ گرافیکی
-</button>
-
-
-<button
-class="btn secondary full-btn"
-onclick="generateLessonOnly()"
->
-📋 فقط طرح درس
-</button>
-
-</div>
-
-
-<div id="status" class="status"></div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-<h2>🧠 استاندارد آموزشی</h2>
-</div>
-
-<div class="chips">
-
-<span>هدف قابل سنجش</span>
-<span>پیش‌نیاز</span>
-<span>خطاهای رایج</span>
-<span>سناریوی تدریس</span>
-<span>فعالیت اکتشافی</span>
-<span>بازی</span>
-<span>ارزشیابی تکوینی</span>
-<span>تمایز آموزشی</span>
-<span>تکلیف هدفمند</span>
-<span>کاربرگ A4</span>
-
-</div>
-
-<style>
-.chips span{
-display:inline-block;
-background:#5b5bd612;
-color:var(--primary);
-border-radius:20px;
-padding:5px 9px;
-margin:3px;
-font-size:11px;
-}
-</style>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     OUTPUT
-========================= -->
-
-<section>
-
-<div class="card output">
-
-<div class="tabs">
-
-<button
-class="tab active"
-id="tabResult"
-onclick="switchTab('result')"
->
-📚 بسته آموزشی
-</button>
-
-<button
-class="tab"
-id="tabWorksheet"
-onclick="switchTab('worksheet')"
->
-🎨 کاربرگ
-</button>
-
-<button
-class="tab"
-id="tabQuality"
-onclick="switchTab('quality')"
->
-🔍 کنترل کیفیت
-</button>
-
-</div>
-
-
-<div id="result">
-
-<div class="empty">
-
-<div>
-
-<div style="font-size:50px">👨‍🏫</div>
-
-<h3>آماده طراحی هستم</h3>
-
-<p>
-پایه، درس و موضوع را انتخاب کن
-و بسته آموزشی را بساز.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div id="worksheet" class="hidden">
-
-<div class="empty">
-
-<div>
-
-<div style="font-size:50px">🎨</div>
-
-<h3>کاربرگ اینجا ساخته می‌شود</h3>
-
-<p>
-کاربرگ A4 با ساختار بصری و فضای پاسخ مناسب.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div id="quality" class="hidden">
-
-<div class="empty">
-
-<div>
-
-<div style="font-size:50px">🔍</div>
-
-<h3>کنترل کیفیت</h3>
-
-<p>
-پس از تولید، کیفیت آموزشی بررسی می‌شود.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-</div>
-
-
-<footer class="footer">
-
-<div>
-همیار معلم — دستیار تخصصی آموزش ابتدایی
-</div>
-
-<div class="designer">
-طراحی و توسعه: افشار صوفی
-</div>
-
-<div>
-© 2026
-</div>
-
-</footer>
-
-</div>
-
-</main>
+<div
+  id="toast"
+  class="toast"
+></div>
 
 
 <script>
 
-/* =====================================================
-   CORE
-===================================================== */
+/* =========================================================
+   GLOBAL STATE
+   ========================================================= */
+
+const STORAGE = {
+  teacher:"hamyar_teacher",
+  history:"hamyar_history",
+  schedule:"hamyar_schedule",
+  theme:"hamyar_theme"
+};
+
+let currentPackage = null;
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
 
 const $ = id => document.getElementById(id);
 
-let lastData = null;
+function safeArray(value){
 
+  if(!value)
+    return [];
 
-/* =====================================================
-   CONFIG
-===================================================== */
+  if(Array.isArray(value))
+    return value;
 
-function getConfig(type){
+  if(typeof value === "string")
+    return [value];
 
-  const history =
-    JSON.parse(
-      localStorage.getItem("hamyar_history") || "[]"
+  if(typeof value === "object")
+    return Object.values(value).flatMap(v =>
+      Array.isArray(v) ? v : [v]
     );
 
-  return {
+  return [String(value)];
+}
 
-    contentType:type,
+
+function textOf(value){
+
+  if(value === undefined || value === null)
+    return "";
+
+  if(typeof value === "string")
+    return value;
+
+  if(typeof value === "number")
+    return String(value);
+
+  if(Array.isArray(value))
+    return value.map(textOf).join("، ");
+
+  if(typeof value === "object"){
+
+    return (
+      value.description ||
+      value.text ||
+      value.content ||
+      value.title ||
+      value.name ||
+      JSON.stringify(value)
+    );
+
+  }
+
+  return String(value);
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function showToast(message){
+
+  const toast = $("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  },2200);
+
+}
+
+
+/* =========================================================
+   TEACHER PROFILE
+   ========================================================= */
+
+function getTeacher(){
+
+  try{
+    return JSON.parse(
+      localStorage.getItem(STORAGE.teacher)
+    ) || null;
+  }catch{
+    return null;
+  }
+
+}
+
+
+function saveTeacher(teacher){
+
+  localStorage.setItem(
+    STORAGE.teacher,
+    JSON.stringify(teacher)
+  );
+
+}
+
+
+function setupTeacher(){
+
+  const teacher = getTeacher();
+
+  if(!teacher){
+    return;
+  }
+
+  const name =
+    teacher.name ||
+    "معلم";
+
+  $("welcomeName").textContent =
+    name.split(" ")[0];
+
+  $("miniTeacherName").textContent =
+    name;
+
+  $("miniTeacherRole").textContent =
+    teacher.school ||
+    "معلم ابتدایی";
+
+  $("miniAvatar").textContent =
+    name.charAt(0);
+
+  $("settingTeacherName").value =
+    teacher.name || "";
+
+  $("settingSchool").value =
+    teacher.school || "";
+
+  $("settingGrade").value =
+    teacher.grade ||
+    "دوم ابتدایی";
+
+  $("grade").value =
+    teacher.grade ||
+    "دوم ابتدایی";
+
+}
+
+
+function login(){
+
+  const name =
+    $("loginName").value.trim();
+
+  const school =
+    $("loginSchool").value.trim();
+
+  const grade =
+    $("loginGrade").value;
+
+  if(!name){
+
+    alert(
+      "لطفاً نام و نام خانوادگی معلم را وارد کنید."
+    );
+
+    $("loginName").focus();
+
+    return;
+
+  }
+
+  saveTeacher({
+    name,
+    school,
+    grade,
+    createdAt:new Date().toISOString()
+  });
+
+  $("loginScreen").style.display =
+    "none";
+
+  $("app").classList.add("visible");
+
+  setupTeacher();
+
+  loadDashboard();
+
+  checkHealth();
+
+}
+
+
+function loadLogin(){
+
+  const teacher = getTeacher();
+
+  if(teacher){
+
+    $("loginScreen").style.display =
+      "none";
+
+    $("app").classList.add("visible");
+
+    setupTeacher();
+
+    loadDashboard();
+
+    checkHealth();
+
+  }
+
+}
+
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+
+function saveTeacherSettings(){
+
+  const old =
+    getTeacher() || {};
+
+  const teacher = {
+
+    ...old,
+
+    name:$("settingTeacherName").value.trim(),
+
+    school:$("settingSchool").value.trim(),
+
+    grade:$("settingGrade").value
+
+  };
+
+  saveTeacher(teacher);
+
+  setupTeacher();
+
+  showToast(
+    "اطلاعات معلم ذخیره شد ✅"
+  );
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+const pageTitles = {
+
+  dashboardView:"داشبورد",
+
+  generatorView:"ساخت بسته تدریس",
+
+  scheduleView:"برنامه هفتگی",
+
+  historyView:"تاریخچه بسته‌ها",
+
+  settingsView:"تنظیمات"
+
+};
+
+
+function switchView(viewId){
+
+  document
+    .querySelectorAll(".view")
+    .forEach(view =>
+      view.classList.remove("active")
+    );
+
+  const target =
+    $(viewId);
+
+  if(target)
+    target.classList.add("active");
+
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+  document
+    .querySelectorAll(
+      `.nav-btn[data-view="${viewId}"]`
+    )
+    .forEach(btn =>
+      btn.classList.add("active")
+    );
+
+
+  $("pageTitle").textContent =
+    pageTitles[viewId] ||
+    "همیار معلم";
+
+
+  if(viewId === "historyView")
+    renderHistory();
+
+  if(viewId === "scheduleView")
+    renderSchedule();
+
+  if(viewId === "dashboardView")
+    loadDashboard();
+
+
+  $("sidebar").classList.remove("open");
+
+}
+
+
+function openGenerator(preset){
+
+  switchView("generatorView");
+
+  if(preset === "worksheet"){
+
+    $("includeLesson").checked = false;
+    $("includeActivity").checked = true;
+    $("includeGame").checked = false;
+    $("includeWorksheet").checked = true;
+    $("includeAssessment").checked = true;
+
+  }
+
+  if(preset === "game"){
+
+    $("includeLesson").checked = false;
+    $("includeActivity").checked = true;
+    $("includeGame").checked = true;
+    $("includeWorksheet").checked = false;
+    $("includeAssessment").checked = true;
+
+  }
+
+  if(preset === "lesson"){
+
+    $("includeLesson").checked = true;
+    $("includeActivity").checked = true;
+    $("includeGame").checked = false;
+    $("includeWorksheet").checked = false;
+    $("includeAssessment").checked = true;
+
+  }
+
+}
+
+
+/* =========================================================
+   API HEALTH
+   ========================================================= */
+
+async function checkHealth(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/health",
+        {
+          method:"GET",
+          headers:{
+            "Accept":"application/json"
+          },
+          cache:"no-store"
+        }
+      );
+
+
+    const raw =
+      await response.text();
+
+    let data = {};
+
+    try{
+      data =
+        raw ? JSON.parse(raw) : {};
+    }catch{}
+
+
+    if(response.ok && data.ok){
+
+      $("statusDot")
+        .classList
+        .add("online");
+
+      $("statusText").textContent =
+        `هوش مصنوعی متصل • ${data.model || ""}`;
+
+    }else{
+
+      $("statusText").textContent =
+        "سرویس نیازمند بررسی";
+
+    }
+
+  }catch(error){
+
+    $("statusText").textContent =
+      "سرور در دسترس نیست";
+
+  }
+
+}
+
+
+/* =========================================================
+   COLLECT CONFIG
+   ========================================================= */
+
+function collectConfig(){
+
+  return {
 
     grade:$("grade").value,
 
     subject:$("subject").value,
 
-    topic:$("topic").value,
-
-    studentLevel:$("level").value,
+    topic:$("topic").value.trim(),
 
     duration:$("duration").value,
 
-    studentCount:$("studentCount").value,
+    students:
+      Number($("students").value) || 25,
 
-    method:$("method").value,
+    city:$("city").value.trim(),
 
-    educationalGoals:$("teacherGoal").value,
+    includeLesson:
+      $("includeLesson").checked,
 
-    pedagogicalPrinciples:true,
+    includeActivity:
+      $("includeActivity").checked,
 
-    differentiation:$("diff").checked,
+    includeGame:
+      $("includeGame").checked,
 
-    visualDesign:$("visual").checked,
+    includeWorksheet:
+      $("includeWorksheet").checked,
 
-    avoidRepetition:$("antiRepeat").checked,
+    includeAssessment:
+      $("includeAssessment").checked,
 
-    lifeSkills:$("lifeSkills").checked,
+    includeDifferentiation:
+      $("includeDifferentiation").checked,
 
-    assessment:$("assessment").checked,
-
-    game:$("game").checked,
-
-    history:history.slice(-15)
+    includeLifeSkills:
+      $("includeLifeSkills").checked
 
   };
 
 }
 
 
-/* =====================================================
+/* =========================================================
    GENERATE
-===================================================== */
+   ========================================================= */
 
 async function generatePackage(){
 
-  await generate("package");
-
-}
-
-
-async function generateWorksheetOnly(){
-
-  await generate("worksheet");
-
-}
+  const config =
+    collectConfig();
 
 
-async function generateLessonOnly(){
+  if(!config.topic){
 
-  await generate("lesson");
+    showError(
+      "ابتدا موضوع درس را وارد کنید."
+    );
 
-}
-
-
-async function generate(type){
-
-  const topic = $("topic").value.trim();
-
-  if(!topic){
-
-    alert("لطفاً موضوع درس را وارد کنید.");
+    $("topic").focus();
 
     return;
 
   }
 
 
-  setLoading();
+  hideError();
+
+  $("emptyGenerator").style.display =
+    "none";
+
+  $("packageResult")
+    .classList
+    .remove("active");
+
+  $("loadingGenerator")
+    .classList
+    .add("active");
+
+  $("generateButton").disabled =
+    true;
+
+
+  const messages = [
+
+    "در حال تحلیل پایه و موضوع...",
+    "در حال تعیین اهداف یادگیری...",
+    "در حال طراحی مسیر تدریس...",
+    "در حال طراحی فعالیت کلاسی...",
+    "در حال طراحی بازی آموزشی...",
+    "در حال ساخت کاربرگ...",
+    "در حال طراحی ارزشیابی...",
+    "در حال بررسی تفاوت‌های فردی...",
+    "در حال کنترل کیفیت نهایی..."
+
+  ];
+
+  let index = 0;
+
+  $("loadingMessage").textContent =
+    messages[0];
+
+
+  const timer =
+    setInterval(() => {
+
+      index =
+        (index + 1) %
+        messages.length;
+
+      $("loadingMessage").textContent =
+        messages[index];
+
+    },1600);
 
 
   try{
@@ -1304,1000 +3726,2459 @@ async function generate(type){
         "/api/generate",
         {
           method:"POST",
+
           headers:{
-            "Content-Type":"application/json"
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
           },
-          body:JSON.stringify(
-            getConfig(type)
-          )
+
+          body:
+            JSON.stringify(config)
         }
       );
 
 
-    const json =
-      await response.json();
+    const raw =
+      await response.text();
+
+
+    let data = null;
+
+    try{
+
+      data =
+        raw ? JSON.parse(raw) : null;
+
+    }catch(error){
+
+      data = null;
+
+    }
 
 
     if(!response.ok){
 
+      let message =
+        "سرور درخواست تولید را قبول نکرد.";
+
+      if(data){
+
+        message =
+          data.error ||
+          data.message ||
+          message;
+
+        if(data.details){
+
+          message +=
+            "\n\nجزئیات:\n" +
+            data.details;
+
+        }
+
+      }else if(raw){
+
+        message +=
+          "\n\nپاسخ سرور:\n" +
+          raw.slice(0,1500);
+
+      }
+
+      throw new Error(message);
+
+    }
+
+
+    if(!data){
+
       throw new Error(
-        json.error ||
-        "خطا در تولید محتوا"
+        "پاسخ سرور JSON معتبر نیست."
       );
 
     }
 
 
-    lastData = json.data;
+    currentPackage =
+      data.package ||
+      data.data ||
+      data.result ||
+      data;
 
 
-    saveHistory(lastData);
+    if(
+      !currentPackage ||
+      typeof currentPackage !== "object"
+    ){
+
+      throw new Error(
+        "ساختار بسته آموزشی نامعتبر است."
+      );
+
+    }
 
 
-    renderResult(lastData);
-
-    renderWorksheet(lastData);
-
-    renderQuality(lastData);
+    renderPackage(
+      currentPackage
+    );
 
 
-    $("status").innerHTML =
-      "✅ بسته آموزشی با موفقیت تولید شد.";
+    saveToHistory(
+      currentPackage,
+      config
+    );
 
 
-    switchTab(
-      type === "worksheet"
-      ? "worksheet"
-      : "result"
+    $("loadingGenerator")
+      .classList
+      .remove("active");
+
+    $("packageResult")
+      .classList
+      .add("active");
+
+
+    showToast(
+      "بسته آموزشی با موفقیت ساخته شد ✨"
     );
 
 
   }catch(error){
 
-    $("status").innerHTML =
-      "❌ "+escapeHTML(error.message);
+    console.error(
+      "HAMYAR_GENERATE_ERROR",
+      error
+    );
 
+    $("loadingGenerator")
+      .classList
+      .remove("active");
 
-    $("result").innerHTML = `
-      <div class="section">
-        <h3>خطا در تولید</h3>
-        <p>
-        ارتباط با موتور هوش مصنوعی برقرار نشد.
-        تنظیمات سرور و API را بررسی کنید.
-        </p>
-      </div>
-    `;
+    $("emptyGenerator").style.display =
+      "grid";
+
+    showError(
+      error.message ||
+      "خطای ناشناخته"
+    );
+
+  }finally{
+
+    clearInterval(timer);
+
+    $("generateButton").disabled =
+      false;
 
   }
 
 }
 
 
-/* =====================================================
-   LOADING
-===================================================== */
+/* =========================================================
+   ERROR
+   ========================================================= */
 
-function setLoading(){
+function showError(message){
 
-  $("status").innerHTML =
-    "🧠 در حال طراحی آموزشی...";
+  $("errorBox")
+    .classList
+    .add("active");
 
-
-  $("result").innerHTML = `
-    <div class="loading">
-
-      <div class="spinner"></div>
-
-      <h3>در حال طراحی بسته آموزشی</h3>
-
-      <p>
-      طراحی اهداف → سناریوی تدریس →
-      فعالیت → ارزشیابی → کاربرگ
-      </p>
-
-    </div>
-  `;
+  $("errorDetail").textContent =
+    message;
 
 }
 
 
-/* =====================================================
-   HISTORY
-===================================================== */
+function hideError(){
 
-function saveHistory(data){
+  $("errorBox")
+    .classList
+    .remove("active");
 
-  const history =
-    JSON.parse(
-      localStorage.getItem("hamyar_history") || "[]"
-    );
+  $("errorDetail").textContent =
+    "";
 
-  history.push({
-
-    topic:$("topic").value,
-
-    title:data.title || "بسته آموزشی",
-
-    time:new Date().toISOString()
-
-  });
+}
 
 
-  localStorage.setItem(
+/* =========================================================
+   RENDER PACKAGE
+   ========================================================= */
 
-    "hamyar_history",
+function renderPackage(pkg){
 
-    JSON.stringify(
-      history.slice(-30)
-    )
+  $("packageTitle").textContent =
+    pkg.title ||
+    "بسته آموزشی";
 
+  $("packageSummary").textContent =
+    pkg.summary ||
+    "";
+
+
+  renderMeta(pkg.metadata);
+
+  renderObjectives(pkg.objectives);
+
+  renderLesson(pkg.lessonPlan);
+
+  renderActivity(pkg.activity);
+
+  renderGame(pkg.game);
+
+  renderWorksheet(pkg.worksheet);
+
+  renderDifferentiation(
+    pkg.differentiation
+  );
+
+  renderAssessment(
+    pkg.assessment
+  );
+
+  renderLifeSkills(
+    pkg.lifeSkills
+  );
+
+  renderNotes(
+    pkg.teacherNotes
+  );
+
+  renderQuality(
+    pkg.qualityControl
   );
 
 }
 
 
-/* =====================================================
-   RESULT
-===================================================== */
+/* =========================================================
+   META
+   ========================================================= */
 
-function renderResult(data){
+function renderMeta(meta){
 
-  const meta =
-    data.metadata || {};
+  const box =
+    $("packageMeta");
 
-  const objectives =
-    data.objectives || {};
+  box.innerHTML = "";
 
-  const lesson =
-    data.lessonPlan || {};
+  if(!meta)
+    return;
 
-  const activity =
-    data.activity || {};
 
-  const game =
-    data.game || {};
+  const items = [
 
-  const diff =
-    data.differentiation || {};
+    ["پایه",meta.grade],
 
-  const assessment =
-    data.assessment || {};
+    ["درس",meta.subject],
 
+    ["زمان",meta.duration],
 
-  let html = `
+    ["سطح",meta.level],
 
-  <div class="output-header">
+    ["منطقه",meta.city]
 
-    <h2>
-      ${escapeHTML(
-        data.title ||
-        "بسته آموزشی تخصصی"
-      )}
-    </h2>
-
-    <p>
-      ${escapeHTML(
-        data.summary || ""
-      )}
-    </p>
-
-    <div class="meta">
-
-      <span>
-      ${escapeHTML(meta.grade || $("grade").value)}
-      </span>
-
-      <span>
-      ${escapeHTML(meta.subject || $("subject").value)}
-      </span>
-
-      <span>
-      ${escapeHTML(meta.topic || $("topic").value)}
-      </span>
-
-      <span>
-      ${escapeHTML(meta.duration || $("duration").value)}
-      </span>
-
-    </div>
-
-  </div>
-
-
-  <div class="section">
-
-    <h3>🎯 اهداف یادگیری</h3>
-
-    <div class="sub-title">
-    دانش
-    </div>
-
-    ${makeList(objectives.knowledge)}
-
-    <div class="sub-title">
-    مهارت
-    </div>
-
-    ${makeList(objectives.skills)}
-
-    <div class="sub-title">
-    نگرش
-    </div>
-
-    ${makeList(objectives.attitudes)}
-
-  </div>
-
-
-  <div class="section">
-
-    <h3>📚 سناریوی اجرای کلاس</h3>
-
-    <div class="sub-title">
-    ۱. آغاز و ایجاد انگیزه
-    </div>
-
-    <p>
-    ${escapeHTML(lesson.opening || "")}
-    </p>
-
-    <div class="sub-title">
-    ۲. کشف و اکتشاف
-    </div>
-
-    <p>
-    ${escapeHTML(lesson.discovery || "")}
-    </p>
-
-    <div class="sub-title">
-    ۳. آموزش اصلی
-    </div>
-
-    <p>
-    ${escapeHTML(lesson.instruction || "")}
-    </p>
-
-    <div class="sub-title">
-    ۴. تمرین
-    </div>
-
-    <p>
-    ${escapeHTML(lesson.practice || "")}
-    </p>
-
-    <div class="sub-title">
-    ۵. ارزشیابی تکوینی
-    </div>
-
-    ${makeList(lesson.formativeAssessment)}
-
-    <div class="sub-title">
-    ۶. جمع‌بندی
-    </div>
-
-    <p>
-    ${escapeHTML(lesson.summary || "")}
-    </p>
-
-    <div class="sub-title">
-    ۷. تکلیف
-    </div>
-
-    <p>
-    ${escapeHTML(lesson.homework || "")}
-    </p>
-
-  </div>
-
-
-  <div class="section">
-
-    <h3>🧩 فعالیت کلاسی</h3>
-
-    <h4>
-    ${escapeHTML(activity.title || "")}
-    </h4>
-
-    <p>
-    ${escapeHTML(activity.instructions || "")}
-    </p>
-
-    <div class="sub-title">
-    وسایل مورد نیاز
-    </div>
-
-    ${makeList(activity.materials)}
-
-    <div class="sub-title">
-    مراحل اجرا
-    </div>
-
-    ${makeList(activity.steps,true)}
-
-  </div>
-
-
-  <div class="section">
-
-    <h3>🎮 بازی آموزشی</h3>
-
-    <h4>
-    ${escapeHTML(game.title || "")}
-    </h4>
-
-    <p>
-    ${escapeHTML(game.instructions || "")}
-    </p>
-
-    <div class="sub-title">
-    قوانین
-    </div>
-
-    ${makeList(game.rules)}
-
-    <div class="sub-title">
-    هدف بازی
-    </div>
-
-    <p>
-    ${escapeHTML(game.goal || "")}
-    </p>
-
-  </div>
-
-
-  <div class="section">
-
-    <h3>🧠 تمایز آموزشی</h3>
-
-    <div class="diff-grid">
-
-      <div class="diff weak">
-
-        <h4>🟢 نیازمند حمایت</h4>
-
-        ${makeList(diff.weak)}
-
-      </div>
-
-
-      <div class="diff medium">
-
-        <h4>🟡 سطح استاندارد</h4>
-
-        ${makeList(diff.medium)}
-
-      </div>
-
-
-      <div class="diff strong">
-
-        <h4>🔵 پیشرفته</h4>
-
-        ${makeList(diff.strong)}
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="section">
-
-    <h3>📊 ارزشیابی</h3>
-
-    <div class="sub-title">
-    تشخیصی
-    </div>
-
-    ${makeList(assessment.diagnostic)}
-
-    <div class="sub-title">
-    تکوینی
-    </div>
-
-    ${makeList(assessment.formative)}
-
-    <div class="sub-title">
-    بازخورد توصیفی
-    </div>
-
-    ${makeList(assessment.descriptiveFeedback)}
-
-  </div>
-
-
-  <div class="section">
-
-    <h3>🌱 مهارت زندگی و تربیتی</h3>
-
-    ${makeList(data.lifeSkills)}
-
-  </div>
-
-
-  <div class="section">
-
-    <h3>📝 یادداشت‌های حرفه‌ای معلم</h3>
-
-    ${makeList(data.teacherNotes)}
-
-  </div>
-
-  `;
-
-
-  $("result").innerHTML = html;
-
-}
-
-
-/* =====================================================
-   WORKSHEET
-===================================================== */
-
-function renderWorksheet(data){
-
-  const worksheet =
-    data.worksheet || {};
-
-  let questions =
-    Array.isArray(worksheet.questions)
-    ? worksheet.questions
-    : [];
-
-
-  if(questions.length === 0){
-
-    questions = [
-
-      "یک مثال واقعی از این مفهوم در زندگی روزمره پیدا کن.",
-
-      "راه‌حل خودت را مرحله‌به‌مرحله توضیح بده.",
-
-      "یک نمونه مشابه طراحی کن.",
-
-      "اشتباه احتمالی یک دانش‌آموز را پیدا و اصلاح کن.",
-
-      "یک سؤال برای دوستت طراحی کن.",
-
-      "پاسخ خود را با یک شکل یا نمودار نشان بده."
-
-    ];
-
-  }
-
-
-  let questionsHTML = "";
-
-
-  questions
-    .slice(0,8)
-    .forEach(
-      (item,index)=>{
-
-        let text =
-          typeof item === "string"
-          ? item
-          : (
-              item.question ||
-              item.text ||
-              JSON.stringify(item)
-            );
-
-
-        const visual =
-          index % 3 === 0;
-
-
-        questionsHTML += `
-
-        <div class="question">
-
-          <div class="question-number">
-            ${index+1}
-          </div>
-
-          <div class="question-text">
-
-            ${escapeHTML(text)}
-
-          </div>
-
-          ${
-            visual
-            ?
-            `<div class="visual-box">
-              ${getVisualIcon(index)}
-            </div>`
-            :
-            ""
-          }
-
-          <div class="answer-line"></div>
-
-          <div class="answer-line"></div>
-
-        </div>
-
-        `;
-
-      }
-    );
-
-
-  const title =
-    worksheet.title ||
-    data.title ||
-    $("topic").value;
-
-
-  const design =
-    worksheet.design ||
-    "با دقت فکر کن، راه‌حل خودت را پیدا کن و پاسخ را توضیح بده.";
-
-
-  $("worksheet").innerHTML = `
-
-  <div class="print-area">
-
-    <div class="worksheet-wrap">
-
-      <div class="a4">
-
-        <div class="sheet-header">
-
-          <div>
-          🌟 همیار معلم
-          </div>
-
-          <h2>
-          ${escapeHTML(title)}
-          </h2>
-
-          <p>
-          ${escapeHTML($("grade").value)}
-          |
-          ${escapeHTML($("subject").value)}
-          </p>
-
-        </div>
-
-
-        <div class="student-info">
-
-          <div class="info-box">
-          نام و نام خانوادگی:
-          ........................................
-          </div>
-
-          <div class="info-box">
-          تاریخ:
-          ................
-          </div>
-
-          <div class="info-box">
-          کلاس:
-          ........
-          </div>
-
-        </div>
-
-
-        <div class="mission">
-
-          <div class="mission-title">
-          🚀 مأموریت یادگیری
-          </div>
-
-          <div>
-          ${escapeHTML(design)}
-          </div>
-
-        </div>
-
-
-        <div class="question-grid">
-
-          ${questionsHTML}
-
-        </div>
-
-
-        <div class="challenge">
-
-          <b>
-          🧠 چالش خلاقانه
-          </b>
-
-          <p>
-          یک سؤال تازه درباره این درس طراحی کن
-          و برای همکلاسی خود توضیح بده.
-          </p>
-
-          <div class="answer-line"></div>
-
-          <div class="answer-line"></div>
-
-        </div>
-
-
-        <div class="stars">
-
-          <span>
-          ⭐ تلاش من:
-          ☆ ☆ ☆ ☆ ☆
-          </span>
-
-          <span>
-          همیار معلم
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  `;
-
-}
-
-
-/* =====================================================
-   VISUAL ICONS
-===================================================== */
-
-function getVisualIcon(index){
-
-  const icons = [
-    "🔢",
-    "🧩",
-    "🔎",
-    "⭐",
-    "🧠",
-    "🚀",
-    "🎯",
-    "🌱"
   ];
 
-  return icons[index % icons.length];
+
+  items.forEach(([label,value]) => {
+
+    if(!value)
+      return;
+
+    const span =
+      document.createElement("span");
+
+    span.className =
+      "meta";
+
+    span.textContent =
+      `${label}: ${value}`;
+
+    box.appendChild(span);
+
+  });
 
 }
 
 
-/* =====================================================
-   QUALITY
-===================================================== */
+/* =========================================================
+   OBJECTIVES
+   ========================================================= */
 
-function renderQuality(data){
+function renderObjectives(data){
 
-  const qc =
-    data.qualityControl || {};
+  const box =
+    $("objectivesContent");
 
-
-  const warnings =
-    Array.isArray(qc.warnings)
-    ? qc.warnings
-    : [];
+  box.innerHTML = "";
 
 
-  $("quality").innerHTML = `
+  const groups = [
 
-    <div class="section">
+    ["دانشی",
+      data?.knowledge ||
+      data?.cognitive
+    ],
 
-      <h3>
-      🔍 کنترل کیفیت آموزشی
-      </h3>
+    ["مهارتی",
+      data?.skills ||
+      data?.skill
+    ],
 
-      <div class="quality">
+    ["نگرشی",
+      data?.attitudes ||
+      data?.affective
+    ]
 
-        ${qualityItem(
-          "تناسب با پایه",
-          qc.gradeAppropriateness
-        )}
-
-        ${qualityItem(
-          "کیفیت اهداف",
-          qc.objectiveQuality
-        )}
-
-        ${qualityItem(
-          "تمایز آموزشی",
-          qc.differentiation
-        )}
-
-        ${qualityItem(
-          "ارزشیابی",
-          qc.assessmentQuality
-        )}
-
-        ${qualityItem(
-          "ضدتکرار",
-          qc.repetitionCheck
-        )}
-
-      </div>
-
-    </div>
+  ];
 
 
-    <div class="section">
+  groups.forEach(([title,items]) => {
 
-      <h3>
-      ⚠️ هشدارها
-      </h3>
+    const card =
+      document.createElement("div");
 
-      ${
-        warnings.length
-        ?
-        makeList(warnings)
-        :
-        `
-        <p class="quality-good">
-        ✅ هشدار مهمی گزارش نشده است.
-        </p>
-        `
-      }
+    card.className =
+      "info-card";
 
-    </div>
 
-  `;
+    const list =
+      safeArray(items);
+
+
+    card.innerHTML = `
+      <h4>${escapeHTML(title)}</h4>
+      <ul>
+        ${
+          list.length
+          ?
+          list.map(x =>
+            `<li>${escapeHTML(textOf(x))}</li>`
+          ).join("")
+          :
+          "<li>در پاسخ موجود نیست.</li>"
+        }
+      </ul>
+    `;
+
+
+    box.appendChild(card);
+
+  });
 
 }
 
 
-function qualityItem(title,value){
+/* =========================================================
+   LESSON
+   ========================================================= */
 
-  return `
+function renderLesson(data){
 
-  <div class="quality-item">
+  const box =
+    $("lessonContent");
 
-    <b>
-    ${escapeHTML(title)}
-    </b>
+  box.innerHTML = "";
 
-    <div>
 
-    ${
-      value
-      ?
-      escapeHTML(value)
-      :
-      "بررسی شد"
-    }
+  const items =
+    Array.isArray(data)
+      ? data
+      : (
+          data?.steps ||
+          data?.phases ||
+          data?.stages ||
+          []
+        );
 
-    </div>
 
-  </div>
+  if(!items.length){
 
-  `;
-
-}
-
-
-/* =====================================================
-   HELPERS
-===================================================== */
-
-function makeList(items,ordered=false){
-
-  if(!Array.isArray(items) || items.length===0){
-
-    return "<p>موردی ثبت نشده است.</p>";
-
-  }
-
-
-  const tag =
-    ordered
-    ? "ol"
-    : "ul";
-
-
-  return `
-
-    <${tag} class="list">
-
-      ${
-        items
-        .map(
-          item=>{
-
-            let text =
-              typeof item === "string"
-              ? item
-              : (
-                item.text ||
-                item.question ||
-                JSON.stringify(item)
-              );
-
-
-            return `
-              <li>
-              ${escapeHTML(text)}
-              </li>
-            `;
-
-          }
-        )
-        .join("")
-      }
-
-    </${tag}>
-
-  `;
-
-}
-
-
-function escapeHTML(value){
-
-  return String(value ?? "")
-    .replace(
-      /[&<>"']/g,
-      char=>({
-
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-
-      })[char]
-    );
-
-}
-
-
-/* =====================================================
-   TABS
-===================================================== */
-
-function switchTab(tab){
-
-  const result =
-    $("result");
-
-  const worksheet =
-    $("worksheet");
-
-  const quality =
-    $("quality");
-
-
-  result.classList.add("hidden");
-
-  worksheet.classList.add("hidden");
-
-  quality.classList.add("hidden");
-
-
-  $("tabResult")
-    .classList.remove("active");
-
-  $("tabWorksheet")
-    .classList.remove("active");
-
-  $("tabQuality")
-    .classList.remove("active");
-
-
-  if(tab==="result"){
-
-    result.classList.remove("hidden");
-
-    $("tabResult")
-      .classList.add("active");
-
-  }
-
-
-  if(tab==="worksheet"){
-
-    worksheet.classList.remove("hidden");
-
-    $("tabWorksheet")
-      .classList.add("active");
-
-  }
-
-
-  if(tab==="quality"){
-
-    quality.classList.remove("hidden");
-
-    $("tabQuality")
-      .classList.add("active");
-
-  }
-
-}
-
-
-/* =====================================================
-   PRINT
-===================================================== */
-
-function printWorksheet(){
-
-  if(!lastData){
-
-    alert(
-      "ابتدا یک بسته آموزشی یا کاربرگ تولید کنید."
-    );
+    box.innerHTML =
+      `<div class="content-card">
+        <p>مراحل طرح درس در پاسخ موجود نیست.</p>
+      </div>`;
 
     return;
 
   }
 
 
-  switchTab("worksheet");
+  items.forEach((item,index) => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "timeline-item";
 
 
-  setTimeout(
-    ()=>window.print(),
-    200
+    const time =
+      item.time ||
+      item.duration ||
+      `${index+1}`;
+
+
+    const title =
+      item.title ||
+      item.phase ||
+      item.stage ||
+      `مرحله ${index+1}`;
+
+
+    const description =
+      item.description ||
+      item.teacherAction ||
+      item.action ||
+      item.content ||
+      "";
+
+
+    div.innerHTML = `
+
+      <div class="timeline-time">
+        ${escapeHTML(time)}
+      </div>
+
+      <div>
+
+        <div class="timeline-title">
+          ${escapeHTML(title)}
+        </div>
+
+        <div class="timeline-text">
+          ${escapeHTML(description)}
+        </div>
+
+      </div>
+
+    `;
+
+
+    box.appendChild(div);
+
+  });
+
+}
+
+
+/* =========================================================
+   ACTIVITY
+   ========================================================= */
+
+function renderActivity(data){
+
+  const box =
+    $("activityContent");
+
+  box.innerHTML = "";
+
+
+  const items =
+    Array.isArray(data)
+      ? data
+      : (
+          data?.activities ||
+          data?.items ||
+          []
+        );
+
+
+  if(!items.length){
+
+    box.innerHTML =
+      `<div class="content-card">
+        <p>فعالیت جداگانه‌ای ارائه نشده است.</p>
+      </div>`;
+
+    return;
+
+  }
+
+
+  items.forEach((item,index) => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "content-card";
+
+
+    card.innerHTML = `
+
+      <h4>
+        ${escapeHTML(
+          item.title ||
+          item.name ||
+          `فعالیت ${index+1}`
+        )}
+      </h4>
+
+      <p>
+        ${escapeHTML(
+          item.description ||
+          item.instructions ||
+          item.content ||
+          ""
+        )}
+      </p>
+
+    `;
+
+
+    box.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   GAME
+   ========================================================= */
+
+function renderGame(data){
+
+  const box =
+    $("gameContent");
+
+  box.innerHTML = "";
+
+
+  if(!data){
+
+    box.innerHTML =
+      `<div class="content-card">
+        <p>بازی آموزشی ارائه نشده است.</p>
+      </div>`;
+
+    return;
+
+  }
+
+
+  const fields = [
+
+    ["🎮 نام بازی",
+      data.title ||
+      data.name
+    ],
+
+    ["🎯 هدف",
+      data.objective ||
+      data.goal
+    ],
+
+    ["📋 روش اجرا",
+      data.instructions ||
+      data.howToPlay
+    ],
+
+    ["🎒 وسایل",
+      data.materials
+    ],
+
+    ["📜 قوانین",
+      data.rules
+    ],
+
+    ["📊 ارزشیابی",
+      data.assessment
+    ]
+
+  ];
+
+
+  fields.forEach(([title,value]) => {
+
+    if(!value)
+      return;
+
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "content-card";
+
+
+    card.innerHTML = `
+
+      <h4>
+        ${escapeHTML(title)}
+      </h4>
+
+      <p>
+        ${escapeHTML(
+          textOf(value)
+        )}
+      </p>
+
+    `;
+
+
+    box.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   WORKSHEET
+   ========================================================= */
+
+function renderWorksheet(data){
+
+  const box =
+    $("worksheetContent");
+
+  box.innerHTML = "";
+
+
+  if(!data){
+
+    box.innerHTML =
+      `<div class="content-card">
+        <p>کاربرگ تولید نشده است.</p>
+      </div>`;
+
+    return;
+
+  }
+
+
+  const title =
+    data.title ||
+    "کاربرگ تمرین";
+
+
+  const instructions =
+    data.instructions ||
+    data.teacherInstruction ||
+    "";
+
+
+  const questions =
+    data.questions ||
+    data.items ||
+    [];
+
+
+  const worksheet =
+    document.createElement("div");
+
+  worksheet.className =
+    "worksheet";
+
+
+  worksheet.innerHTML = `
+
+    <div class="worksheet-header">
+
+      <h2>
+        ${escapeHTML(title)}
+      </h2>
+
+      ${
+        instructions
+        ?
+        `<p>
+          ${escapeHTML(instructions)}
+        </p>`
+        :
+        ""
+      }
+
+      <div class="student-info">
+
+        <div class="student-line">
+          نام و نام خانوادگی:
+        </div>
+
+        <div class="student-line">
+          کلاس:
+        </div>
+
+        <div class="student-line">
+          تاریخ:
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  safeArray(questions)
+    .forEach((q,index) => {
+
+      const question =
+        document.createElement("div");
+
+      question.className =
+        "question";
+
+
+      const text =
+        typeof q === "string"
+          ? q
+          : (
+              q.question ||
+              q.text ||
+              q.prompt ||
+              q.content ||
+              ""
+            );
+
+
+      question.innerHTML = `
+
+        <div class="question-number">
+          ${index+1}. ${escapeHTML(text)}
+        </div>
+
+        <div class="answer-space"></div>
+
+        <div class="answer-space"></div>
+
+      `;
+
+
+      worksheet.appendChild(question);
+
+    });
+
+
+  /*
+   * ساخت المان تصویری واقعی بر اساس پیشنهاد AI
+   */
+
+  const visuals =
+    data.visualSuggestions ||
+    data.visuals ||
+    data.visualElements ||
+    [];
+
+
+  if(
+    Array.isArray(visuals) &&
+    visuals.length
+  ){
+
+    visuals.forEach((visual,index) => {
+
+      const visualBox =
+        document.createElement("div");
+
+      visualBox.className =
+        "visual-task";
+
+
+      visualBox.innerHTML = `
+
+        <strong>
+          فعالیت تصویری ${index+1}
+        </strong>
+
+        <div style="margin-top:8px">
+          ${escapeHTML(textOf(visual))}
+        </div>
+
+      `;
+
+
+      const svg =
+        createVisualSVG(
+          textOf(visual)
+        );
+
+
+      if(svg)
+        visualBox.appendChild(svg);
+
+
+      worksheet.appendChild(
+        visualBox
+      );
+
+    });
+
+  }
+
+
+  const footer =
+    document.createElement("div");
+
+  footer.className =
+    "worksheet-footer";
+
+
+  footer.innerHTML = `
+
+    <span>
+      همیار معلم
+    </span>
+
+    <span>
+      طراحی و توسعه: افشار صوفی
+    </span>
+
+  `;
+
+
+  worksheet.appendChild(footer);
+
+
+  box.appendChild(worksheet);
+
+}
+
+
+/* =========================================================
+   SIMPLE GRAPHICAL WORKSHEET ENGINE
+   ========================================================= */
+
+function createVisualSVG(description){
+
+  const text =
+    description.toLowerCase();
+
+
+  const svgNS =
+    "http://www.w3.org/2000/svg";
+
+
+  const svg =
+    document.createElementNS(
+      svgNS,
+      "svg"
+    );
+
+
+  svg.setAttribute(
+    "viewBox",
+    "0 0 700 180"
+  );
+
+
+  svg.setAttribute(
+    "width",
+    "700"
+  );
+
+
+  svg.setAttribute(
+    "height",
+    "180"
+  );
+
+
+  /*
+   * شکل‌های پایه برای کاربرگ
+   */
+
+  if(
+    text.includes("دایره") ||
+    text.includes("شکل") ||
+    text.includes("هندسه")
+  ){
+
+    for(let i=0;i<6;i++){
+
+      const circle =
+        document.createElementNS(
+          svgNS,
+          "circle"
+        );
+
+      circle.setAttribute(
+        "cx",
+        String(70+i*110)
+      );
+
+      circle.setAttribute(
+        "cy",
+        "90"
+      );
+
+      circle.setAttribute(
+        "r",
+        "35"
+      );
+
+      circle.setAttribute(
+        "fill",
+        "none"
+      );
+
+      circle.setAttribute(
+        "stroke",
+        "#111827"
+      );
+
+      circle.setAttribute(
+        "stroke-width",
+        "3"
+      );
+
+      svg.appendChild(circle);
+
+    }
+
+  }else{
+
+    /*
+     * شبکه تمرینی عمومی
+     */
+
+    for(let r=0;r<3;r++){
+
+      for(let c=0;c<7;c++){
+
+        const rect =
+          document.createElementNS(
+            svgNS,
+            "rect"
+          );
+
+        rect.setAttribute(
+          "x",
+          String(20+c*95)
+        );
+
+        rect.setAttribute(
+          "y",
+          String(20+r*50)
+        );
+
+        rect.setAttribute(
+          "width",
+          "65"
+        );
+
+        rect.setAttribute(
+          "height",
+          "30"
+        );
+
+        rect.setAttribute(
+          "fill",
+          "white"
+        );
+
+        rect.setAttribute(
+          "stroke",
+          "#334155"
+        );
+
+        rect.setAttribute(
+          "stroke-width",
+          "2"
+        );
+
+        svg.appendChild(rect);
+
+      }
+
+    }
+
+  }
+
+
+  return svg;
+
+}
+
+
+/* =========================================================
+   DIFFERENTIATION
+   ========================================================= */
+
+function renderDifferentiation(data){
+
+  const box =
+    $("differentiationContent");
+
+  box.innerHTML = "";
+
+
+  if(!data){
+
+    box.innerHTML =
+      `<div class="diff-card">
+        اطلاعات تفاوت‌های فردی موجود نیست.
+      </div>`;
+
+    return;
+
+  }
+
+
+  const groups = [
+
+    [
+      "🟢 نیازمند حمایت",
+      data.weak ||
+      data.support ||
+      data.low
+    ],
+
+    [
+      "🟡 سطح متوسط",
+      data.medium ||
+      data.average ||
+      data.normal
+    ],
+
+    [
+      "🔵 پیشرفته",
+      data.strong ||
+      data.advanced ||
+      data.high
+    ]
+
+  ];
+
+
+  groups.forEach(([title,value]) => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "diff-card";
+
+
+    const list =
+      safeArray(value);
+
+
+    card.innerHTML = `
+
+      <h4>
+        ${escapeHTML(title)}
+      </h4>
+
+      <ul>
+
+        ${
+          list.length
+          ?
+          list.map(item =>
+            `<li>${escapeHTML(textOf(item))}</li>`
+          ).join("")
+          :
+          "<li>اطلاعات ارائه نشده است.</li>"
+        }
+
+      </ul>
+
+    `;
+
+
+    box.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   ASSESSMENT
+   ========================================================= */
+
+function renderAssessment(data){
+
+  const box =
+    $("assessmentContent");
+
+  box.innerHTML = "";
+
+
+  if(!data){
+
+    box.innerHTML =
+      `<div class="content-card">
+        <p>ارزشیابی ارائه نشده است.</p>
+      </div>`;
+
+    return;
+
+  }
+
+
+  const fields = [
+
+    [
+      "ارزشیابی آغازین",
+      data.initial ||
+      data.diagnostic
+    ],
+
+    [
+      "ارزشیابی تکوینی",
+      data.formative
+    ],
+
+    [
+      "ارزشیابی پایانی",
+      data.final ||
+      data.summative
+    ],
+
+    [
+      "شاخص‌های مشاهده",
+      data.observation ||
+      data.criteria
+    ],
+
+    [
+      "بازخورد توصیفی",
+      data.feedback
+    ]
+
+  ];
+
+
+  fields.forEach(([title,value]) => {
+
+    if(!value)
+      return;
+
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "content-card";
+
+
+    card.innerHTML = `
+
+      <h4>
+        ${escapeHTML(title)}
+      </h4>
+
+      <p>
+        ${escapeHTML(
+          textOf(value)
+        )}
+      </p>
+
+    `;
+
+
+    box.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   LIFE SKILLS
+   ========================================================= */
+
+function renderLifeSkills(data){
+
+  const box =
+    $("lifeContent");
+
+  box.innerHTML = "";
+
+
+  if(!data){
+
+    box.innerHTML =
+      `<div class="content-card">
+        <p>بخش تربیتی ارائه نشده است.</p>
+      </div>`;
+
+    return;
+
+  }
+
+
+  const items =
+    Array.isArray(data)
+      ? data
+      : (
+          data.items ||
+          data.skills ||
+          [data]
+        );
+
+
+  safeArray(items)
+    .forEach((item,index) => {
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "content-card";
+
+
+      if(typeof item === "string"){
+
+        card.innerHTML =
+          `<p>
+            🌱 ${escapeHTML(item)}
+          </p>`;
+
+      }else{
+
+        card.innerHTML = `
+
+          <h4>
+            ${escapeHTML(
+              item.title ||
+              item.skill ||
+              `مهارت ${index+1}`
+            )}
+          </h4>
+
+          <p>
+            ${escapeHTML(
+              item.description ||
+              item.activity ||
+              item.content ||
+              ""
+            )}
+          </p>
+
+        `;
+
+      }
+
+
+      box.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+function renderNotes(data){
+
+  const box =
+    $("notesContent");
+
+  box.innerHTML = "";
+
+
+  const items =
+    safeArray(data);
+
+
+  if(!items.length){
+
+    box.innerHTML =
+      `<div class="content-card">
+        <p>یادداشت ویژه‌ای ارائه نشده است.</p>
+      </div>`;
+
+    return;
+
+  }
+
+
+  items.forEach(item => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "content-card";
+
+
+    card.innerHTML =
+      `<p>
+        💡 ${escapeHTML(textOf(item))}
+      </p>`;
+
+
+    box.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   QUALITY CONTROL
+   ========================================================= */
+
+function renderQuality(data){
+
+  const box =
+    $("qualityContent");
+
+  box.innerHTML = "";
+
+
+  if(!data){
+
+    box.innerHTML =
+      `<div class="qc-item">
+        اطلاعات کنترل کیفیت موجود نیست.
+      </div>`;
+
+    return;
+
+  }
+
+
+  if(
+    typeof data === "object" &&
+    !Array.isArray(data)
+  ){
+
+    Object.entries(data)
+      .forEach(([key,value]) => {
+
+        const item =
+          document.createElement("div");
+
+        const passed =
+          value === true ||
+          value === "pass" ||
+          value === "ok";
+
+
+        item.className =
+          "qc-item " +
+          (passed ? "ok" : "");
+
+
+        item.textContent =
+          `${translateQC(key)}: ${formatValue(value)}`;
+
+
+        box.appendChild(item);
+
+      });
+
+    return;
+
+  }
+
+
+  safeArray(data)
+    .forEach(value => {
+
+      const item =
+        document.createElement("div");
+
+      item.className =
+        "qc-item ok";
+
+      item.textContent =
+        textOf(value);
+
+      box.appendChild(item);
+
+    });
+
+}
+
+
+function formatValue(value){
+
+  if(value === true)
+    return "تأیید شد";
+
+  if(value === false)
+    return "نیازمند بررسی";
+
+  return textOf(value);
+
+}
+
+
+function translateQC(key){
+
+  const map = {
+
+    ageAppropriate:"تناسب با سن",
+
+    curriculumAlignment:"انطباق آموزشی",
+
+    objectives:"اهداف",
+
+    timing:"زمان‌بندی",
+
+    differentiation:"تفاوت‌های فردی",
+
+    worksheet:"کاربرگ",
+
+    assessment:"ارزشیابی",
+
+    practicality:"قابلیت اجرای کلاسی",
+
+    repetition:"کنترل تکرار",
+
+    safety:"ایمنی",
+
+    clarity:"وضوح دستورها"
+
+  };
+
+  return map[key] || key;
+
+}
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+function getHistory(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        STORAGE.history
+      )
+    ) || [];
+
+  }catch{
+
+    return [];
+
+  }
+
+}
+
+
+function saveToHistory(pkg,config){
+
+  const history =
+    getHistory();
+
+
+  const record = {
+
+    id:
+      Date.now(),
+
+    createdAt:
+      new Date().toISOString(),
+
+    title:
+      pkg.title ||
+      config.topic,
+
+    topic:
+      config.topic,
+
+    grade:
+      config.grade,
+
+    subject:
+      config.subject,
+
+    package:
+      pkg
+
+  };
+
+
+  /*
+   * حداکثر ۳۰ بسته
+   */
+
+  history.unshift(record);
+
+
+  const trimmed =
+    history.slice(0,30);
+
+
+  localStorage.setItem(
+    STORAGE.history,
+    JSON.stringify(trimmed)
+  );
+
+
+  loadDashboard();
+
+}
+
+
+function renderHistory(){
+
+  const box =
+    $("historyGrid");
+
+  box.innerHTML = "";
+
+
+  const history =
+    getHistory();
+
+
+  if(!history.length){
+
+    box.innerHTML = `
+
+      <div style="
+        grid-column:1/-1;
+        text-align:center;
+        padding:60px;
+        color:var(--muted);
+        font-size:12px;
+      ">
+
+        🗂️
+
+        <div style="margin-top:10px">
+          هنوز بسته‌ای ذخیره نشده است.
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  history.forEach(record => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "history-card";
+
+
+    const date =
+      new Date(
+        record.createdAt
+      )
+      .toLocaleDateString(
+        "fa-IR"
+      );
+
+
+    card.innerHTML = `
+
+      <h3>
+        ${escapeHTML(record.title)}
+      </h3>
+
+      <p>
+        ${escapeHTML(record.grade)}
+        •
+        ${escapeHTML(record.subject)}
+      </p>
+
+      <p>
+        ${escapeHTML(record.topic)}
+      </p>
+
+      <p style="margin-top:5px">
+        ${date}
+      </p>
+
+      <div class="history-card-actions">
+
+        <button
+          onclick="loadHistory(${record.id})"
+        >
+          👁️ مشاهده
+        </button>
+
+        <button
+          onclick="deleteHistory(${record.id})"
+        >
+          🗑️ حذف
+        </button>
+
+      </div>
+
+    `;
+
+
+    box.appendChild(card);
+
+  });
+
+}
+
+
+function loadHistory(id){
+
+  const record =
+    getHistory()
+      .find(x =>
+        x.id === id
+      );
+
+
+  if(!record)
+    return;
+
+
+  currentPackage =
+    record.package;
+
+
+  switchView(
+    "generatorView"
+  );
+
+
+  $("emptyGenerator")
+    .style
+    .display = "none";
+
+
+  $("packageResult")
+    .classList
+    .add("active");
+
+
+  renderPackage(
+    currentPackage
+  );
+
+
+  showToast(
+    "بسته از تاریخچه باز شد 📚"
   );
 
 }
 
 
-/* =====================================================
-   LOCAL SETTINGS
-===================================================== */
+function deleteHistory(id){
 
-$("grade").addEventListener(
-  "change",
-  ()=>{
-    localStorage.setItem(
-      "hm_grade",
-      $("grade").value
-    );
-  }
-);
+  const history =
+    getHistory()
+      .filter(x =>
+        x.id !== id
+      );
 
 
-$("subject").addEventListener(
-  "change",
-  ()=>{
-    localStorage.setItem(
-      "hm_subject",
-      $("subject").value
-    );
-  }
-);
+  localStorage.setItem(
+    STORAGE.history,
+    JSON.stringify(history)
+  );
 
 
-/* =====================================================
-   RESTORE
-===================================================== */
+  renderHistory();
 
-const savedGrade =
-  localStorage.getItem("hm_grade");
+  loadDashboard();
 
-const savedSubject =
-  localStorage.getItem("hm_subject");
-
-
-if(savedGrade){
-
-  $("grade").value =
-    savedGrade;
+  showToast(
+    "بسته حذف شد"
+  );
 
 }
 
 
-if(savedSubject){
+/* =========================================================
+   DASHBOARD STATS
+   ========================================================= */
+
+function loadDashboard(){
+
+  const history =
+    getHistory();
+
+
+  $("statPackages").textContent =
+    history.length;
+
+
+  let worksheets = 0;
+  let games = 0;
+
+
+  history.forEach(item => {
+
+    if(item.package?.worksheet)
+      worksheets++;
+
+    if(item.package?.game)
+      games++;
+
+  });
+
+
+  $("statWorksheets").textContent =
+    worksheets;
+
+
+  $("statGames").textContent =
+    games;
+
+
+  const schedule =
+    getSchedule();
+
+
+  $("statSchedule").textContent =
+    schedule.length;
+
+
+  renderToday();
+
+}
+
+
+/* =========================================================
+   WEEKLY SCHEDULE
+   ========================================================= */
+
+const days = [
+
+  "شنبه",
+  "یکشنبه",
+  "دوشنبه",
+  "سه‌شنبه",
+  "چهارشنبه",
+  "پنجشنبه",
+  "جمعه"
+
+];
+
+
+function getSchedule(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        STORAGE.schedule
+      )
+    ) || [];
+
+  }catch{
+
+    return [];
+
+  }
+
+}
+
+
+function saveSchedule(data){
+
+  localStorage.setItem(
+    STORAGE.schedule,
+    JSON.stringify(data)
+  );
+
+}
+
+
+function renderSchedule(){
+
+  const box =
+    $("weekGrid");
+
+  box.innerHTML = "";
+
+
+  const schedule =
+    getSchedule();
+
+
+  days.forEach(day => {
+
+    const dayCard =
+      document.createElement("div");
+
+    dayCard.className =
+      "day-card";
+
+
+    const title =
+      document.createElement("div");
+
+    title.className =
+      "day-title";
+
+    title.textContent =
+      day;
+
+
+    dayCard.appendChild(title);
+
+
+    const items =
+      schedule
+        .filter(x =>
+          x.day === day
+        )
+        .sort((a,b) =>
+          a.time.localeCompare(b.time)
+        );
+
+
+    if(!items.length){
+
+      const empty =
+        document.createElement("div");
+
+      empty.style.cssText =
+        "font-size:9px;color:var(--muted);padding:15px 4px;text-align:center";
+
+      empty.textContent =
+        "کلاسی ثبت نشده";
+
+      dayCard.appendChild(empty);
+
+    }
+
+
+    items.forEach(item => {
+
+      const block =
+        document.createElement("div");
+
+      block.className =
+        "class-block";
+
+
+      block.innerHTML = `
+
+        <div class="class-time">
+          ${escapeHTML(item.time)}
+        </div>
+
+        <div class="class-subject">
+          ${escapeHTML(item.subject)}
+        </div>
+
+        <div class="class-topic">
+          ${escapeHTML(item.topic || "")}
+        </div>
+
+      `;
+
+
+      dayCard.appendChild(block);
+
+    });
+
+
+    box.appendChild(dayCard);
+
+  });
+
+}
+
+
+function addScheduleItem(){
+
+  const day =
+    prompt(
+      "روز را وارد کنید:\nشنبه، یکشنبه، دوشنبه، سه‌شنبه، چهارشنبه، پنجشنبه"
+    );
+
+
+  if(!day ||
+     !days.includes(day))
+    return;
+
+
+  const time =
+    prompt(
+      "ساعت کلاس را وارد کنید؛ مثلاً 08:00"
+    );
+
+
+  if(!time)
+    return;
+
+
+  const subject =
+    prompt(
+      "نام درس را وارد کنید؛ مثلاً ریاضی"
+    );
+
+
+  if(!subject)
+    return;
+
+
+  const topic =
+    prompt(
+      "موضوع درس در صورت نیاز"
+    );
+
+
+  const schedule =
+    getSchedule();
+
+
+  schedule.push({
+
+    id:Date.now(),
+
+    day,
+
+    time,
+
+    subject,
+
+    topic
+
+  });
+
+
+  saveSchedule(schedule);
+
+  renderSchedule();
+
+  loadDashboard();
+
+  showToast(
+    "کلاس به برنامه هفتگی اضافه شد 📅"
+  );
+
+}
+
+
+function renderToday(){
+
+  const box =
+    $("todaySchedule");
+
+  const schedule =
+    getSchedule();
+
+
+  /*
+   * چون JavaScript روز هفته میلادی را
+   * بر اساس شنبه تنظیم می‌کنیم.
+   */
+
+  const map = {
+
+    0:"یکشنبه",
+    1:"دوشنبه",
+    2:"سه‌شنبه",
+    3:"چهارشنبه",
+    4:"پنجشنبه",
+    5:"جمعه",
+    6:"شنبه"
+
+  };
+
+
+  const day =
+    map[
+      new Date().getDay()
+    ];
+
+
+  $("todayName").textContent =
+    day;
+
+
+  const items =
+    schedule
+      .filter(x =>
+        x.day === day
+      )
+      .sort((a,b) =>
+        a.time.localeCompare(b.time)
+      );
+
+
+  if(!items.length){
+
+    box.innerHTML = `
+
+      <div style="
+        text-align:center;
+        color:var(--muted);
+        font-size:11px;
+        padding:25px;
+      ">
+
+        📅
+
+        <div style="margin-top:7px">
+          برای امروز کلاسی ثبت نشده است.
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  items.forEach(item => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "schedule-item";
+
+
+    div.innerHTML = `
+
+      <div class="schedule-time">
+        ${escapeHTML(item.time)}
+      </div>
+
+      <div>
+
+        <div class="schedule-subject">
+          ${escapeHTML(item.subject)}
+        </div>
+
+        <div class="schedule-topic">
+          ${escapeHTML(item.topic || "")}
+        </div>
+
+      </div>
+
+      <button
+        class="schedule-action"
+        onclick='prepareFromSchedule(${JSON.stringify(item)})'
+      >
+        ساخت بسته
+      </button>
+
+    `;
+
+
+    box.appendChild(div);
+
+  });
+
+}
+
+
+function prepareFromSchedule(item){
+
+  openGenerator();
 
   $("subject").value =
-    savedSubject;
+    item.subject;
+
+
+  $("topic").value =
+    item.topic || "";
 
 }
+
+
+/* =========================================================
+   RESULT TABS
+   ========================================================= */
+
+document
+  .querySelectorAll(".result-tab")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        document
+          .querySelectorAll(
+            ".result-tab"
+          )
+          .forEach(btn =>
+            btn.classList.remove("active")
+          );
+
+
+        document
+          .querySelectorAll(
+            ".result-section"
+          )
+          .forEach(section =>
+            section.classList.remove("active")
+          );
+
+
+        button.classList.add("active");
+
+
+        const target =
+          $(
+            "result-" +
+            button.dataset.section
+          );
+
+
+        if(target)
+          target.classList.add("active");
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   TOP NAV
+   ========================================================= */
+
+document
+  .querySelectorAll(".nav-btn[data-view]")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const view =
+          button.dataset.view;
+
+        const preset =
+          button.dataset.preset;
+
+        if(view === "generatorView"){
+
+          openGenerator(
+            preset
+          );
+
+        }else{
+
+          switchView(view);
+
+        }
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   TOPIC CHIPS
+   ========================================================= */
+
+document
+  .querySelectorAll(".chip")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        $("topic").value =
+          button.dataset.topic;
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   GENERATE BUTTON
+   ========================================================= */
+
+$("generateButton")
+  .addEventListener(
+    "click",
+    generatePackage
+  );
+
+
+/* =========================================================
+   NEW PACKAGE
+   ========================================================= */
+
+$("newPackageButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      currentPackage =
+        null;
+
+      $("packageResult")
+        .classList
+        .remove("active");
+
+      $("emptyGenerator")
+        .style
+        .display = "grid";
+
+      hideError();
+
+    }
+  );
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+$("printButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      /*
+       * کاربر می‌تواند در پنجره چاپ
+       * PDF را انتخاب کند.
+       */
+
+      window.print();
+
+    }
+  );
+
+
+/* =========================================================
+   COPY
+   ========================================================= */
+
+$("copyButton")
+  .addEventListener(
+    "click",
+    async () => {
+
+      if(!currentPackage)
+        return;
+
+
+      try{
+
+        await navigator.clipboard.writeText(
+          JSON.stringify(
+            currentPackage,
+            null,
+            2
+          )
+        );
+
+
+        showToast(
+          "محتوای بسته کپی شد 📋"
+        );
+
+      }catch{
+
+        showToast(
+          "کپی محتوا انجام نشد."
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   SAVE BUTTON
+   ========================================================= */
+
+$("saveButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      if(!currentPackage)
+        return;
+
+
+      const config =
+        collectConfig();
+
+
+      saveToHistory(
+        currentPackage,
+        config
+      );
+
+
+      showToast(
+        "بسته ذخیره شد 💾"
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+function toggleTheme(){
+
+  document.body
+    .classList
+    .toggle("dark");
+
+
+  const dark =
+    document.body
+      .classList
+      .contains("dark");
+
+
+  localStorage.setItem(
+    STORAGE.theme,
+    dark
+      ? "dark"
+      : "light"
+  );
+
+
+  $("themeButton").textContent =
+    dark ? "☀️" : "🌙";
+
+}
+
+
+function loadTheme(){
+
+  const theme =
+    localStorage.getItem(
+      STORAGE.theme
+    );
+
+
+  if(theme === "dark"){
+
+    document.body
+      .classList
+      .add("dark");
+
+    $("themeButton").textContent =
+      "☀️";
+
+  }
+
+}
+
+
+$("themeButton")
+  .addEventListener(
+    "click",
+    toggleTheme
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+$("mobileMenu")
+  .addEventListener(
+    "click",
+    () => {
+
+      $("sidebar")
+        .classList
+        .toggle("open");
+
+    }
+  );
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+$("logoutButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      /*
+       * خروج فقط نشست محلی را پاک می‌کند.
+       * داده‌های تاریخچه حذف نمی‌شوند.
+       */
+
+      localStorage.removeItem(
+        STORAGE.teacher
+      );
+
+      location.reload();
+
+    }
+  );
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+$("loginButton")
+  .addEventListener(
+    "click",
+    login
+  );
+
+
+$("loginName")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(event.key === "Enter")
+        login();
+
+    }
+  );
+
+
+/* =========================================================
+   CTRL + ENTER
+   ========================================================= */
+
+$("topic")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(
+        event.key === "Enter" &&
+        (event.ctrlKey || event.metaKey)
+      ){
+
+        event.preventDefault();
+
+        generatePackage();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+loadTheme();
+
+loadLogin();
 
 </script>
 
